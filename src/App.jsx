@@ -20,8 +20,8 @@ function App() {
               <h4>4</h4>
               <h5>5</h5>
               <h6>6</h6>
-              <div className='m-10 mt-20 border p-2 pr-12'>
-                <p className='text-xl md:text-xs'>
+              <div className="m-10 mt-20 border p-2 pr-12">
+                <p className="text-xl md:text-xs">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Eveniet impedit accusantium quas inventore placeat perferendis
                   possimus pariatur excepturi optio, aperiam quos accusamus
@@ -33,14 +33,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<></>} />
-        <Route
-          path="/menu"
-          element={
-            <>
-              <NavBar></NavBar>
-            </>
-          }
-        />
+        <Route path="/menu" element={<NavBar></NavBar>} />
       </Routes>
     </div>
   )
