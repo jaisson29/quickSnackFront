@@ -5,7 +5,6 @@ import NavBar from './components/navComponents/navBar'
 
 function App() {
   return (
-    <div className="container mx-auto">
       <Routes>
         <Route
           path="/"
@@ -19,6 +18,7 @@ function App() {
               <h3>3</h3>
               <h4>4</h4>
               <h5>5</h5>
+              <h6>6</h6>
               <h6>6</h6>
               <div className="m-10 mt-20 border p-2 pr-12">
                 <p className="text-xl md:text-xs">
@@ -35,7 +35,6 @@ function App() {
         <Route path="/register" element={<></>} />
         <Route path="/menu" element={<NavBar></NavBar>} />
       </Routes>
-    </div>
   )
 }
 
