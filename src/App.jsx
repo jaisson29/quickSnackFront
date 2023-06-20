@@ -53,16 +53,9 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<></>} />
-        <Route
-          path="/menu"
-          element={
-            <>
-              <NavBar></NavBar>
-            </>
-          }
-        />
+        <Route path="/menu" element={<NavBar></NavBar>} />
       </Routes>
-    </div>
+      </div>
   )
 }
 
