@@ -10,15 +10,17 @@ function NavBar({ page }) {
   return (
     <aside className="fixed w-2/12 h-full p-1 sm:w-1/12">
       <nav className="w-full h-full rounded-lg bg-clRos">
-        <h1 className="w-full block text-2xl h-1/12">{page}</h1>
+        <h1 className="block w-full text-2xl h-1/12">{page}</h1>
 
         <ul className="list-non h-10/12">
           <li className={`${location.pathname === '/menu' ? 'acti' : ''}`}>
-            <Link to='/menu'>
+            <Link to="/menu">
               <FontAwesomeIcon icon={icon({ name: 'house' })} size="lg" />
             </Link>
           </li>
-          <li className={`button ${location.pathname === '/login' ? 'acti' : ''}`}>
+          <li
+            className={`button ${location.pathname === '/login' ? 'acti' : ''}`}
+          >
             <Link to="/login">
               <FontAwesomeIcon
                 className="text-white"
@@ -29,7 +31,11 @@ function NavBar({ page }) {
           </li>
           {Array.from({ length: 10 }).map((_, index) => {
             return (
-              <li key={index} className={`button ${location.pathname === '/other' ? 'acti' : ''}`}>
+              <li
+                key={index}
+                className={`button ${location.pathname === '/other' ? 'acti' : ''
+                  }`}
+              >
                 <Link to="/other">
                   <FontAwesomeIcon
                     className="text-white"
@@ -43,7 +49,7 @@ function NavBar({ page }) {
         </ul>
         <button type="button" title="Salir" className="h-1/12"></button>
       </nav>
-    </aside >
+    </aside>
   )
 }
 
