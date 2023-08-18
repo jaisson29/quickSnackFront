@@ -1,9 +1,10 @@
-import NavBar from "../../components/navbar/navBar"
+import NavBar from '../../components/navbar/navBar'
 
 function Menu() {
   return (
     <>
       <NavBar />
+      <h1>hola</h1>
     </>
   )
 }

@@ -13,8 +13,8 @@ function NavBar({ page }) {
         <h1 className="block w-full text-2xl h-1/12">{page}</h1>
 
         <ul className="list-non h-10/12">
-          <li className={`${location.pathname === '/menu' ? 'acti' : ''}`}>
-            <Link to="/menu">
+          <li className={`${location.pathname === '/home' ? 'acti' : ''}`}>
+            <Link to="/home">
               <FontAwesomeIcon icon={icon({ name: 'house' })} size="lg" />
             </Link>
           </li>
@@ -22,30 +22,16 @@ function NavBar({ page }) {
             className={`button ${location.pathname === '/login' ? 'acti' : ''}`}
           >
             <Link to="/login">
-              <FontAwesomeIcon
-                className="text-white"
-                icon={icon({ name: 'user-secret' })}
-                size="lg"
-              />
+              <FontAwesomeIcon icon={icon({ name: 'check' })} size="lg" />
             </Link>
           </li>
-          {Array.from({ length: 10 }).map((_, index) => {
-            return (
-              <li
-                key={index}
-                className={`button ${location.pathname === '/other' ? 'acti' : ''
-                  }`}
-              >
-                <Link to="/other">
-                  <FontAwesomeIcon
-                    className="text-white"
-                    icon={icon({ name: 'user-secret' })}
-                    size="lg"
-                  />
-                </Link>
-              </li>
-            )
-          })}
+          <li
+            className={`button ${location.pathname === '/menu' ? 'acti' : ''}`}
+          >
+            <Link to="/menu">
+              <FontAwesomeIcon icon={icon({ name: 'bars' })} size="lg" />
+            </Link>
+          </li>
         </ul>
         <button type="button" title="Salir" className="h-1/12"></button>
       </nav>
