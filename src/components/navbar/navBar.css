@@ -2,6 +2,7 @@ ul li {
   @apply w-10/12;
   position: relative;
   display: flex;
+  gap: 5px;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
