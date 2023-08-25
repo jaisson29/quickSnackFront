@@ -35,7 +35,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem('authToken', token)
       dispatch({ type: 'LOGIN', payload: decodedToken })
     } catch (error) {
-      dispatch({ type: 'LOGOOUT' })
+      dispatch({ type: 'LOGOUT' })
       console.error('Error verificando el token', error)
     }
     localStorage.setItem('authToken', token)
