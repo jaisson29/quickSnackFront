@@ -8,26 +8,27 @@ function NavBar({ page }) {
 
   useEffect(() => {
     const fetchPaginas = async () => {
-      const response = await axios.get(
-        'http://localhost:5000/api/pagina/getAll'
-      )
-      setPaginas(response.data)
+      try {
+        const response = await axios.get(
+          'http://localhost:5000/api/pagina/getAll'
+        )
+        setPaginas(response.data)
+      } catch (error) {
+        console.log(error)
+        setPaginas([])
+      }
     }
     fetchPaginas()
   }, [])
-  console.log(paginas)
 
   const location = useLocation()
 
   return (
-    <aside className="float-left h-full p-1 w-2/12 sm:w-1/12 sm:hover:w-2/12">
+    <aside className="inline-block w-2/12 h-full transition-all p-1 sm:w-1/12 md:hover:w-2/12">
       <nav className="w-full h-full rounded-lg bg-clRos">
         <h1 className="block w-full text-2xl h-1/12">{page}</h1>
-
         <ul className="list-none h-10/12">
           {paginas.map((pg) => {
-            const pgIcon = pg.paginaIcon
-            console.log(pg.paginaIcon)
             return (
               <li
                 key={pg.paginaId}
@@ -36,7 +37,7 @@ function NavBar({ page }) {
                 }`}
               >
                 <Link
-                  className="flex gap-2 justify-center items-center w-full h-full"
+                  className="flex items-center justify-center w-full h-full gap-2"
                   to={pg.paginaRuta}
                 >
                   <i className={`fa ${pg.paginaIcon} fa-lg`}></i>
