@@ -28,14 +28,14 @@ function NavBar({ page }) {
   const location = useLocation();
 
   return (
-    <aside className='inline-block w-2/12 h-full p-1 transition-all sm:w-1/12 md:hover:w-2/12'>
-      <nav className='grid w-full h-full grid-rows-6 bg-opacity-100 rounded-lg bg-clRos'>
+    <aside className='w-3/12 h-full p-1 transition-all sm:w-1/12 md:hover:w-2/12'>
+      <nav className='grid /w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg bg-clRos'>
         <img
-          className='w-auto h-auto row-span-1 mx-auto max-h-24'
+          className='w-auto h-auto row-span-1 mx-auto max-h-24 mt-2'
           src={Logo}
           alt=''
         />
-        <ul className='row-span-4 overflow-y-auto list-none h-10/12'>
+        <ul className='row-span-4 overflow-y-auto list-none h-full text-xs py-4'>
           {paginas.map((pg) => {
             return (
               <li
@@ -45,21 +45,27 @@ function NavBar({ page }) {
                 }`}
               >
                 <Link
-                  className='flex items-center justify-center w-full h-full gap-2'
+                  className='flex items-center justify-center w-full h-full gap-2 px-3'
                   to={pg.paginaRuta}
                 >
-                  <i className={`fa ${pg.paginaIcon} fa-lg`}></i>
-                  <span className='hidden'>{pg.paginaNom}</span>
+                  <i className={`fa ${pg.paginaIcon} fa-xl `}></i>
+                  <span className='hidden text-ellipsis'>{pg.paginaNom}</span>
                 </Link>
               </li>
             );
           })}
+          <li>
+            <Button onClick={logout}>
+              <i className='fa fa-power-off fa-xl'></i>
+              <span className='hidden  ml-2 float-right'>Salir</span>
+            </Button>
+          </li>
         </ul>
-        <div className='grid row-span-1 place-content-center'>
+        {/* <div className='grid row-span-1 place-content-center text-xs'>
           <Button onClick={logout}>
             <i className='fa fa-power-off'></i>
           </Button>
-        </div>
+        </div> */}
       </nav>
     </aside>
   );

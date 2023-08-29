@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ children, ...rest }) => {
   const { authToken, isAuth } = useAuth();
   return authToken && isAuth ? (
     <>
-      <NavBar /> <main className='w-full '>{children}</main>
+      <NavBar /> <main className='w-full float-right z-0'>{children}</main>
     </>
   ) : (
     <Navigate to='/' />

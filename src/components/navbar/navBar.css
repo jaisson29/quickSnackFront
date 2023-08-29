@@ -2,11 +2,12 @@
 
 @layer components {
   ul li {
-    @apply w-10/12;
+    @apply w-11/12;
     position: relative;
     display: flex;
     gap: 5px;
     align-items: center;
+    right: 0;
     justify-content: center;
     text-transform: uppercase;
     height: 50px;
@@ -17,8 +18,10 @@
     transition: color 0.5s;
   }
 
-  aside:hover span {
-    display: block;
+  @media (min-width: 640px) {
+    aside:hover span {
+      display: block;
+    }
   }
 
   .acti {
@@ -31,8 +34,8 @@
     content: '';
     position: absolute;
     top: -30px;
-    right: 0;
     width: 15px;
+    right: 0;
     height: 30px;
     border-radius: 0 0 25px 0;
     background: transparent;
