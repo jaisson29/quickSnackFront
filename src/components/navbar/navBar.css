@@ -1,47 +1,51 @@
-ul li {
-  @apply w-10/12;
-  position: relative;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  height: 50px;
-  text-align: center;
-  color: #fff;
-  float: right;
-  border-radius: 10px 0 0 10px;
-  transition: color 0.5s;
-}
+@tailwind components;
 
-aside:hover span {
-  display: block;
-}
+@layer components {
+  ul li {
+    @apply w-10/12;
+    position: relative;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    height: 50px;
+    text-align: center;
+    color: #fff;
+    float: right;
+    border-radius: 10px 0 0 10px;
+    transition: color 0.5s;
+  }
 
-.acti {
-  color: theme('colors.clRos');
-  background: #fff;
-}
+  aside:hover span {
+    display: block;
+  }
 
-.acti::after,
-.acti::before {
-  content: '';
-  position: absolute;
-  top: -30px;
-  right: 0;
-  width: 15px;
-  height: 30px;
-  border-radius: 0 0 25px 0;
-  background: transparent;
-}
+  .acti {
+    color: theme('colors.clRos');
+    background: #fff;
+  }
 
-.acti::after {
-  box-shadow: 0 15px 0 0 #fff;
-}
+  .acti::after,
+  .acti::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: 0;
+    width: 15px;
+    height: 30px;
+    border-radius: 0 0 25px 0;
+    background: transparent;
+  }
 
-.acti::before {
-  top: auto;
-  bottom: -30px;
-  border-radius: 0 25px 0 0;
-  box-shadow: 0 -15px 0 0 #fff;
+  .acti::after {
+    box-shadow: 0 15px 0 0 #fff;
+  }
+
+  .acti::before {
+    top: auto;
+    bottom: -30px;
+    border-radius: 0 25px 0 0;
+    box-shadow: 0 -15px 0 0 #fff;
+  }
 }

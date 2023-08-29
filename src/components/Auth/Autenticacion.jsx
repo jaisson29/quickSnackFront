@@ -1,51 +1,73 @@
-import React, { createContext, useContext, useReducer, useState } from 'react'
+import axios from 'axios';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 
-const AuthContext = createContext()
+const AuthContext = createContext({
+  auth: false,
+});
 
 const authReducer = (state, action) => {
-  switch (action) {
+  switch (
+    action.type // Cambia action a action.type
+  ) {
     case 'LOGIN':
       return {
         ...state,
-        user: action.payload.user,
+        user: action.payload.user, // Cambia action a action.payload.user
         isAuth: true,
-      }
+      };
     case 'LOGOUT':
       return {
         ...state,
         user: null,
         isAuth: false,
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 export function AuthProvider({ children }) {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('token'))
+  const [authToken, setAuthToken] = useState(localStorage.getItem('token'));
 
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
     isAuth: false,
-  })
+  });
 
   const login = (token) => {
-    try {
-      const decodedToken = localStorage.getItem('token')
-      localStorage.setItem('authToken', token)
-      dispatch({ type: 'LOGIN', payload: decodedToken })
-    } catch (error) {
-      dispatch({ type: 'LOGOUT' })
-      console.error('Error verificando el token', error)
-    }
-    localStorage.setItem('authToken', token)
-    setAuthToken(token)
-  }
+    setAuthToken(token);
+    axios
+      .get('http://localhost:5000/api/login/verify', {
+        headers: {
+          Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization"
+        },
+      })
+      .then((respuesta) => {
+        const decodedToken = respuesta.data;
+        localStorage.setItem('token', token);
+        dispatch({ type: 'LOGIN', payload: { user: decodedToken.usuario } });
+      })
+      .catch((error) => {
+        dispatch({ type: 'LOGOUT' });
+        console.error('Error verificando el token', error);
+      });
+  };
 
   const logout = () => {
-    localStorage.removeItem('authToken')
-    setAuthToken(null)
-  }
+    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('token');
+    setAuthToken(null);
+  };
+
+  useEffect(() => {
+    authToken ? login(authToken) : logout();
+  }, [authToken]);
 
   return (
     <AuthContext.Provider
@@ -59,9 +81,9 @@ export function AuthProvider({ children }) {
     >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export function useAuth() {
-  return useContext(AuthContext)
+  return useContext(AuthContext);
 }
