@@ -5,11 +5,13 @@ module.exports = {
     extend: {
       colors: {
         clDRos: '#E75065',
-        clRos: '#F28695',
+        clRos: '#f6aab5',
         clNar: '#F4B03F',
-        clAma: '#F0D146',
+        clAma: '#f8c7a3',
         clNeg: '#4D4D4D',
         clBlc: '#F8F8F8',
+        clCaf: '#fed6b4',
+        clPiel: '#fdd2b9',
       },
       width: {
         100: '400px',
@@ -57,4 +59,4 @@ module.exports = {
     },
   },
   plugins: ['macros'],
-};
+}

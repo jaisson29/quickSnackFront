@@ -1,41 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import './navBar.css';
-import { Link, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import Logo from '../../assets/QSLogo.webp';
-import Button from '../boton/Button';
-import { useAuth } from '../Auth/Autenticacion';
+import React, { useEffect, useState } from 'react'
+import './navBar.css'
+import { Link, useLocation } from 'react-router-dom'
+import axios from 'axios'
+import Logo from '../../assets/QSLogo.webp'
+import Button from '../boton/Button'
+import { useAuth } from '../Auth/Autenticacion'
 
 function NavBar({ page }) {
-  const [paginas, setPaginas] = useState([]);
-  const { logout } = useAuth();
+  const [paginas, setPaginas] = useState([])
+  const { logout } = useAuth()
 
   useEffect(() => {
     const fetchPaginas = async () => {
       try {
         const response = await axios.get(
           'http://localhost:5000/api/pagina/getAll'
-        );
-        setPaginas(response.data);
+        )
+        setPaginas(response.data)
       } catch (error) {
-        console.log(error);
-        setPaginas([]);
+        console.log(error)
+        setPaginas([])
       }
-    };
-    fetchPaginas();
-  }, []);
+    }
+    fetchPaginas()
+  }, [])
 
-  const location = useLocation();
+  const location = useLocation()
 
   return (
-    <aside className='float-left w-2/12 h-full p-1 transition-all sm:w-1/12 md:hover:w-2/12'>
-      <nav className='grid /w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg bg-clRos'>
+    <aside className="fixed left-0 w-2/12 h-full p-1 transition-all sm:w-1/12 md:hover:w-2/12">
+      <nav className="grid /w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg bg-clRos">
         <img
-          className='w-auto h-auto row-span-1 mx-auto max-h-24 mt-2'
+          className="w-auto h-auto row-span-1 mx-auto max-h-24 mt-2"
           src={Logo}
-          alt=''
+          alt=""
         />
-        <ul className='row-span-4 overflow-y-auto list-none h-full text-sm py-4'>
+        <ul className="row-span-4 overflow-y-auto overflow-x-hidden list-none h-full text-sm py-4">
           {paginas.map((pg) => {
             return (
               <li
@@ -45,26 +45,23 @@ function NavBar({ page }) {
                 }`}
               >
                 <Link
-                  className='flex items-center justify-center w-full h-full gap-2 px-3'
+                  className="flex items-center justify-center w-full h-full gap-2 px-3"
                   to={pg.paginaRuta}
                 >
                   <i className={`fa ${pg.paginaIcon} fa-xl `}></i>
-                  <span className='hidden text-ellipsis'>{pg.paginaNom}</span>
+                  <span className="hidden text-ellipsis">{pg.paginaNom}</span>
                 </Link>
               </li>
-            );
+            )
           })}
-          <li></li>
+          <li onClick={logout}>
+            <i className="fa fa-power-off fa-lg"></i>
+            <span className="hidden  ml-2">Salir</span>
+          </li>
         </ul>
-        <div className='p-1'>
-          <Button onClick={logout}>
-            <i className='fa fa-power-off fa-lg'></i>
-            <span className='hidden  ml-2'>Salir</span>
-          </Button>
-        </div>
       </nav>
     </aside>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar
