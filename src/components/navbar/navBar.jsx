@@ -28,19 +28,19 @@ function NavBar({ page }) {
   const location = useLocation();
 
   return (
-    <aside className='w-3/12 h-full p-1 transition-all sm:w-1/12 md:hover:w-2/12'>
+    <aside className='float-left w-2/12 h-full p-1 transition-all sm:w-1/12 md:hover:w-2/12'>
       <nav className='grid /w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg bg-clRos'>
         <img
           className='w-auto h-auto row-span-1 mx-auto max-h-24 mt-2'
           src={Logo}
           alt=''
         />
-        <ul className='row-span-4 overflow-y-auto list-none h-full text-xs py-4'>
+        <ul className='row-span-4 overflow-y-auto list-none h-full text-sm py-4'>
           {paginas.map((pg) => {
             return (
               <li
                 key={pg.paginaId}
-                className={` ${
+                className={`font-bold ${
                   location.pathname === pg.paginaRuta ? 'acti' : ''
                 }`}
               >
@@ -54,18 +54,14 @@ function NavBar({ page }) {
               </li>
             );
           })}
-          <li>
-            <Button onClick={logout}>
-              <i className='fa fa-power-off fa-xl'></i>
-              <span className='hidden  ml-2 float-right'>Salir</span>
-            </Button>
-          </li>
+          <li></li>
         </ul>
-        {/* <div className='grid row-span-1 place-content-center text-xs'>
+        <div className='p-1'>
           <Button onClick={logout}>
-            <i className='fa fa-power-off'></i>
+            <i className='fa fa-power-off fa-lg'></i>
+            <span className='hidden  ml-2'>Salir</span>
           </Button>
-        </div> */}
+        </div>
       </nav>
     </aside>
   );

@@ -1,12 +1,14 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './Auth/Autenticacion';
 import NavBar from '../components/navbar/navBar.jsx';
+import Header from './header/header';
 
 export const ProtectedRoute = ({ children, ...rest }) => {
   const { authToken, isAuth } = useAuth();
   return authToken && isAuth ? (
     <>
-      <NavBar /> <main className='w-full float-right z-0'>{children}</main>
+      <NavBar /> <Header></Header>
+      <main className='w-10/12 md:w-11/12'>{children}</main>
     </>
   ) : (
     <Navigate to='/' />

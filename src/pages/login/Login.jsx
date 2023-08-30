@@ -63,6 +63,7 @@ function Login() {
             type='text'
             className='block border border-black inputL form-control'
             onInput={handleInputs}
+            required
           />
         </div>
         <div className='group'>
@@ -76,6 +77,7 @@ function Login() {
             type='text'
             className='block border border-black inputL form-control'
             onInput={handleInputs}
+            required
           />
         </div>
         <div className='group'>
