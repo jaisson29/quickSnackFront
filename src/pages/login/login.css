@@ -9,18 +9,19 @@
   }
 
   .form-label {
+    width: 100%;
     padding-left: 20px;
     color: theme(colors.clNeg);
     font-weight: bold;
   }
 
   /* @apply "bg-clRos text-clNeg font-bold"; */
-  .inputL {
+  .inputL,
+  .inputh {
+    @apply rounded-md flex w-full px-2;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.25) inset,
       -6px -6px 10px 0px rgba(133, 133, 133, 0.13) inset;
-    width: 100%;
     border: none;
-    border-radius: 0.75px;
     padding-block: 5px;
     margin-top: 5px;
     text-indent: 20px;
@@ -30,6 +31,8 @@
   }
 
   .group {
+    display: flex;
+    flex-wrap: wrap;
     width: 80%;
     margin-inline: auto;
     font-weight: bold;

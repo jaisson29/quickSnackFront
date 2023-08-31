@@ -3,7 +3,7 @@ function Menu() {
     <>
       <h1>hola</h1>
     </>
-  )
+  );
 }
 
-export default Menu
+export default Menu;
