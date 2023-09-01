@@ -34,6 +34,7 @@ const authReducer = (state, action) => {
 
 export function AuthProvider({ children }) {
   const [authToken, setAuthToken] = useState(localStorage.getItem('token'));
+  const urlApi = 'http://10.190.195.167:5000';
 
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
@@ -43,7 +44,7 @@ export function AuthProvider({ children }) {
   const login = (token) => {
     setAuthToken(token);
     axios
-      .get('http://localhost:5000/api/login/verify', {
+      .get(`${urlApi}/api/login/verify`, {
         headers: {
           Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization"
         },
@@ -77,6 +78,7 @@ export function AuthProvider({ children }) {
         user: state.user,
         login,
         logout,
+        urlApi,
       }}
     >
       {children}

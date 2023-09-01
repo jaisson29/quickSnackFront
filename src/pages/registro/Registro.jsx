@@ -1,8 +1,8 @@
 import { useAuth } from '../../components/Auth/Autenticacion';
 import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { Link, Navigate } from 'react-router-dom';
-import Logo from '../../assets/QSLogo.webp';
-import LogoNom from '../../assets/QSNom.webp';
+import Logo from '../../assets/logoQS.svg';
+import LogoNom from '../../assets/QSNom.png';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
 
@@ -32,84 +32,86 @@ function Registro() {
         method='POST'
         onSubmit={crearUsu}
       >
-        <div className='group'>
-          <label htmlFor='usuEmail' className='form-label'>
+        <div className='row'>
+          <label htmlFor='usuNom' className='form-label'>
             Nombre y apellido
           </label>
           <input
-            id='usuEmail'
-            name='usuEmail'
-            autoComplete='username'
+            id='usuNom'
+            name='usuNom'
+            autoComplete='usuNom'
             type='email'
             className='block border border-black inputL form-control'
             onInput={handleInputs}
             required
           />
         </div>
-        <div className='group'>
-          <label htmlFor='usuNom' className='form-label'>
+        <div className='row'>
+          <label htmlFor='usuEmail' className='form-label'>
             Correo eléctronico
           </label>
           <input
-            id='usuNom'
-            name='usuNom'
-            autoComplete='username'
+            id='usuEmail'
+            name='usuEmail'
+            autoComplete='usuEmail'
             type='text'
             className='block border border-black inputL form-control'
             onInput={handleInputs}
             required
           />
         </div>
-        <div className='group'>
+        <div className='row'>
           <label htmlFor='usuContra' className='form-label'>
             Contraseña
           </label>
           <input
             id='usuContra'
             name='usuContra'
-            autoComplete='current-password'
+            autoComplete='off'
             type='password'
-            className='block border border-black inputL form-control bg-clRos'
+            className='inputL'
             onInput={handleInputs}
             required
           />
         </div>
-        <div className='group'>
-          <div className='w-1/2'>
-            <label htmlFor='usuContra' className='form-label'>
-              Contraseña
+        <div className='row'>
+          <div className='group'>
+            <label htmlFor='genero' className='form-label'>
+              Genero
             </label>
             <input
-              id='usuContra'
-              name='usuContra'
+              id='usuGen'
+              name='usuGen'
               autoComplete='current-password'
               type='password'
-              className='block border border-black inputh form-control bg-clRos'
+              className='inputh'
               onInput={handleInputs}
               required
             />
           </div>
-          <div className='w-1/2'>
-            <label htmlFor='usuContra' className='form-label'>
-              Contraseña
-            </label>
-            <input
-              id='usuContra'
-              name='usuContra'
-              autoComplete='current-password'
-              type='password'
-              className='block border border-black inputh form-control bg-clRos'
-              onInput={handleInputs}
-              required
-            />
+          <div className=' group'>
+            <div className='group'>
+              <label htmlFor='usuTipoDoc' className='form-label'>
+                Tipo de docuemnto
+              </label>
+              <input
+                id='usuTipoDoc'
+                name='usuTipoDoc'
+                autoComplete='current-password'
+                type='password'
+                className='inputh'
+                onInput={handleInputs}
+                required
+              />
+            </div>
           </div>
         </div>
-        <div className='group'>
+        <div className='row'>
           <Link className='pl-5 underline hover:text-clNar' to='/'>
             Iniciar sesión
           </Link>
         </div>
-        <div className='text-center group'>
+        <div className='text-center row'>
           <Button>
             <input
               type='submit'

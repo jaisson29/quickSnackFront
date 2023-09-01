@@ -1,5 +1,5 @@
-import Logo from '../../assets/QSLogo.webp';
-import LogoNom from '../../assets/QSNom.webp';
+import Logo from '../../assets/logoQS.svg';
+import LogoNom from '../../assets/QSNom.png';
 import './login.css';
 import Button from '../../components/boton/Button.jsx';
 import { Link, Navigate, redirect } from 'react-router-dom';
@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useState } from 'react';
 
 function Login() {
-  const { login, isAuth } = useAuth();
+  const { login, isAuth, urlApi } = useAuth();
   const [usuData, setUsuData] = useState({
     usuEmail: null,
     usuContra: null,
@@ -19,7 +19,7 @@ function Login() {
     event.preventDefault();
 
     axios
-      .post('http://localhost:5000/api/login/loguear', {
+      .post(`${urlApi}/api/login/loguear`, {
         ...usuData,
       })
       .then((respuesta) => {
@@ -52,33 +52,37 @@ function Login() {
         method='POST'
         onSubmit={iniciarSesion}
       >
-        <div className='group'>
-          <label htmlFor='usuEmail' className='form-label'>
-            Correo eléctronico
-          </label>
-          <input
-            id='usuEmail'
-            name='usuEmail'
-            autoComplete='username'
-            type='text'
-            className='block border border-black inputL form-control'
-            onInput={handleInputs}
-            required
-          />
+        <div className='row'>
+          <div className='group'>
+            <label htmlFor='usuEmail' className='form-label'>
+              Correo eléctronico
+            </label>
+            <input
+              id='usuEmail'
+              name='usuEmail'
+              autoComplete='email'
+              type='text'
+              className='block border border-black inputL form-control'
+              onInput={handleInputs}
+              required
+            />
+          </div>
         </div>
-        <div className='group'>
-          <label htmlFor='usuContra' className='form-label'>
-            Contraseña
-          </label>
-          <input
-            id='usuContra'
-            name='usuContra'
-            autoComplete='current-password'
-            type='text'
-            className='block border border-black inputL form-control bg-clRos'
-            onInput={handleInputs}
-            required
-          />
+        <div className='row'>
+          <div className='group'>
+            <label htmlFor='usuContra' className='form-label'>
+              Contraseña
+            </label>
+            <input
+              id='usuContra'
+              name='usuContra'
+              autoComplete='pass'
+              type='password'
+              className='block border border-black inputL form-control bg-clRos'
+              onInput={handleInputs}
+              required
+            />
+          </div>
         </div>
         <div className='group'>
           <Link className='pl-5 hover:text-clNar' to='/registro'>

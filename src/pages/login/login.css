@@ -18,7 +18,7 @@
   /* @apply "bg-clRos text-clNeg font-bold"; */
   .inputL,
   .inputh {
-    @apply rounded-md flex w-full px-2;
+    @apply rounded-md w-full px-2 block border border-black bg-clRos;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.25) inset,
       -6px -6px 10px 0px rgba(133, 133, 133, 0.13) inset;
     border: none;
@@ -30,10 +30,20 @@
     color: theme(colors.clNeg);
   }
 
-  .group {
+  .row {
     display: flex;
-    flex-wrap: wrap;
+    gap: 10px;
     width: 80%;
+    margin-inline: auto;
+    font-weight: bold;
+    color: theme(colors.clNeg);
+  }
+  .group {
+    @apply w-full;
+    display: flex;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+    gap: 10px;
     margin-inline: auto;
     font-weight: bold;
     color: theme(colors.clNeg);
