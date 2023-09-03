@@ -25,7 +25,7 @@ function Login() {
       .then((respuesta) => {
         const loginToken = respuesta.data;
         login(loginToken);
-        redirect('/login');
+        redirect('/');
       })
       .catch((error) => {
         console.log(error);
@@ -48,7 +48,7 @@ function Login() {
       </div>
       <form
         action=''
-        className='flex flex-col gap-4'
+        className='flex flex-col gap-4 my-2'
         method='POST'
         onSubmit={iniciarSesion}
       >

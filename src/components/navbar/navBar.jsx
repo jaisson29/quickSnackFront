@@ -25,7 +25,7 @@ function NavBar({ page }) {
   const location = useLocation();
 
   return (
-    <aside className='fixed left-0 h-full p-1 transition-all w-3/24 sm:w-2/24 sm:hover:w-5/24 lg:w-1/24 md:hover:w-3/24'>
+    <aside className='h-full p-1 transition-all w-3/24 sm:w-2/24 sm:hover:w-5/24 lg:w-1/24 md:hover:w-3/24'>
       <nav className='grid h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg /w-full bg-clRos'>
         <img
           className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24'

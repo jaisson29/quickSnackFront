@@ -1,13 +1,5 @@
 @tailwind components;
-
 @layer components {
-  .loginContainer {
-    width: 100%;
-    height: 100vh;
-    display: grid;
-    place-content: center;
-  }
-
   .form-label {
     width: 100%;
     padding-left: 20px;
@@ -18,7 +10,7 @@
   /* @apply "bg-clRos text-clNeg font-bold"; */
   .inputL,
   .inputh {
-    @apply rounded-md w-full px-2 block border border-black bg-clRos;
+    @apply block w-full px-2 border border-black rounded-md bg-clRos;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.25) inset,
       -6px -6px 10px 0px rgba(133, 133, 133, 0.13) inset;
     border: none;
@@ -26,24 +18,23 @@
     margin-top: 5px;
     text-indent: 20px;
     background-color: theme(colors.clAma);
-    opacity: 40%;
+    /* opacity: 40%; */
     color: theme(colors.clNeg);
   }
 
   .row {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
     width: 80%;
     margin-inline: auto;
     font-weight: bold;
     color: theme(colors.clNeg);
   }
   .group {
-    @apply w-full;
-    display: flex;
-    flex-direction: column;
-    /* flex-wrap: wrap; */
-    gap: 10px;
+    @apply w-full px-2;
+    /* display: flex; */
+    /* flex-direction: column; */
+    column-gap: 10px;
     margin-inline: auto;
     font-weight: bold;
     color: theme(colors.clNeg);

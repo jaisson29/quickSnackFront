@@ -9,5 +9,18 @@
   #root {
     width: 100%;
     height: 100%;
+    display: flex;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply p-3 m-5;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-clNeg bg-opacity-30 rounded-lg;
   }
 }

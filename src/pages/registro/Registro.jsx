@@ -1,22 +1,54 @@
-import { useAuth } from '../../components/Auth/Autenticacion';
 import ContEntrada from '../../components/contEntrada/ContEntrada';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logoQS.svg';
+import './registro.css';
 import LogoNom from '../../assets/QSNom.png';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
+import axios from 'axios';
+import { useAuth } from '../../components/Auth/Autenticacion';
 
 function Registro() {
-  const { isAuth } = useAuth;
-  const [usuData, setUsuData] = useState({});
+  const navigate = useNavigate();
+  const { isAuth, urlApi, authToken } = useAuth();
+  const [usuData, setUsuData] = useState({
+    usuTipoDoc: null,
+    usuGen: null,
+    usuNom: null,
+    usuEmail: null,
+    usuContra: null,
+    usuIngreso: null,
+  });
+  const [valor, setValor] = useState(null);
 
-  const crearUsu = () => {};
+  const crearUsu = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(`${urlApi}/api/login/crearUsu`, usuData, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((respuesta) => {
+        console.log(respuesta);
+        if (respuesta.status === 200) {
+          console.log('object');
+          navigate('/');
+        } else {
+          console.error('no se pudo registrar');
+        }
+      })
+      .catch((error) => {
+        redirect('/registro');
+        console.error('error', error);
+      });
+  };
 
   function handleInputs(event) {
     setUsuData({
       ...usuData,
       [event.target.name]: event.target.value,
     });
+    console.log(usuData);
   }
 
   if (isAuth) return <Navigate to='/menu' />;
@@ -27,83 +59,106 @@ function Registro() {
         <img className='mx-auto w-60 h-26' src={LogoNom} alt='' />
       </div>
       <form
-        action=''
-        className='flex flex-col gap-4'
+        className='flex flex-col gap-4 my-4'
         method='POST'
         onSubmit={crearUsu}
       >
         <div className='row'>
-          <label htmlFor='usuNom' className='form-label'>
-            Nombre y apellido
-          </label>
-          <input
-            id='usuNom'
-            name='usuNom'
-            autoComplete='usuNom'
-            type='email'
-            className='block border border-black inputL form-control'
-            onInput={handleInputs}
-            required
-          />
-        </div>
-        <div className='row'>
-          <label htmlFor='usuEmail' className='form-label'>
-            Correo eléctronico
-          </label>
-          <input
-            id='usuEmail'
-            name='usuEmail'
-            autoComplete='usuEmail'
-            type='text'
-            className='block border border-black inputL form-control'
-            onInput={handleInputs}
-            required
-          />
-        </div>
-        <div className='row'>
-          <label htmlFor='usuContra' className='form-label'>
-            Contraseña
-          </label>
-          <input
-            id='usuContra'
-            name='usuContra'
-            autoComplete='off'
-            type='password'
-            className='inputL'
-            onInput={handleInputs}
-            required
-          />
-        </div>
-        <div className='row'>
           <div className='group'>
-            <label htmlFor='genero' className='form-label'>
-              Genero
+            <label htmlFor='usuNom' className='form-label'>
+              Nombre y apellido
             </label>
             <input
-              id='usuGen'
-              name='usuGen'
-              autoComplete='current-password'
-              type='password'
-              className='inputh'
+              id='usuNom'
+              name='usuNom'
+              autoComplete='usuNom'
+              type='text'
+              className='block border border-black inputL form-control'
               onInput={handleInputs}
               required
             />
           </div>
-          <div className=' group'>
-            <div className='group'>
-              <label htmlFor='usuTipoDoc' className='form-label'>
-                Tipo de docuemnto
-              </label>
-              <input
-                id='usuTipoDoc'
-                name='usuTipoDoc'
-                autoComplete='current-password'
-                type='password'
-                className='inputh'
-                onInput={handleInputs}
-                required
-              />
-            </div>
+        </div>
+        <div className='row'>
+          <div className='group'>
+            <label htmlFor='usuEmail' className='form-label'>
+              Correo eléctronico
+            </label>
+            <input
+              id='usuEmail'
+              name='usuEmail'
+              autoComplete='usuEmail'
+              type='email'
+              className='block border border-black inputL form-control'
+              onInput={handleInputs}
+              required
+            />
+          </div>
+        </div>
+        <div className='row'>
+          <div className='group'>
+            <label htmlFor='usuContra' className='form-label'>
+              Contraseña
+            </label>
+            <input
+              id='usuContra'
+              name='usuContra'
+              autoComplete='off'
+              type='password'
+              className='inputL'
+              onInput={handleInputs}
+              required
+            />
+          </div>
+        </div>
+        <div className='row'>
+          <div className='group md:w-1/2'>
+            <input
+              id='masculino'
+              name='usuGen'
+              type='radio'
+              className='inputR'
+              value={1}
+              onChange={handleInputs}
+              required
+            />
+            <label htmlFor='femenino' className='form-label'>
+              Masculino
+            </label>
+            <input
+              id='femenino'
+              name='usuGen'
+              type='radio'
+              className='inputR'
+              value={2}
+              onChange={handleInputs}
+              required
+            />
+            <label htmlFor='masculino' className='form-label'>
+              Femenino
+            </label>
+          </div>
+          <div className=' group md:w-1/2'>
+            <label htmlFor='usuTipoDoc' className='form-label'>
+              Tipo de documento
+            </label>
+            <select
+              id='usuTipoDoc'
+              name='usuTipoDoc'
+              autoComplete='current-password'
+              type='password'
+              className='inputh inputSelect'
+              onChange={handleInputs}
+              defaultValue=''
+              required
+            >
+              <option value='' defaultChecked>
+                Tipo de documento
+              </option>
+              <option value='3'>Targeta de identidad</option>
+              <option value='4'>Cedula de ciudadania</option>
+              <option value='5'>Cedula de extranjeria</option>
+            </select>
           </div>
         </div>
         <div className='row'>

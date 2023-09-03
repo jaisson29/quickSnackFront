@@ -1,18 +1,21 @@
+import { useAuth } from '../Auth/Autenticacion';
 import './header.css';
 
 const Header = () => {
+  const { user } = useAuth();
   return (
-    <header className='flex text-right justify-end w-full'>
-      <section className='flex gap-4 items-center'>
+    <header className='flex justify-end w-full text-right'>
+      <section className='flex items-center gap-4'>
         <div>
-          <p>Jaisson Valbuena</p>
-          <p>Administrador </p>
+          <p>{user.usuNom}</p>
+          <p>{user.perfilNom}</p>
         </div>
         <img
           src=''
           alt='user'
-          className='rounded-full h-10 w-10 bg-slate-600'
+          className='w-10 h-10 rounded-full bg-slate-600'
         />
+        <i className='fa fa-caret-down'></i>
       </section>
     </header>
   );

@@ -18,7 +18,7 @@ const authReducer = (state, action) => {
     case 'LOGIN':
       return {
         ...state,
-        user: action.payload.user, // Cambia action a action.payload.user
+        user: action.payload, // Cambia action a action.payload.user
         isAuth: true,
       };
     case 'LOGOUT':
@@ -34,7 +34,7 @@ const authReducer = (state, action) => {
 
 export function AuthProvider({ children }) {
   const [authToken, setAuthToken] = useState(localStorage.getItem('token'));
-  const urlApi = 'http://10.190.195.167:5000';
+  const urlApi = 'http://localhost:5000';
 
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
       .then((respuesta) => {
         const decodedToken = respuesta.data;
         localStorage.setItem('token', token);
-        dispatch({ type: 'LOGIN', payload: { user: decodedToken.usuario } });
+        dispatch({ type: 'LOGIN', payload: decodedToken.payload[0] });
       })
       .catch((error) => {
         dispatch({ type: 'LOGOUT' });
@@ -69,7 +69,6 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     authToken ? login(authToken) : logout();
   }, [authToken]);
-
   return (
     <AuthContext.Provider
       value={{

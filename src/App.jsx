@@ -14,8 +14,12 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route index exact path='/' element={<Login />} />
-        <Route path='/registro' element={<Registro />} />
-        <Route path='/home' element={<ProtectedRoute children={<Home />} />} />
+        <Route exact path='/registro' element={<Registro />} />
+        <Route
+          exact
+          path='/home'
+          element={<ProtectedRoute children={<Home />} />}
+        />
         <Route path='/menu' element={<ProtectedRoute children={<Menu />} />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
