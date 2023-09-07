@@ -34,7 +34,7 @@ const authReducer = (state, action) => {
 
 export function AuthProvider({ children }) {
   const [authToken, setAuthToken] = useState(localStorage.getItem('token'))
-  const urlApi = 'http://10.190.195.51:5000'
+  const urlApi = 'http://localhost:5000'
 
   const [state, dispatch] = useReducer(authReducer, {
     user: null,

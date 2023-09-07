@@ -1,5 +1,7 @@
 import { useAuth } from '../Auth/Autenticacion'
 import './header.css'
+import male from '../../assets/icon-male-100.png'
+import female from '../../assets/icon-female-100.png'
 
 const Header = () => {
   const { user } = useAuth()
@@ -11,9 +13,9 @@ const Header = () => {
           <p>{user.perfilNom}</p>
         </div>
         <img
-          src=""
-          alt="user"
-          className="w-10 h-10 rounded-full bg-slate-600"
+          src={user.usuGen === 1 ? male : female}
+          alt="../../assets/logoQS.svg"
+          className="w-10 h-10 rounded-full"
         />
         <i className="fa fa-caret-down"></i>
       </section>

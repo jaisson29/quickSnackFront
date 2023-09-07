@@ -20,7 +20,7 @@ function NavBar({ page }) {
       }
     }
     fetchPaginas()
-  }, [])
+  }, [urlApi])
 
   const location = useLocation()
 
