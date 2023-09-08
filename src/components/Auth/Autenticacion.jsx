@@ -1,15 +1,15 @@
-import axios from 'axios'
+import axios from 'axios';
 import React, {
   createContext,
   useContext,
   useEffect,
   useReducer,
   useState,
-} from 'react'
+} from 'react';
 
 const AuthContext = createContext({
   auth: false,
-})
+});
 
 const authReducer = (state, action) => {
   switch (
@@ -20,29 +20,29 @@ const authReducer = (state, action) => {
         ...state,
         user: action.payload, // Cambia action a action.payload.user
         isAuth: true,
-      }
+      };
     case 'LOGOUT':
       return {
         ...state,
         user: null,
         isAuth: false,
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
 export function AuthProvider({ children }) {
-  const [authToken, setAuthToken] = useState(localStorage.getItem('token'))
-  const urlApi = 'http://localhost:5000'
+  const [authToken, setAuthToken] = useState(localStorage.getItem('token'));
+  const urlApi = 'http://10.190.195.201:5000';
 
   const [state, dispatch] = useReducer(authReducer, {
     user: null,
     isAuth: false,
-  })
+  });
 
   const login = (token) => {
-    setAuthToken(token)
+    setAuthToken(token);
     axios
       .get(`${urlApi}/api/login/verify`, {
         headers: {
@@ -50,25 +50,25 @@ export function AuthProvider({ children }) {
         },
       })
       .then((respuesta) => {
-        const decodedToken = respuesta.data
-        localStorage.setItem('token', token)
-        dispatch({ type: 'LOGIN', payload: decodedToken.payload[0] })
+        const decodedToken = respuesta.data;
+        localStorage.setItem('token', token);
+        dispatch({ type: 'LOGIN', payload: decodedToken.payload[0] });
       })
       .catch((error) => {
-        dispatch({ type: 'LOGOUT' })
-        console.error('Error verificando el token', error)
-      })
-  }
+        dispatch({ type: 'LOGOUT' });
+        console.error('Error verificando el token', error);
+      });
+  };
 
   const logout = () => {
-    dispatch({ type: 'LOGOUT' })
-    localStorage.removeItem('token')
-    setAuthToken(null)
-  }
+    dispatch({ type: 'LOGOUT' });
+    localStorage.removeItem('token');
+    setAuthToken(null);
+  };
 
   useEffect(() => {
-    authToken ? login(authToken) : logout()
-  }, [authToken])
+    authToken ? login(authToken) : logout();
+  }, [authToken]);
   return (
     <AuthContext.Provider
       value={{
@@ -82,9 +82,9 @@ export function AuthProvider({ children }) {
     >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export function useAuth() {
-  return useContext(AuthContext)
+  return useContext(AuthContext);
 }

@@ -32,11 +32,8 @@
   }
   .group {
     @apply w-full px-2;
-    /* display: flex; */
-    /* flex-direction: column; */
     column-gap: 10px;
     margin-inline: auto;
     font-weight: bold;
-    /* color: theme(colors.clNeg); */
   }
 }

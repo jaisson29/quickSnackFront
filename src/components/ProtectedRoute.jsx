@@ -8,9 +8,9 @@ export const ProtectedRoute = ({ children }) => {
   return authToken && isAuth ? (
     <>
       <NavBar />
-      <section className='w-22/24 md:w-23/24 h-full overflow-x-auto mx-1 px-3'>
+      <section className='absolute right-0 float-right h-full px-3 mx-1 w-21/24 md:w-23/24'>
         <Header></Header>
-        <main className='w-full md:w-full h-full'>{children}</main>
+        <main className='w-full h-full md:w-full'>{children}</main>
       </section>
     </>
   ) : (

@@ -64,7 +64,7 @@ function Registro() {
         onSubmit={crearUsu}
       >
         <div className='row'>
-          <div className='group'>
+          <div className='group md:w-1/2'>
             <label htmlFor='usuNom' className='form-label'>
               Nombre y apellido
             </label>
@@ -78,17 +78,43 @@ function Registro() {
               required
             />
           </div>
-        </div>
-        <div className='row'>
-          <div className='group'>
+          <div className='group md:w-1/2'>
+            <label htmlFor='usuTipoDoc' className='form-label'>
+              Tipo de documento
+            </label>
+            <select
+              id='usuTipoDoc'
+              name='usuTipoDoc'
+              autoComplete='current-password'
+              type='password'
+              className='inputh inputSelect'
+              onChange={handleInputs}
+              defaultValue=''
+              required
+            >
+              <option value='' defaultChecked>
+                Tipo de documento
+              </option>
+              <option value='3'>Targeta de identidad</option>
+              <option value='4'>Cedula de ciudadania</option>
+              <option value='5'>Cedula de extranjeria</option>
+            </select>
+          </div>
+          <div className='group md:w-1/2'>
             <label htmlFor='usuNoDoc' className='form-label'>
               Numero de documento
             </label>
-            <input type='text' className='inputL form-control' />
+            <input
+              type='text'
+              id='usuNoDoc'
+              name='usuNoDoc'
+              autoComplete='usuNoDoc'
+              className='inputL form-control'
+              onInput={handleInputs}
+              required
+            />
           </div>
-        </div>
-        <div className='row'>
-          <div className='group'>
+          <div className='group md:w-1/2'>
             <label htmlFor='usuEmail' className='form-label'>
               Correo eléctronico
             </label>
@@ -102,9 +128,7 @@ function Registro() {
               required
             />
           </div>
-        </div>
-        <div className='row'>
-          <div className='group'>
+          <div className='group md:w-1/2'>
             <label htmlFor='usuContra' className='form-label'>
               Contraseña
             </label>
@@ -118,8 +142,6 @@ function Registro() {
               required
             />
           </div>
-        </div>
-        <div className='row'>
           <div className='group md:w-1/2'>
             <input
               id='masculino'
@@ -146,31 +168,6 @@ function Registro() {
               Femenino
             </label>
           </div>
-          <div className=' group md:w-1/2'>
-            <label htmlFor='usuTipoDoc' className='form-label'>
-              Tipo de documento
-            </label>
-            <select
-              id='usuTipoDoc'
-              name='usuTipoDoc'
-              autoComplete='current-password'
-              type='password'
-              className='inputh inputSelect'
-              onChange={handleInputs}
-              defaultValue=''
-              required
-            >
-              <option value='' defaultChecked>
-                Tipo de documento
-              </option>
-              <option value='3'>Targeta de identidad</option>
-              <option value='4'>Cedula de ciudadania</option>
-              <option value='5'>Cedula de extranjeria</option>
-            </select>
-          </div>
-        </div>
-
-        <div className='row'>
           <Link className='pl-5 underline hover:text-clNar' to='/'>
             Iniciar sesión
           </Link>
