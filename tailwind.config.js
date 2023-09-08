@@ -4,14 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        clDRos: '#E75065',
-        clRos: '#f6aab5',
-        clNar: '#F4B03F',
-        clAma: '#f8c7a3',
-        clNeg: '#4D4D4D',
-        clBlc: '#F8F8F8',
-        clCaf: '#fed6b4',
-        clPiel: '#fdd2b9',
+        clRos: '#F8DAC5',
+        clRoj: '#E75A48',
+        clNar: '#FFB034',
       },
       width: {
         100: '400px',

@@ -3,11 +3,11 @@
   .form-label {
     width: 100%;
     padding-left: 20px;
-    color: theme(colors.clNeg);
+    /* color: theme(colors.clNeg); */
     font-weight: bold;
   }
 
-  /* @apply "bg-clRos text-clNeg font-bold"; */
+  /* @apply "bg-clRoj text-clNeg font-bold"; */
   .inputL,
   .inputh {
     @apply block w-full px-2 border border-black rounded-md bg-clRos;
@@ -17,9 +17,9 @@
     padding-block: 5px;
     margin-top: 5px;
     text-indent: 20px;
-    background-color: theme(colors.clAma);
+    /* background-color: theme(colors.clAma); */
     /* opacity: 40%; */
-    color: theme(colors.clNeg);
+    /* color: theme(colors.clNeg);*/
   }
 
   .row {
@@ -28,7 +28,7 @@
     width: 80%;
     margin-inline: auto;
     font-weight: bold;
-    color: theme(colors.clNeg);
+    /* color: theme(colors.clNeg); */
   }
   .group {
     @apply w-full px-2;
@@ -37,6 +37,6 @@
     column-gap: 10px;
     margin-inline: auto;
     font-weight: bold;
-    color: theme(colors.clNeg);
+    /* color: theme(colors.clNeg); */
   }
 }

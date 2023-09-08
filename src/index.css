@@ -8,7 +8,7 @@
   body,
   #root {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
   }
 
@@ -21,6 +21,6 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-clNeg bg-opacity-30 rounded-lg;
+    @apply bg-opacity-30 rounded-lg bg-slate-800;
   }
 }
