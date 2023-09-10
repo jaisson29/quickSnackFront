@@ -14,6 +14,7 @@ export function AuthProvider({ children }) {
     axios
       .get(`${urlApi}/api/login/verify`, {
         headers: {
+          //Inicializa el header la el http
           Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization"
         },
       })
@@ -22,7 +23,7 @@ export function AuthProvider({ children }) {
         sessionStorage.setItem('token', token);
         sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
         setAuthToken(sessionStorage.getItem('token'));
-        setUser(sessionStorage.getItem('user'));
+        setUser(JSON.parse(sessionStorage.getItem('user')));
         setIsAuth(true);
       })
       .catch((error) => {
@@ -39,7 +40,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     authToken && user ? setIsAuth(true) : logout();
-  }, [authToken]);
+  }, [authToken, user]);
   return (
     <AuthContext.Provider
       value={{

@@ -25,7 +25,7 @@ function Login() {
       .then((respuesta) => {
         const loginToken = respuesta.data;
         login(loginToken);
-        redirect('/');
+        redirect('/menu');
       })
       .catch((error) => {
         console.error(error);
