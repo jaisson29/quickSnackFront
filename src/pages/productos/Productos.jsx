@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
+import DataTable from 'react-data-table-component';
 import './productos.css';
 
 const Productos = () => {
@@ -106,9 +107,47 @@ const Productos = () => {
               required
             />
           </div>
-          .
         </div>
       </form>
+      <DataTable
+        data={productos}
+        columns={[
+          {
+            name: 'Producto',
+            selector: (row) => row.prodNom,
+          },
+          {
+            name: 'Precio de compra',
+            selector: (row) => row.prodValCom,
+            sortable: true,
+          },
+          {
+            name: 'Precio de venta',
+            selector: (row) => row.prodValVen,
+            sortable: true,
+          },
+        ]}
+        pagination
+      />
+      {/* <table id='prodTb'>
+        <thead>
+          <tr>
+            <td>Nombre</td>
+          </tr>
+        </thead>
+        <tbody>
+          {productos.map((prod) => (
+            <tr key={prod.prodId}>
+              <td>{prod.prodNom}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Nombre</td>
+          </tr>
+        </tfoot>
+      </table> */}
     </>
   );
 };
