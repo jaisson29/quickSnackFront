@@ -55,7 +55,7 @@ function Login() {
         onSubmit={iniciarSesion}
       >
         <div className='row'>
-          <div className='group'>
+          <div className=''>
             <label htmlFor='usuEmail' className='form-label'>
               Correo eléctronico
             </label>
@@ -64,14 +64,13 @@ function Login() {
               name='usuEmail'
               autoComplete='email'
               type='text'
-              className='inputL form-control'
+              className='input'
               onInput={handleInputs}
               required
             />
           </div>
-        </div>
-        <div className='row'>
-          <div className='group'>
+
+          <div className=''>
             <label htmlFor='usuContra' className='form-label'>
               Contraseña
             </label>
@@ -80,7 +79,7 @@ function Login() {
               name='usuContra'
               autoComplete='pass'
               type='password'
-              className='inputL form-control'
+              className='input'
               onInput={handleInputs}
               required
             />

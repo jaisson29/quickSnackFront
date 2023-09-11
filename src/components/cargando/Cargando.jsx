@@ -1,11 +1,7 @@
 import './cargando.css';
 
 const Cargando = () => {
-  return (
-    <div className='cargaContainer'>
-      <div className='cargaSpinner'></div>
-    </div>
-  );
+  return <span className='loader'></span>;
 };
 
 export default Cargando;

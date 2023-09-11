@@ -3,7 +3,7 @@ const Button = ({ children, ...rest }) => {
     <button
       {...rest}
       type='button'
-      className='px-4 py-2 cursor-pointer mx-auto h-10 flex justify-center items-center font-bold rounded-lg bg-clNar bg-opacity-60 text-clNeg'
+      className='w-fit px-4 py-2 cursor-pointer mx-auto h-10 flex justify-center items-center font-bold rounded-lg bg-clNar bg-opacity-60 text-clNeg'
     >
       {children}
     </button>

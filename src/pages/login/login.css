@@ -1,15 +1,13 @@
 @tailwind components;
 @layer components {
   .form-label {
-    width: 100%;
+    display: inline-block;
+    /* width: 100%; */
     padding-left: 20px;
-    /* color: theme(colors.clNeg); */
     font-weight: bold;
   }
 
-  /* @apply "bg-clRoj text-clNeg font-bold"; */
-  .inputL,
-  .inputh {
+  .input {
     @apply block w-full px-2 border border-black rounded-md bg-clRos;
     box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.25) inset,
       -6px -6px 10px 0px rgba(133, 133, 133, 0.13) inset;
@@ -17,23 +15,17 @@
     padding-block: 5px;
     margin-top: 5px;
     text-indent: 20px;
-    /* background-color: theme(colors.clAma); */
-    /* opacity: 40%; */
-    /* color: theme(colors.clNeg);*/
   }
 
   .row {
     display: flex;
     flex-wrap: wrap;
-    width: 80%;
-    margin-inline: auto;
     font-weight: bold;
-    /* color: theme(colors.clNeg); */
   }
-  .group {
-    @apply w-full px-2;
-    column-gap: 10px;
-    margin-inline: auto;
-    font-weight: bold;
+
+  .row > * {
+    @apply px-3;
+    width: 100%;
+    max-width: 100%;
   }
 }

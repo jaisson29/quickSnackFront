@@ -31,7 +31,6 @@ function Registro() {
       .then((respuesta) => {
         console.log(respuesta);
         if (respuesta.status === 200) {
-          console.log('object');
           navigate('/');
         } else {
           console.error('no se pudo registrar');
@@ -48,7 +47,6 @@ function Registro() {
       ...usuData,
       [event.target.name]: event.target.value,
     });
-    console.log(usuData);
   }
 
   if (isAuth) return <Navigate to='/menu' />;
@@ -64,7 +62,7 @@ function Registro() {
         onSubmit={crearUsu}
       >
         <div className='row'>
-          <div className='group md:w-1/2'>
+          <div className=' md:w-1/2'>
             <label htmlFor='usuNom' className='form-label'>
               Nombre y apellido
             </label>
@@ -73,12 +71,12 @@ function Registro() {
               name='usuNom'
               autoComplete='usuNom'
               type='text'
-              className='block border border-black inputL form-control'
+              className='block border border-black input form-control'
               onInput={handleInputs}
               required
             />
           </div>
-          <div className='group md:w-1/2'>
+          <div className='md:w-1/2'>
             <label htmlFor='usuTipoDoc' className='form-label'>
               Tipo de documento
             </label>
@@ -87,7 +85,7 @@ function Registro() {
               name='usuTipoDoc'
               autoComplete='current-password'
               type='password'
-              className='inputh inputSelect'
+              className='input inputSelect'
               onChange={handleInputs}
               defaultValue=''
               required
@@ -109,7 +107,7 @@ function Registro() {
               id='usuNoDoc'
               name='usuNoDoc'
               autoComplete='usuNoDoc'
-              className='inputL form-control'
+              className='input'
               onInput={handleInputs}
               required
             />
@@ -123,7 +121,7 @@ function Registro() {
               name='usuEmail'
               autoComplete='usuEmail'
               type='email'
-              className='block border border-black inputL form-control'
+              className='block border border-black input'
               onInput={handleInputs}
               required
             />
@@ -137,7 +135,7 @@ function Registro() {
               name='usuContra'
               autoComplete='off'
               type='password'
-              className='inputL'
+              className='input'
               onInput={handleInputs}
               required
             />
@@ -147,7 +145,7 @@ function Registro() {
               id='masculino'
               name='usuGen'
               type='radio'
-              className='inputR'
+              className='input-radio'
               value={1}
               onChange={handleInputs}
               required
@@ -159,7 +157,7 @@ function Registro() {
               id='femenino'
               name='usuGen'
               type='radio'
-              className='inputR'
+              className='input-radio'
               value={2}
               onChange={handleInputs}
               required
