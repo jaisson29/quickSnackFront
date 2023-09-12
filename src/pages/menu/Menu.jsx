@@ -34,19 +34,17 @@ function Menu() {
         {cargando ? (
           <Cargando />
         ) : productos.length > 0 ? (
-          productos.map((prod) => {
-            return (
-              <Tarjeta
-                key={prod.prodId}
-                id={prod.prodId}
-                nom={prod.prodNom}
-                descr={prod.prodDescr}
-                cat={prod.catNom}
-                img={prod.prodImg}
-                precio={prod.prodValVen}
-              />
-            );
-          })
+          productos.map((prod) => (
+            <Tarjeta
+              key={prod.prodId}
+              id={prod.prodId}
+              nom={prod.prodNom}
+              descr={prod.prodDescr}
+              cat={prod.catNom}
+              img={prod.prodImg}
+              precio={prod.prodValVen}
+            />
+          ))
         ) : (
           <h1>No hay productos para mostrar</h1>
         )}

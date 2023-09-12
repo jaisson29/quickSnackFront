@@ -4,7 +4,7 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import './productos.css';
-import { redirect, useNavigate } from 'react-router-dom';
+import Cargando from '../../components/cargando/Cargando';
 
 const Productos = () => {
   const { urlApi, authToken } = useAuth();
@@ -13,8 +13,6 @@ const Productos = () => {
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCargando(true);
@@ -30,9 +28,16 @@ const Productos = () => {
         setCargando(false);
         setError(err.message);
       });
-  }, [urlApi, authToken]);
+  }, [urlApi, authToken, tablaActualizada]);
 
-  const [prodData, setProdData] = useState(null);
+  const [prodData, setProdData] = useState({
+    prodNom: '',
+    prodDescr: '',
+    prodImg: 'assets/defaultProd.jpg',
+    prodValCom: '',
+    prodValVen: '',
+    catId: '',
+  });
   function handleInputs(event) {
     setProdData({
       ...prodData,
@@ -40,7 +45,7 @@ const Productos = () => {
     });
   }
 
-  function nuevoProducto(e) {
+  function nuevoProd(e) {
     e.preventDefault();
 
     axios
@@ -50,18 +55,60 @@ const Productos = () => {
         },
       })
       .then((respuesta) => {
-        console.log('nuevo producto', respuesta);
-        setTablaActualizada((prev) => !prev);
-        window.location.reload();
+        // console.log('nuevo producto', respuesta);
+        setTablaActualizada(!tablaActualizada);
+        setCargando(true);
+        setProdData({
+          prodNom: '',
+          prodDescr: '',
+          prodImg: 'assets/defaultProd.jpg',
+          prodValCom: '',
+          prodValVen: '',
+          catId: '',
+        });
       })
       .catch((err) => {
         console.log('Error al crear el producto', err);
       });
   }
 
+  function editarProd(id) {
+    console.log(id);
+    return id;
+  }
+
+  function eliminarProd(id) {
+    axios
+      .delete(`${urlApi}/api/producto/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then((respuesta) => {
+        console.log(respuesta);
+        setTablaActualizada(!tablaActualizada);
+        setCargando(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return id;
+  }
+
+  // const ExpandedComponent = ({ data }) => (
+  //   <>
+  //     <Button onClick={() => editarProd(data.prodNom)}>
+  //       <i className='fa-solid fa-pen'></i>
+  //     </Button>
+  //     <Button onClick={() => eliminarProd(data.prodId)}>
+  //       <i className='fa-solid fa-trash'></i>
+  //     </Button>
+  //   </>
+  // );
+
   return (
     <>
-      <form method='post' onSubmit={nuevoProducto}>
+      <form method='post' onSubmit={nuevoProd}>
         <div className='row'>
           <div className='w-full md:w-1/2'>
             <label htmlFor='prodNom' className='form-label'>
@@ -73,6 +120,7 @@ const Productos = () => {
               id='prodNom'
               className='input'
               onInput={handleInputs}
+              value={prodData.prodNom}
               required
             />
           </div>
@@ -85,6 +133,7 @@ const Productos = () => {
               name='prodDescr'
               id='prodDescr'
               className='input'
+              value={prodData.prodDescr}
               onInput={handleInputs}
               required
             />
@@ -99,6 +148,7 @@ const Productos = () => {
               name='prodValCom'
               id='prodValCom'
               className='input'
+              value={prodData.prodValCom}
               onInput={handleInputs}
               required
             />
@@ -113,6 +163,7 @@ const Productos = () => {
               name='prodValVen'
               id='prodValVen'
               className='input'
+              value={prodData.prodValVen}
               onInput={handleInputs}
               required
             />
@@ -129,9 +180,7 @@ const Productos = () => {
               onChange={handleInputs}
               required
             >
-              <option value='' selected>
-                Seleccione una Categoria
-              </option>
+              <option value=''>Seleccione una Categoria</option>
               <option value='2'>Bebidas</option>
             </select>
           </div>
@@ -146,38 +195,62 @@ const Productos = () => {
               id='prodImg'
               className='inputFile'
               onInput={handleInputs}
-              required
             />
           </div>
         </div>
         <div className='row'>
           <Button>
-            <input type='submit' value='Crear' />
+            <input id='prodSubBtn' type='submit' value='Crear' />
           </Button>
         </div>
       </form>
-      <DataTable
-        key={tablaActualizada ? 'actualizada' : 'no actualizada'}
-        data={productos}
-        columns={[
-          {
-            name: 'Producto',
-            selector: (row) => row.prodNom,
-            sortable: true,
-          },
-          {
-            name: 'Precio de compra',
-            selector: (row) => row.prodValCom,
-            sortable: true,
-          },
-          {
-            name: 'Precio de venta',
-            selector: (row) => row.prodValVen,
-            sortable: true,
-          },
-        ]}
-        pagination
-      />
+      {cargando ? (
+        <Cargando />
+      ) : (
+        <DataTable
+          key={tablaActualizada ? 'actualizada' : 'no actualizada'}
+          title={'Productos'}
+          // expandableRows
+          // expandableRowsComponent={ExpandedComponent}
+          data={productos}
+          columns={[
+            {
+              name: 'Producto',
+              selector: (row) => (
+                <>
+                  <p>{row.prodNom}</p>
+                  <p>{row.prodDescr}</p>
+                </>
+              ),
+              sortable: true,
+            },
+            {
+              name: 'Precio de compra',
+              selector: (row) => row.prodValCom,
+              sortable: true,
+            },
+            {
+              name: 'Precio de venta',
+              selector: (row) => row.prodValVen,
+              sortable: true,
+            },
+            {
+              // name: 'Acciones',
+              cell: (row) => (
+                <>
+                  <Button onClick={() => editarProd(row.prodId)}>
+                    <i className='fa-solid fa-pen'></i>
+                  </Button>
+                  <Button onClick={() => eliminarProd(row.prodId)}>
+                    <i className='fa-solid fa-trash'></i>
+                  </Button>
+                </>
+              ),
+            },
+          ]}
+          pagination
+        />
+      )}
     </>
   );
 };

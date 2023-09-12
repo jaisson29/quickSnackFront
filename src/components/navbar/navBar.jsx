@@ -41,7 +41,7 @@ function NavBar() {
                 <li
                   id={paginaId}
                   key={paginaId}
-                  className={`font-bold ${
+                  className={`font-bold menuItem ${
                     location.pathname === paginaRuta ? 'acti' : ''
                   }`}
                 >
@@ -58,9 +58,11 @@ function NavBar() {
           ) : (
             <Cargando />
           )}
-          <li key={99} onClick={logout}>
-            <i className='fa fa-power-off fa-lg'></i>
-            <span className='hidden ml-2'>Salir</span>
+          <li key={0} className='menuItem' onClick={logout}>
+            <div>
+              <i className='fa fa-power-off fa-lg menuItem'></i>
+              <span className='hidden'>Salir</span>
+            </div>
           </li>
         </ul>
       </nav>

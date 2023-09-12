@@ -1,7 +1,7 @@
 @tailwind components;
 
 @layer components {
-  nav ul li {
+  .menuItem {
     @apply w-23/24;
     position: relative;
     display: flex;
@@ -17,7 +17,7 @@
     border-radius: 10px 0 0 10px;
     transition: color 0.5s;
   }
-  nav ul li a {
+  .menuItem a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -26,6 +26,11 @@
   @media (min-width: 640px) {
     aside:hover span {
       display: block;
+    }
+
+    aside:hover .menuItem a {
+      justify-content: left;
+      padding-left: 10px;
     }
   }
 
