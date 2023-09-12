@@ -2,15 +2,19 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
+import Button from '../../components/boton/Button';
 import './productos.css';
+import { redirect, useNavigate } from 'react-router-dom';
 
 const Productos = () => {
   const { urlApi, authToken } = useAuth();
+
   const [productos, setProductos] = useState([]);
+  const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
 
-  const [prodData, setProdData] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCargando(true);
@@ -28,6 +32,7 @@ const Productos = () => {
       });
   }, [urlApi, authToken]);
 
+  const [prodData, setProdData] = useState(null);
   function handleInputs(event) {
     setProdData({
       ...prodData,
@@ -35,9 +40,28 @@ const Productos = () => {
     });
   }
 
+  function nuevoProducto(e) {
+    e.preventDefault();
+
+    axios
+      .post(`${urlApi}/api/producto/create`, prodData, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then((respuesta) => {
+        console.log('nuevo producto', respuesta);
+        setTablaActualizada((prev) => !prev);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log('Error al crear el producto', err);
+      });
+  }
+
   return (
     <>
-      <form action='' method='post'>
+      <form method='post' onSubmit={nuevoProducto}>
         <div className='row'>
           <div className='w-full md:w-1/2'>
             <label htmlFor='prodNom' className='form-label'>
@@ -94,6 +118,24 @@ const Productos = () => {
             />
           </div>
           <div className='w-full md:w-1/2'>
+            <label htmlFor='catId' className='form-label'>
+              Categoria
+            </label>
+            <select
+              type='number'
+              name='catId'
+              id='catId'
+              className='input'
+              onChange={handleInputs}
+              required
+            >
+              <option value='' selected>
+                Seleccione una Categoria
+              </option>
+              <option value='2'>Bebidas</option>
+            </select>
+          </div>
+          <div className='w-full md:w-1/2'>
             <label htmlFor='prodImg' className='form-label'>
               Subir una imagen
             </label>
@@ -102,19 +144,26 @@ const Productos = () => {
               name='prodImg'
               accept='image/*'
               id='prodImg'
-              className='input'
+              className='inputFile'
               onInput={handleInputs}
               required
             />
           </div>
         </div>
+        <div className='row'>
+          <Button>
+            <input type='submit' value='Crear' />
+          </Button>
+        </div>
       </form>
       <DataTable
+        key={tablaActualizada ? 'actualizada' : 'no actualizada'}
         data={productos}
         columns={[
           {
             name: 'Producto',
             selector: (row) => row.prodNom,
+            sortable: true,
           },
           {
             name: 'Precio de compra',
@@ -129,25 +178,6 @@ const Productos = () => {
         ]}
         pagination
       />
-      {/* <table id='prodTb'>
-        <thead>
-          <tr>
-            <td>Nombre</td>
-          </tr>
-        </thead>
-        <tbody>
-          {productos.map((prod) => (
-            <tr key={prod.prodId}>
-              <td>{prod.prodNom}</td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>Nombre</td>
-          </tr>
-        </tfoot>
-      </table> */}
     </>
   );
 };

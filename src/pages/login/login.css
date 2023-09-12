@@ -17,6 +17,14 @@
     text-indent: 20px;
   }
 
+  .inputR {
+  }
+
+  .inputFile {
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+
   .row {
     display: flex;
     flex-wrap: wrap;
