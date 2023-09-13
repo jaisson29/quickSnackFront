@@ -4,12 +4,14 @@ import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import './productos.css';
+import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Productos = () => {
   const { urlApi, authToken } = useAuth();
 
   const [productos, setProductos] = useState([]);
+  const [file, setFile] = useState(null);
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -38,24 +40,39 @@ const Productos = () => {
     prodValVen: '',
     catId: '',
   });
-  function handleInputs(event) {
+
+  const formData = new FormData();
+  formData.append('prodNom', prodData.prodNom);
+  formData.append('prodDescr', prodData.prodDescr);
+  formData.append('prodValCom', prodData.prodValCom);
+  formData.append('prodValVen', prodData.prodValVen);
+  formData.append('catId', prodData.catId);
+  formData.append('prodImg', file);
+
+  function inputHandler(event) {
     setProdData({
       ...prodData,
       [event.target.name]: event.target.value,
     });
+
+    console.log(prodData);
+  }
+  function handleFiles(event) {
+    setFile(event.target.files[0]);
   }
 
   function nuevoProd(e) {
     e.preventDefault();
 
     axios
-      .post(`${urlApi}/api/producto/create`, prodData, {
+      .post(`${urlApi}/api/producto/create`, formData, {
         headers: {
           Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'multipart/form-data',
         },
       })
       .then((respuesta) => {
-        // console.log('nuevo producto', respuesta);
+        console.log('nuevo producto', respuesta);
         setTablaActualizada(!tablaActualizada);
         setCargando(true);
         setProdData({
@@ -108,7 +125,8 @@ const Productos = () => {
 
   return (
     <>
-      <form method='post' onSubmit={nuevoProd}>
+      {error ? <Error /> : null}
+      <form method='post' onSubmit={nuevoProd} encType='multipart/form-data'>
         <div className='row'>
           <div className='w-full md:w-1/2'>
             <label htmlFor='prodNom' className='form-label'>
@@ -119,7 +137,7 @@ const Productos = () => {
               name='prodNom'
               id='prodNom'
               className='input'
-              onInput={handleInputs}
+              onInput={inputHandler}
               value={prodData.prodNom}
               required
             />
@@ -134,7 +152,7 @@ const Productos = () => {
               id='prodDescr'
               className='input'
               value={prodData.prodDescr}
-              onInput={handleInputs}
+              onInput={inputHandler}
               required
             />
           </div>
@@ -149,7 +167,7 @@ const Productos = () => {
               id='prodValCom'
               className='input'
               value={prodData.prodValCom}
-              onInput={handleInputs}
+              onInput={inputHandler}
               required
             />
           </div>
@@ -164,7 +182,7 @@ const Productos = () => {
               id='prodValVen'
               className='input'
               value={prodData.prodValVen}
-              onInput={handleInputs}
+              onInput={inputHandler}
               required
             />
           </div>
@@ -177,7 +195,7 @@ const Productos = () => {
               name='catId'
               id='catId'
               className='input'
-              onChange={handleInputs}
+              onChange={inputHandler}
               required
             >
               <option value=''>Seleccione una Categoria</option>
@@ -194,7 +212,7 @@ const Productos = () => {
               accept='image/*'
               id='prodImg'
               className='inputFile'
-              onInput={handleInputs}
+              onChange={handleFiles}
             />
           </div>
         </div>
