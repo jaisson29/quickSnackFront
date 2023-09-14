@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import './productos.css';
+import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Productos = () => {
   const { urlApi, authToken } = useAuth();
+  const inputFileRef = useRef(null);
 
   const [productos, setProductos] = useState([]);
   const [file, setFile] = useState(null);
@@ -33,65 +35,108 @@ const Productos = () => {
   }, [urlApi, authToken, tablaActualizada]);
 
   const [prodData, setProdData] = useState({
+    prodId: '',
     prodNom: '',
     prodDescr: '',
-    prodImg: 'assets/defaultProd.jpg',
+    prodImg: '',
     prodValCom: '',
     prodValVen: '',
     catId: '',
   });
 
   const formData = new FormData();
+  formData.append('prodId', prodData.prodId);
   formData.append('prodNom', prodData.prodNom);
   formData.append('prodDescr', prodData.prodDescr);
   formData.append('prodValCom', prodData.prodValCom);
   formData.append('prodValVen', prodData.prodValVen);
   formData.append('catId', prodData.catId);
-  formData.append('prodImg', file);
+  formData.append('prodImg', file ? file : prodData.prodImg);
 
   function inputHandler(event) {
     setProdData({
       ...prodData,
       [event.target.name]: event.target.value,
     });
-
-    console.log(prodData);
   }
   function handleFiles(event) {
     setFile(event.target.files[0]);
   }
 
-  function nuevoProd(e) {
+  function formHandler(e) {
     e.preventDefault();
 
-    axios
-      .post(`${urlApi}/api/producto/create`, formData, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((respuesta) => {
-        console.log('nuevo producto', respuesta);
-        setTablaActualizada(!tablaActualizada);
-        setCargando(true);
-        setProdData({
-          prodNom: '',
-          prodDescr: '',
-          prodImg: 'assets/defaultProd.jpg',
-          prodValCom: '',
-          prodValVen: '',
-          catId: '',
+    if (prodData.prodId) {
+      axios
+        .put(`${urlApi}/api/producto/update`, formData, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setTablaActualizada(!tablaActualizada);
+          setCargando(true);
+          setProdData({
+            prodId: '',
+            prodNom: '',
+            prodDescr: '',
+            prodValCom: '',
+            prodValVen: '',
+            catId: '',
+          });
+          // Aquí vaciamos el campo de entrada de archivo
+          setFile(null);
+          // document.getElementById('prodImg').value = '';
+          if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+          }
+        })
+        .catch((err) => {
+          console.log('error', err);
         });
-      })
-      .catch((err) => {
-        console.log('Error al crear el producto', err);
-      });
+    } else {
+      axios
+        .post(`${urlApi}/api/producto/create`, formData, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((respuesta) => {
+          console.log('nuevo producto', respuesta);
+          setTablaActualizada(!tablaActualizada);
+          setCargando(true);
+          setProdData({
+            prodId: '',
+            prodNom: '',
+            prodDescr: '',
+            prodValCom: '',
+            prodValVen: '',
+            catId: '',
+          });
+          // Aquí vaciamos el campo de entrada de archivo
+          setFile(null);
+          // document.getElementById('prodImg').value = '';
+          if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+          }
+        })
+        .catch((err) => {
+          console.log('Error al crear el producto', err);
+        });
+    }
   }
 
   function editarProd(id) {
-    console.log(id);
-    return id;
+    const prod = productos.find((p) => p.prodId === id);
+    setProdData({
+      ...prod,
+      prodId: id,
+      catId: prod.catId,
+    });
+    $('#catId').val(prod.catId);
   }
 
   function eliminarProd(id) {
@@ -112,21 +157,10 @@ const Productos = () => {
     return id;
   }
 
-  // const ExpandedComponent = ({ data }) => (
-  //   <>
-  //     <Button onClick={() => editarProd(data.prodNom)}>
-  //       <i className='fa-solid fa-pen'></i>
-  //     </Button>
-  //     <Button onClick={() => eliminarProd(data.prodId)}>
-  //       <i className='fa-solid fa-trash'></i>
-  //     </Button>
-  //   </>
-  // );
-
   return (
     <>
       {error ? <Error /> : null}
-      <form method='post' onSubmit={nuevoProd} encType='multipart/form-data'>
+      <form method='post' onSubmit={formHandler} encType='multipart/form-data'>
         <div className='row'>
           <div className='w-full md:w-1/2'>
             <label htmlFor='prodNom' className='form-label'>
@@ -213,12 +247,17 @@ const Productos = () => {
               id='prodImg'
               className='inputFile'
               onChange={handleFiles}
+              ref={inputFileRef} // Referencia al campo de entrada de archivo
             />
           </div>
         </div>
         <div className='row'>
           <Button>
-            <input id='prodSubBtn' type='submit' value='Crear' />
+            <input
+              id='prodSubBtn'
+              type='submit'
+              value={prodData.prodId ? 'Actualizar' : 'Crear'}
+            />
           </Button>
         </div>
       </form>
@@ -228,8 +267,6 @@ const Productos = () => {
         <DataTable
           key={tablaActualizada ? 'actualizada' : 'no actualizada'}
           title={'Productos'}
-          // expandableRows
-          // expandableRowsComponent={ExpandedComponent}
           data={productos}
           columns={[
             {
@@ -253,7 +290,6 @@ const Productos = () => {
               sortable: true,
             },
             {
-              // name: 'Acciones',
               cell: (row) => (
                 <>
                   <Button onClick={() => editarProd(row.prodId)}>
