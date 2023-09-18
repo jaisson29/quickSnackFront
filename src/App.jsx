@@ -9,6 +9,7 @@ import Menu from './pages/menu/Menu.jsx';
 import { AuthProvider } from './components/Auth/Autenticacion.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import Productos from './pages/productos/Productos.jsx';
+import Compra from './pages/compra/Compra.jsx';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           path='/productos'
           element={<ProtectedRoute children={<Productos />} />}
         />
+        <Route path='/compra' element={<ProtectedRoute children={<Compra/>}/>}/>
         <Route path='*' element={<PageNotFound />} />
       </Routes>
     </AuthProvider>
