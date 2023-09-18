@@ -8,7 +8,7 @@ export const ProtectedRoute = ({ children }) => {
   return authToken ? (
     <>
       <NavBar />
-      <section className='absolute right-0 z-0 float-right h-full px-3 mx-1 w-21/24 md:w-22/24'>
+      <section className='right-0 z-0 float-right h-full px-3 mx-1 w-21/24 md:w-22/24'>
         <Header></Header>
         <main className='w-full h-full md:w-full'>{children}</main>
       </section>
