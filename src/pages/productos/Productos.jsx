@@ -75,7 +75,6 @@ const Productos = () => {
         .put(`${urlApi}/api/producto/update`, formData, {
           headers: {
             Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'multipart/form-data',
           },
         })
         .then((res) => {
