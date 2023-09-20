@@ -1,21 +1,41 @@
-import { useState } from 'react'
-import './historial.css'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import './historial.css';
+import { useAuth } from '../../components/Auth/Autenticacion';
 
 const Historial = ({ nom }) => {
-  const [dominios, setDominios] = useState(['camilo', 'daniel', 'duvan'])
+  const { urlApi, user, authToken } = useAuth();
+  const [usuTransacs, setUsuTransacs] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${urlApi}/api/transac/getByUser/${user.usuId}`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((res) => {
+        setUsuTransacs(res.data);
+      })
+      .catch((err) => {
+        console.log('error', err);
+      });
+  }, [urlApi, authToken, user]);
 
   return (
     <>
-      {dominios.map(function (dom) {
-        return (
-          <>
-            <p>{dom}</p>
-            <p>{nom}</p>
-          </>
-        )
-      })}
+      {usuTransacs.length === 0
+        ? usuTransacs.map(function (trs) {
+            console.log(trs);
+            return (
+              <>
+                <p>{trs}</p>
+                <p>{trs.transacCant}</p>
+                <p>{trs.transacFecha}</p>
+              </>
+            );
+          })
+        : null}
     </>
-  )
-}
+  );
+};
 
-export default Historial
+export default Historial;
