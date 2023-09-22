@@ -10,6 +10,7 @@ import Historial from './pages/historial/Historial.jsx'
 import { AuthProvider } from './components/Auth/Autenticacion.jsx'
 import { ProtectedRoute } from './components/ProtectedRoute.jsx'
 import Productos from './pages/productos/Productos.jsx'
+import Compra from './pages/compra/Compra.jsx'
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
         <Route
           path="/historial"
           element={<ProtectedRoute children={<Historial nom={'hola'} />} />}
+        />
+         <Route
+          path="/compra"
+          element={<ProtectedRoute children={<Compra nom={'hola'} />} />}
         />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
