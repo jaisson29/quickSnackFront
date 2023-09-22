@@ -45,10 +45,69 @@ const Categoria = () =>{
   function formHandler(e){
     e.preventDefault();
 
-    // if(catData.catid){
-    //     axios
-    //     .put(`${urlApi}/api/producto/update`)
-    // }
+    if(catData.catid){
+        axios
+        .put(`${urlApi}/api/catego/update`,{
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            },
+        })
+        .then((res) => {
+            setTablaActualizada(!tablaActualizada);
+            setCargando(true);
+            setCatData({
+                catId: '',
+                catNom: '',
+            });
+        })
+        .catch((err) => {
+            console.log('error', err);
+        });
+    }else {
+        axios
+        .post(`${urlApi}/api/catego/create`,{
+            headers: {
+                Authorization: `Bearer ${authToken}`,
+            },
+        })
+        .then((respuesta) => {
+            setTablaActualizada(!tablaActualizada);
+            setCargando(true);
+            setCatData({
+                catId: '',
+                catNom: '',
+            });
+        })
+        .catch((err) => {
+            console.log('Error al crear la categoria', err);
+        });
+    }
+  }
+  
+  function editar(id){
+    const cat = categoria.find((c) => c.catId === id);
+    setCatData({
+        ...cat,
+        catId: id,
+    })
+  }
+
+  function eliminar(id){
+    axios
+    .delete(`${urlApi}/api/catego/delete/${id}`,{
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        })
+        .then((respuesta) => {
+          console.log(respuesta);
+          setTablaActualizada(!tablaActualizada);
+          setCargando(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return id;
   }
   return(
     <>
@@ -69,12 +128,12 @@ const Categoria = () =>{
         {
           cell: (row) => (
             <>
-              {/* <Button onClick={() => editarProd(row.catId)}>
+              <Button onClick={() => editar(row.catId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
               <Button onClick={() => eliminar(row.catId)}>
                 <i className='fa-solid fa-trash'></i>
-              </Button> */}
+              </Button>
             </>
           ),
         },
