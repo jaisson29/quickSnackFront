@@ -85,7 +85,7 @@ const Productos = () => {
             prodValVen: '',
             catId: '',
           });
-          // Aquí vaciamos el campo de entrada de archivo
+          $('#catId').val('');
           setFile(null);
           // document.getElementById('prodImg').value = '';
           if (inputFileRef.current) {
@@ -115,7 +115,7 @@ const Productos = () => {
             prodValVen: '',
             catId: '',
           });
-          // Aquí vaciamos el campo de entrada de archivo
+          $('#catId').val('');
           setFile(null);
           // document.getElementById('prodImg').value = '';
           if (inputFileRef.current) {
