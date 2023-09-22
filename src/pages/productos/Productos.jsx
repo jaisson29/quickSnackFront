@@ -87,7 +87,6 @@ const Productos = () => {
           });
           $('#catId').val('');
           setFile(null);
-          // document.getElementById('prodImg').value = '';
           if (inputFileRef.current) {
             inputFileRef.current.value = '';
           }
@@ -253,6 +252,7 @@ const Productos = () => {
         <div className='row'>
           <Button>
             <input
+              className='cursor-pointer'
               id='prodSubBtn'
               type='submit'
               value={prodData.prodId ? 'Actualizar' : 'Crear'}
@@ -264,9 +264,9 @@ const Productos = () => {
         <Cargando />
       ) : (
         <DataTable
-          key={tablaActualizada ? 'actualizada' : 'no actualizada'}
           title={'Productos'}
           data={productos}
+          pagination
           columns={[
             {
               name: 'Producto',
@@ -301,7 +301,6 @@ const Productos = () => {
               ),
             },
           ]}
-          pagination
         />
       )}
     </>
