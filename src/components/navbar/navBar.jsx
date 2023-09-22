@@ -12,9 +12,11 @@ function NavBar() {
 
   useEffect(() => {
     axios
-      .get(`${urlApi}/api/pagina/getAll`)
+      .get(`${urlApi}/api/pagina/getAll/${user.perfilId}`)
       .then((respuesta) => {
-        setPaginas(respuesta.data);
+        if (respuesta.data.length !== 0) {
+          setPaginas(respuesta.data);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -33,32 +35,34 @@ function NavBar() {
           alt=''
         />
         <ul className='h-full rtl:mr-2 row-span-4 py-4 overflow-x-hidden overflow-y-auto text-sm list-none'>
-          {paginas.length > 0 ? (
+          {paginas.length !== 0 ? (
             paginas.map((pg) => {
               const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg;
               const { perfilId } = user;
-              return (
-                <li
-                  id={paginaId}
-                  key={paginaId}
-                  className={`font-bold menuItem ${
-                    location.pathname === paginaRuta ? 'acti' : ''
-                  }`}
-                >
-                  <Link
-                    className='flex items-center justify-center w-full h-full gap-2'
-                    to={paginaRuta}
+              if (perfilId === pg.perfilId) {
+                return (
+                  <li
+                    id={paginaId}
+                    key={paginaId}
+                    className={`font-bold menuItem ${
+                      location.pathname === paginaRuta ? 'acti' : ''
+                    }`}
                   >
-                    <span className='hidden text-ellipsis'>{paginaNom}</span>
-                    <i className={`fa ${paginaIcon} fa-xl `}></i>
-                  </Link>
-                </li>
-              );
+                    <Link
+                      className='flex items-center justify-center w-full h-full gap-2'
+                      to={paginaRuta}
+                    >
+                      <span className='hidden text-ellipsis'>{paginaNom}</span>
+                      <i className={`fa ${paginaIcon} fa-xl `}></i>
+                    </Link>
+                  </li>
+                );
+              }
             })
           ) : (
             <Cargando />
           )}
-          <li key={0} className='menuItem' onClick={logout}>
+          <li key={0} className='menuItem mt-10' onClick={logout}>
             <div>
               <i className='fa fa-power-off fa-lg menuItem'></i>
               <span className='hidden'>Salir</span>
