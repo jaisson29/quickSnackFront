@@ -25,14 +25,14 @@ function NavBar() {
   const location = useLocation();
 
   return (
-    <aside className='fixed left-0 z-10 h-full p-1 transition-all w-3/24 sm:w-2/24 sm:hover:w-3/24 lg:w-1/24 md:hover:w-4/24 lg:hover:w-3/24'>
-      <nav className='grid h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg w-full bg-clRoj'>
+    <aside className='fixed left-0 z-10 h-full p-1 transition-all w-4/24 sm:w-2/24 sm:hover:w-3/24 lg:w-1/24 md:hover:w-4/24 lg:hover:w-3/24'>
+      <nav className='grid rtl w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg bg-clRoj'>
         <img
           className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24'
           src={Logo}
           alt=''
         />
-        <ul className='h-full row-span-4 py-4 overflow-x-hidden overflow-y-auto text-sm list-none'>
+        <ul className='h-full rtl:mr-2 row-span-4 py-4 overflow-x-hidden overflow-y-auto text-sm list-none'>
           {paginas.length > 0 ? (
             paginas.map((pg) => {
               const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg;
@@ -49,8 +49,8 @@ function NavBar() {
                     className='flex items-center justify-center w-full h-full gap-2'
                     to={paginaRuta}
                   >
-                    <i className={`fa ${paginaIcon} fa-xl `}></i>
                     <span className='hidden text-ellipsis'>{paginaNom}</span>
+                    <i className={`fa ${paginaIcon} fa-xl `}></i>
                   </Link>
                 </li>
               );

@@ -23,7 +23,6 @@ function Registro() {
 
   const crearUsu = (e) => {
     e.preventDefault();
-
     axios
       .post(`${urlApi}/api/login/crearUsu`, usuData, {
         headers: { Authorization: `Bearer ${authToken}` },
