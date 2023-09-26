@@ -35,12 +35,12 @@ const Historial = ({ nom }) => {
     <>
       <Monto></Monto>
 
-      <section className='bg-slate-100 flex flex-col'>
+      <section className='flex flex-col bg-slate-100'>
         {error ? (
           <Error
             mensaje={error}
             estilos={'bg-red-200 ring-red-400'}
-            onclick={() => setError('')}
+            onClick={() => setError('')}
           />
         ) : null}
         {cargando ? (
@@ -51,22 +51,22 @@ const Historial = ({ nom }) => {
           usuTransacs.map(function (trs) {
             let dt = trs.transacFecha.split('T');
             return (
-              <div className='flex items-center px-4 gap-7'>
+              <div key={trs.transacId} className='flex items-center px-4 gap-7'>
                 <div
                   className={`rounded-full ${
-                    trs.catId !== 1 ? 'bg-green-600' : 'bg-red-600'
+                    trs.transacTipo === 6 ? 'bg-green-600' : 'bg-red-600'
                   } w-6 h-6 text-center ring-2 ${
-                    trs.catId !== 1 ? 'ring-green-600' : 'ring-red-600'
+                    trs.transacTipo === 6 ? 'ring-green-600' : 'ring-red-600'
                   } ring-offset-2`}
                 >
                   <i
                     className={`fa fa-${
-                      trs.catId !== 1 ? 'plus' : 'minus'
+                      trs.transacTipo === 6 ? 'plus' : 'minus'
                     } text-white`}
                   ></i>
                 </div>
                 <div>
-                  <p>{`${trs.catId !== 1 ? '' : '-'}${trs.tot}`}</p>
+                  <p>{`${trs.transacTipo === 6 ? trs.tot : -trs.tot}`}</p>
                   <p>{dt[0] + ' ' + dt[1].split('.')[0]}</p>
                 </div>
               </div>

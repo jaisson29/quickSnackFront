@@ -34,7 +34,7 @@ const Productos = () => {
         setError(err.message);
       });
     axios
-      .get(`${urlApi}/api/producto/getAll`, {
+      .get(`${urlApi}/api/catego/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       .then((res) => {
@@ -244,7 +244,11 @@ const Productos = () => {
               <option value=''>Seleccione una Categoria</option>
               {categorias.length !== 0
                 ? categorias.map((cat) => {
-                    return <option value={cat.catId}>{cat.catNom}</option>;
+                    return (
+                      <option key={cat.catId} value={cat.catId}>
+                        {cat.catNom}
+                      </option>
+                    );
                   })
                 : null}
             </select>
@@ -282,6 +286,8 @@ const Productos = () => {
           title={'Productos'}
           data={productos}
           pagination
+          progressPending={cargando}
+          progressComponent={<Cargando />}
           columns={[
             {
               name: 'Producto',
@@ -306,10 +312,16 @@ const Productos = () => {
             {
               cell: (row) => (
                 <>
-                  <Button onClick={() => editarProd(row.prodId)}>
+                  <Button
+                    key={`editar-${row.prodId}`}
+                    onClick={() => editarProd(row.prodId)}
+                  >
                     <i className='fa-solid fa-pen'></i>
                   </Button>
-                  <Button onClick={() => eliminarProd(row.prodId)}>
+                  <Button
+                    key={`eliminar-${row.prodId}`}
+                    onClick={() => eliminarProd(row.prodId)}
+                  >
                     <i className='fa-solid fa-trash'></i>
                   </Button>
                 </>
