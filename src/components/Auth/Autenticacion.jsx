@@ -7,6 +7,7 @@ export function AuthProvider({ children }) {
   const [authToken, setAuthToken] = useState(sessionStorage.getItem('token'));
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
   const [isAuth, setIsAuth] = useState(false);
+  const [balance, setBalance] = useState(0);
   const urlApi = 'http://localhost:5000';
 
   const login = async (token) => {
@@ -72,6 +73,8 @@ export function AuthProvider({ children }) {
       value={{
         authToken,
         user,
+        balance,
+        setBalance,
         isAuth,
         login,
         logout,

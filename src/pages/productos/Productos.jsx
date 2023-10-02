@@ -13,6 +13,7 @@ const Productos = () => {
   const inputFileRef = useRef(null);
 
   const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
   const [file, setFile] = useState(null);
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
@@ -31,6 +32,16 @@ const Productos = () => {
       .catch((err) => {
         setCargando(false);
         setError(err.message);
+      });
+    axios
+      .get(`${urlApi}/api/catego/getAll`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((res) => {
+        setCategorias(res.data);
+      })
+      .catch(() => {
+        setError('No se pudo obtener las categorías');
       });
   }, [urlApi, authToken, tablaActualizada]);
 
@@ -87,7 +98,6 @@ const Productos = () => {
           });
           $('#catId').val('');
           setFile(null);
-          // document.getElementById('prodImg').value = '';
           if (inputFileRef.current) {
             inputFileRef.current.value = '';
           }
@@ -232,7 +242,15 @@ const Productos = () => {
               required
             >
               <option value=''>Seleccione una Categoria</option>
-              <option value='2'>Bebidas</option>
+              {categorias.length !== 0
+                ? categorias.map((cat) => {
+                    return (
+                      <option key={cat.catId} value={cat.catId}>
+                        {cat.catNom}
+                      </option>
+                    );
+                  })
+                : null}
             </select>
           </div>
           <div className='w-full md:w-1/2'>
@@ -253,6 +271,7 @@ const Productos = () => {
         <div className='row'>
           <Button>
             <input
+              className='cursor-pointer'
               id='prodSubBtn'
               type='submit'
               value={prodData.prodId ? 'Actualizar' : 'Crear'}
@@ -264,9 +283,11 @@ const Productos = () => {
         <Cargando />
       ) : (
         <DataTable
-          key={tablaActualizada ? 'actualizada' : 'no actualizada'}
           title={'Productos'}
           data={productos}
+          pagination
+          progressPending={cargando}
+          progressComponent={<Cargando />}
           columns={[
             {
               name: 'Producto',
@@ -291,17 +312,22 @@ const Productos = () => {
             {
               cell: (row) => (
                 <>
-                  <Button onClick={() => editarProd(row.prodId)}>
+                  <Button
+                    key={`editar-${row.prodId}`}
+                    onClick={() => editarProd(row.prodId)}
+                  >
                     <i className='fa-solid fa-pen'></i>
                   </Button>
-                  <Button onClick={() => eliminarProd(row.prodId)}>
+                  <Button
+                    key={`eliminar-${row.prodId}`}
+                    onClick={() => eliminarProd(row.prodId)}
+                  >
                     <i className='fa-solid fa-trash'></i>
                   </Button>
                 </>
               ),
             },
           ]}
-          pagination
         />
       )}
     </>
