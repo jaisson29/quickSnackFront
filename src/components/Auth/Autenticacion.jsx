@@ -1,17 +1,17 @@
-import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from 'axios'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
-const AuthContext = createContext();
+const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
-  const [authToken, setAuthToken] = useState(sessionStorage.getItem('token'));
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
-  const [isAuth, setIsAuth] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const urlApi = 'http://localhost:5000';
+  const [authToken, setAuthToken] = useState(sessionStorage.getItem('token'))
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')))
+  const [isAuth, setIsAuth] = useState(false)
+  const [balance, setBalance] = useState(0)
+  const urlApi = 'http://localhost:5000'
 
   const login = async (token) => {
-    setAuthToken(token);
+    setAuthToken(token)
     axios
       .get(`${urlApi}/api/login/verify`, {
         headers: {
@@ -20,24 +20,24 @@ export function AuthProvider({ children }) {
         },
       })
       .then((respuesta) => {
-        const decodedToken = respuesta.data;
-        sessionStorage.setItem('token', token);
-        sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
-        setAuthToken(sessionStorage.getItem('token'));
-        setUser(JSON.parse(sessionStorage.getItem('user')));
-        setIsAuth(true);
+        const decodedToken = respuesta.data
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]))
+        setAuthToken(sessionStorage.getItem('token'))
+        setUser(JSON.parse(sessionStorage.getItem('user')))
+        setIsAuth(true)
       })
       .catch((error) => {
-        console.error('Error verificando el token', error);
-      });
-  };
+        console.error('Error verificando el token', error)
+      })
+  }
 
   const logout = () => {
-    sessionStorage.clear();
-    setAuthToken(null);
-    setUser(null);
-    setIsAuth(false);
-  };
+    sessionStorage.clear()
+    setAuthToken(null)
+    setUser(null)
+    setIsAuth(false)
+  }
 
   const verifyToken = async (token) => {
     try {
@@ -45,29 +45,30 @@ export function AuthProvider({ children }) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
-      const decodedToken = response.data;
-      sessionStorage.setItem('token', token);
-      sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
-      setAuthToken(sessionStorage.getItem('token'));
-      setUser(JSON.parse(sessionStorage.getItem('user')));
-      setIsAuth(true);
+      })
+      const decodedToken = response.data
+      sessionStorage.setItem('token', token)
+      sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]))
+      setAuthToken(sessionStorage.getItem('token'))
+      setUser(JSON.parse(sessionStorage.getItem('user')))
+      setIsAuth(true)
     } catch (error) {
-      console.error('Error verificando el token', error);
-      logout();
+      console.error('Error verificando el token', error)
+      logout()
     }
-  };
+  }
 
   useEffect(() => {
     // Verificar el token solo si hay un token almacenado en sessionStorage.
     if (authToken) {
-      verifyToken(authToken);
+      verifyToken(authToken)
     }
-  }, [authToken]);
+  }, [authToken])
 
   useEffect(() => {
-    authToken && user ? setIsAuth(true) : logout();
-  }, [authToken, user]);
+    authToken && user ? setIsAuth(true) : logout()
+    setBalance(0)
+  }, [authToken, user])
   return (
     <AuthContext.Provider
       value={{
@@ -83,9 +84,9 @@ export function AuthProvider({ children }) {
     >
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  return useContext(AuthContext)
 }
