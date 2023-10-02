@@ -29,6 +29,10 @@ function App() {
           path='/productos'
           element={<ProtectedRoute children={<Productos />} />}
         />
+         <Route
+          path='/compra'
+          element={<ProtectedRoute children={<Compra />} />}
+        />
         <Route
           path='/historial'
           element={<ProtectedRoute children={<Historial />} />}
