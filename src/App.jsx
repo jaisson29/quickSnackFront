@@ -12,6 +12,7 @@ import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import Productos from './pages/productos/Productos.jsx';
 import Categoria from './pages/categoria/Categoria.jsx';
 import Compra from './pages/compra/Compra.jsx'
+import Usuarios from './pages/usuario/Usuario.jsx'
 
 function App() {
   return (
@@ -41,6 +42,10 @@ function App() {
         <Route
           path='/categorias'
           element={<ProtectedRoute children={<Categoria />} />}
+        />
+        <Route
+          path='/usuarios'
+          element={<ProtectedRoute children={<Usuarios />} />}
         />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
