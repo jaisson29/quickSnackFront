@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../../components/Auth/Autenticacion'
 import axios from 'axios'
@@ -9,348 +11,336 @@ import Error from '../../components/error/Error'
 import Cargando from '../../components/cargando/Cargando'
 
 const Productos = () => {
-  const { urlApi, authToken } = useAuth()
-  const inputFileRef = useRef(null)
+	const { urlApi, authToken } = useAuth()
+	const inputFileRef = useRef(null)
 
-  const [productos, setProductos] = useState([])
-  const [categorias, setCategorias] = useState([])
-  const [valEli, setValEli] = useState([])
-  const [file, setFile] = useState(null)
-  const [tablaActualizada, setTablaActualizada] = useState(true)
-  const [cargando, setCargando] = useState(true)
-  const [error, setError] = useState('')
+	const [productos, setProductos] = useState([])
+	const [categorias, setCategorias] = useState([])
+	const [valEli, setValEli] = useState([])
+	const [file, setFile] = useState(null)
+	const [tablaActualizada, setTablaActualizada] = useState(true)
+	const [cargando, setCargando] = useState(true)
+	const [error, setError] = useState('')
 
-  useEffect(() => {
-    setCargando(true)
-    axios
-      .get(`${urlApi}/api/producto/getAll`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      })
-      .then((respuesta) => {
-        setCargando(false)
-        setProductos(respuesta.data)
-      })
-      .catch((err) => {
-        setCargando(false)
-        setError(err.message)
-      })
+	useEffect(() => {
+		setCargando(true)
+		axios
+			.get(`${urlApi}/api/producto/getAll`, {
+				headers: { Authorization: `Bearer ${authToken}` },
+			})
+			.then((respuesta) => {
+				setCargando(false)
+				setProductos(respuesta.data)
+			})
+			.catch((err) => {
+				setCargando(false)
+				setError(err.message)
+			})
 
-    axios
-      .get(`${urlApi}/api/catego/getAll`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      })
-      .then((res) => {
-        setCategorias(res.data)
-      })
-      .catch(() => {
-        setError('No se pudo obtener las categorías')
-      })
+		axios
+			.get(`${urlApi}/api/catego/getAll`, {
+				headers: { Authorization: `Bearer ${authToken}` },
+			})
+			.then((res) => {
+				setCategorias(res.data)
+			})
+			.catch(() => {
+				setError('No se pudo obtener las categorías')
+			})
 
-    axios
-      .get(`${urlApi}/api/producto/getVenXProd`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      })
-      .then((result) => {
-        const fnList = []
-        result.data.map((element) => {
-          fnList.push(element.prodId)
-        })
-        setValEli(fnList)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [urlApi, authToken, tablaActualizada])
+		axios
+			.get(`${urlApi}/api/producto/getVenXProd`, {
+				headers: { Authorization: `Bearer ${authToken}` },
+			})
+			.then((result) => {
+				const fnList = []
+				result.data.map((element) => {
+					fnList.push(element.prodId)
+				})
+				setValEli(fnList)
+			})
 
-  const [prodData, setProdData] = useState({
-    prodId: '',
-    prodNom: '',
-    prodDescr: '',
-    prodImg: '',
-    prodValCom: '',
-    prodValVen: '',
-    catId: '',
-  })
+			.catch((err) => {
+				console.log(err)
+			})
+	}, [urlApi, authToken, tablaActualizada])
 
-  const formData = new FormData()
-  formData.append('prodId', prodData.prodId)
-  formData.append('prodNom', prodData.prodNom)
-  formData.append('prodDescr', prodData.prodDescr)
-  formData.append('prodValCom', prodData.prodValCom)
-  formData.append('prodValVen', prodData.prodValVen)
-  formData.append('catId', prodData.catId)
-  formData.append('prodImg', file ? file : prodData.prodImg)
+	const [prodData, setProdData] = useState({
+		prodId: '',
+		prodNom: '',
+		prodDescr: '',
+		prodImg: '',
+		prodValCom: '',
+		prodValVen: '',
+		catId: '',
+	})
 
-  function inputHandler(event) {
-    setProdData({
-      ...prodData,
-      [event.target.name]: event.target.value,
-    })
-  }
-  function handleFiles(event) {
-    setFile(event.target.files[0])
-  }
+	const formData = new FormData()
+	formData.append('prodId', prodData.prodId)
+	formData.append('prodNom', prodData.prodNom)
+	formData.append('prodDescr', prodData.prodDescr)
+	formData.append('prodValCom', prodData.prodValCom)
+	formData.append('prodValVen', prodData.prodValVen)
+	formData.append('catId', prodData.catId)
+	formData.append('prodImg', file ? file : prodData.prodImg)
 
-  function formHandler(e) {
-    e.preventDefault()
+	function inputHandler(event) {
+		setProdData({
+			...prodData,
+			[event.target.name]: event.target.value,
+		})
+	}
+	function handleFiles(event) {
+		setFile(event.target.files[0])
+	}
 
-    if (prodData.prodId) {
-      axios
-        .put(`${urlApi}/api/producto/update`, formData, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        })
-        .then((res) => {
-          console.log(res)
-          setTablaActualizada(!tablaActualizada)
-          setCargando(true)
-          setProdData({
-            prodId: '',
-            prodNom: '',
-            prodDescr: '',
-            prodValCom: '',
-            prodValVen: '',
-            catId: '',
-          })
-          $('#catId').val('')
-          setFile(null)
-          if (inputFileRef.current) {
-            inputFileRef.current.value = ''
-          }
-        })
-        .catch((err) => {
-          console.log('error', err)
-        })
-    } else {
-      axios
-        .post(`${urlApi}/api/producto/create`, formData, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then((respuesta) => {
-          console.log('nuevo producto', respuesta)
-          setTablaActualizada(!tablaActualizada)
-          setCargando(true)
-          setProdData({
-            prodId: '',
-            prodNom: '',
-            prodDescr: '',
-            prodValCom: '',
-            prodValVen: '',
-            catId: '',
-          })
-          $('#catId').val('')
-          setFile(null)
-          // document.getElementById('prodImg').value = '';
-          if (inputFileRef.current) {
-            inputFileRef.current.value = ''
-          }
-        })
-        .catch((err) => {
-          console.log('Error al crear el producto', err)
-        })
-    }
-  }
+	function formHandler(e) {
+		e.preventDefault()
 
-  function editarProd(id) {
-    const prod = productos.find((p) => p.prodId === id)
-    setProdData({
-      ...prod,
-      prodId: id,
-      catId: prod.catId,
-    })
-    $('#catId').val(prod.catId)
-  }
+		if (prodData.prodId) {
+			axios
+				.put(`${urlApi}/api/producto/update`, formData, {
+					headers: {
+						Authorization: `Bearer ${authToken}`,
+					},
+				})
+				.then((res) => {
+					console.log(res)
+					setTablaActualizada(!tablaActualizada)
+					setCargando(true)
+					setProdData({
+						prodId: '',
+						prodNom: '',
+						prodDescr: '',
+						prodValCom: '',
+						prodValVen: '',
+						catId: '',
+					})
+					$('#catId').val('')
+					setFile(null)
+					if (inputFileRef.current) {
+						inputFileRef.current.value = ''
+					}
+				})
+				.catch((err) => {
+					console.log('error', err)
+				})
+		} else {
+			axios
+				.post(`${urlApi}/api/producto/create`, formData, {
+					headers: {
+						Authorization: `Bearer ${authToken}`,
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+				.then((respuesta) => {
+					console.log('nuevo producto', respuesta)
+					setTablaActualizada(!tablaActualizada)
+					setCargando(true)
+					setProdData({
+						prodId: '',
+						prodNom: '',
+						prodDescr: '',
+						prodValCom: '',
+						prodValVen: '',
+						catId: '',
+					})
+					$('#catId').val('')
+					setFile(null)
+					// document.getElementById('prodImg').value = '';
+					if (inputFileRef.current) {
+						inputFileRef.current.value = ''
+					}
+				})
+				.catch((err) => {
+					console.log('Error al crear el producto', err)
+				})
+		}
+	}
 
-  function eliminarProd(id) {
-    axios
-      .delete(`${urlApi}/api/producto/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
-      .then((respuesta) => {
-        console.log(respuesta)
-        setTablaActualizada(!tablaActualizada)
-        setCargando(true)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-    return id
-  }
+	function editarProd(id) {
+		const prod = productos.find((p) => p.prodId === id)
+		setProdData({
+			...prod,
+			prodId: id,
+			catId: prod.catId,
+		})
+		$('#catId').val(prod.catId)
+	}
 
-  return (
-    <>
-      {error ? <Error /> : null}
-      <form method="post" onSubmit={formHandler} encType="multipart/form-data">
-        <div className="row">
-          <div className="w-full md:w-1/2">
-            <label htmlFor="prodNom" className="form-label">
-              Nombre de el producto
-            </label>
-            <input
-              type="text"
-              name="prodNom"
-              id="prodNom"
-              className="input"
-              onInput={inputHandler}
-              value={prodData.prodNom}
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/2">
-            <label htmlFor="prodDescr" className="form-label">
-              Descripción
-            </label>
-            <input
-              type="text"
-              name="prodDescr"
-              id="prodDescr"
-              className="input"
-              value={prodData.prodDescr}
-              onInput={inputHandler}
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/2">
-            <label htmlFor="prodValCom" className="form-label">
-              Precio de compra
-            </label>
-            <input
-              type="number"
-              step={'any'}
-              name="prodValCom"
-              id="prodValCom"
-              className="input"
-              value={prodData.prodValCom}
-              onInput={inputHandler}
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/2">
-            <label htmlFor="prodValVen" className="form-label">
-              Precio de Venta
-            </label>
-            <input
-              type="number"
-              step={'any'}
-              name="prodValVen"
-              id="prodValVen"
-              className="input"
-              value={prodData.prodValVen}
-              onInput={inputHandler}
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/2">
-            <label htmlFor="catId" className="form-label">
-              Categoria
-            </label>
-            <select
-              type="number"
-              name="catId"
-              id="catId"
-              className="input"
-              onChange={inputHandler}
-              required
-            >
-              <option value="">Seleccione una Categoria</option>
-              {categorias.length !== 0
-                ? categorias.map((cat) => {
-                    return (
-                      <option key={cat.catId} value={cat.catId}>
-                        {cat.catNom}
-                      </option>
-                    )
-                  })
-                : null}
-            </select>
-          </div>
-          <div className="w-full md:w-1/2">
-            <label htmlFor="prodImg" className="form-label">
-              Subir una imagen
-            </label>
-            <input
-              type="file"
-              name="prodImg"
-              accept="image/*"
-              id="prodImg"
-              className="inputFile"
-              onChange={handleFiles}
-              ref={inputFileRef} // Referencia al campo de entrada de archivo
-            />
-          </div>
-        </div>
-        <div className="row">
-          <Button>
-            <input
-              className="cursor-pointer"
-              id="prodSubBtn"
-              type="submit"
-              value={prodData.prodId ? 'Actualizar' : 'Crear'}
-            />
-          </Button>
-        </div>
-      </form>
-      {cargando ? (
-        <Cargando />
-      ) : (
-        <DataTable
-          title={'Productos'}
-          data={productos}
-          pagination
-          progressPending={cargando}
-          progressComponent={<Cargando />}
-          columns={[
-            {
-              name: 'Producto',
-              selector: (row) => (
-                <>
-                  <p>{row.prodNom}</p>
-                  <p>{row.prodDescr}</p>
-                </>
-              ),
-              sortable: true,
-            },
-            {
-              name: 'Precio de compra',
-              selector: (row) => row.prodValCom,
-              sortable: true,
-            },
-            {
-              name: 'Precio de venta',
-              selector: (row) => row.prodValVen,
-              sortable: true,
-            },
-            {
-              cell: (row) => (
-                <>
-                  <Button
-                    key={`editar-${row.prodId}`}
-                    onClick={() => editarProd(row.prodId)}
-                  >
-                    <i className="fa-solid fa-pen"></i>
-                  </Button>
-                  {valEli.indexOf(row.prodId) != -1 ? null : (
-                    <Button
-                      key={`eliminar-${row.prodId}`}
-                      onClick={() => eliminarProd(row.prodId)}
-                    >
-                      <i className="fa-solid fa-trash"></i>
-                    </Button>
-                  )}
-                </>
-              ),
-            },
-          ]}
-        />
-      )}
-    </>
-  )
+	function eliminarProd(id) {
+		axios
+			.delete(`${urlApi}/api/producto/delete/${id}`, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			})
+			.then((respuesta) => {
+				console.log(respuesta)
+				setTablaActualizada(!tablaActualizada)
+				setCargando(true)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		return id
+	}
+
+	return (
+		<>
+			{error ? <Error /> : null}
+			<form method='post' onSubmit={formHandler} encType='multipart/form-data'>
+				<div className='row'>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='prodNom' className='form-label'>
+							Nombre de el producto
+						</label>
+						<input
+							type='text'
+							name='prodNom'
+							id='prodNom'
+							className='input'
+							onInput={inputHandler}
+							value={prodData.prodNom}
+							required
+						/>
+					</div>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='prodDescr' className='form-label'>
+							Descripción
+						</label>
+						<input
+							type='text'
+							name='prodDescr'
+							id='prodDescr'
+							className='input'
+							value={prodData.prodDescr}
+							onInput={inputHandler}
+							required
+						/>
+					</div>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='prodValCom' className='form-label'>
+							Precio de compra
+						</label>
+						<input
+							type='number'
+							step={'any'}
+							name='prodValCom'
+							id='prodValCom'
+							className='input'
+							value={prodData.prodValCom}
+							onInput={inputHandler}
+							required
+						/>
+					</div>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='prodValVen' className='form-label'>
+							Precio de Venta
+						</label>
+						<input
+							type='number'
+							step={'any'}
+							name='prodValVen'
+							id='prodValVen'
+							className='input'
+							value={prodData.prodValVen}
+							onInput={inputHandler}
+							required
+						/>
+					</div>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='catId' className='form-label'>
+							Categoria
+						</label>
+						<select type='number' name='catId' id='catId' className='input' onChange={inputHandler} required>
+							<option value=''>Seleccione una Categoria</option>
+							{categorias.length !== 0
+								? categorias.map((cat) => {
+										return (
+											<option key={cat.catId} value={cat.catId}>
+												{cat.catNom}
+											</option>
+										)
+								  })
+								: null}
+						</select>
+					</div>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='prodImg' className='form-label'>
+							Subir una imagen
+						</label>
+						<input
+							type='file'
+							name='prodImg'
+							accept='image/*'
+							id='prodImg'
+							className='inputFile'
+							onChange={handleFiles}
+							ref={inputFileRef} // Referencia al campo de entrada de archivo
+						/>
+					</div>
+				</div>
+				<div className='row'>
+					<Button>
+						<input
+							className='cursor-pointer'
+							id='prodSubBtn'
+							type='submit'
+							value={prodData.prodId ? 'Actualizar' : 'Crear'}
+						/>
+					</Button>
+				</div>
+			</form>
+			{cargando ? (
+				<Cargando />
+			) : (
+				<DataTable
+					title={'Productos'}
+					data={productos}
+					pagination
+					progressPending={cargando}
+					progressComponent={<Cargando />}
+					columns={[
+						{
+							name: 'Producto',
+							selector: (row) => (
+								<>
+									<p>{row.prodNom}</p>
+									<p>{row.prodDescr}</p>
+								</>
+							),
+							sortable: true,
+						},
+						{
+							name: 'Precio de compra',
+							selector: (row) => row.prodValCom,
+							sortable: true,
+						},
+						{
+							name: 'Precio de venta',
+							selector: (row) => row.prodValVen,
+							sortable: true,
+						},
+						{
+							cell: (row) => (
+								<div className='text-center flex flex-row gap-5 ml-16'>
+									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
+										<i className='fa-solid fa-pen'></i>
+									</Button>
+									{valEli.indexOf(row.prodId) != -1 ? null : (
+										<Button key={`eliminar-${row.prodId}`} onClick={() => eliminarProd(row.prodId)}>
+											<i className='fa-solid fa-trash'></i>
+										</Button>
+									)}
+								</div>
+							),
+						},
+					]}
+				/>
+			)}
+		</>
+	)
 }
 
 export default Productos
