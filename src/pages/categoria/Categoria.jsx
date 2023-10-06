@@ -11,6 +11,7 @@ import Cargando from '../../components/cargando/Cargando';
 const Categoria = () =>{
     const { urlApi, authToken} = useAuth();
     const [categoria, setCategoria] = useState([]);
+    const [valEli, setvalEli] = useState([]);
     const [tablaActualizada, setTablaActualizada] = useState(true);
     const [error, setError] = useState('');
     const [cargando, setCargando] = useState(true);
@@ -18,7 +19,7 @@ const Categoria = () =>{
     useEffect(()=> {
         setCargando(true);
         axios
-      .get(`${urlApi}/api/Catego/getAll`, {
+      .get(`${urlApi}/api/catego/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       .then((respuesta) => {
@@ -27,6 +28,16 @@ const Categoria = () =>{
     })
       .catch((err) => {
         setCargando(false);
+        setError(err.message);
+      });
+      axios.get(`${urlApi}/api/catego/get`, {
+        headers: {Authorization: `Bearer ${authToken}` },
+      })
+      .then((respuesta) =>{
+        setvalEli(respuesta.data);
+        console.log(respuesta)
+      })
+      .catch((err) => {
         setError(err.message);
       });
   }, [urlApi, authToken, tablaActualizada]);
@@ -45,9 +56,9 @@ const Categoria = () =>{
   function formHandler(e){
     e.preventDefault();
 
-    if(catData.catid){
+    if(catData.catId){
         axios
-        .put(`${urlApi}/api/catego/update`,{
+        .put(`${urlApi}/api/catego/update`,catData,{
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
@@ -65,7 +76,7 @@ const Categoria = () =>{
         });
     }else {
         axios
-        .post(`${urlApi}/api/catego/create`,{
+        .post(`${urlApi}/api/catego/create`,catData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
@@ -111,7 +122,37 @@ const Categoria = () =>{
   }
   return(
     <>
-    <DataTable
+    {/* {error ? <Error /> : null} */}
+    <form method='post' onSubmit={formHandler}>
+      <div className='row'>
+        <div className='w-full md:w-1/2'>
+          <label htmlFor="catNom" className='form-label'>
+            Nombre de la categoria
+          </label>
+          <input type="text" 
+          name='catNom' 
+          id='catNom' 
+          className='input' 
+          onInput={inputHandler} 
+          value={catData.catNom} 
+          required
+          />
+        </div>
+        <div className='row'>
+          <Button>
+            <input 
+            className='cursor-pointer'
+            id='catSubBtn'
+            type="submit" 
+            value={catData.catId ? 'Actualizar' : 'Crear'}
+            />
+          </Button>
+        </div>
+      </div>
+    </form>
+    {cargando ? (
+      <Cargando />
+    ): (<DataTable
       key={tablaActualizada ? 'actualizada' : 'no actualizada'}
       title={'Categorias'}
       data={categoria}
@@ -131,15 +172,18 @@ const Categoria = () =>{
               <Button onClick={() => editar(row.catId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
-              <Button onClick={() => eliminar(row.catId)}>
+                
+                <Button onClick={() => eliminar(row.catId)}>
                 <i className='fa-solid fa-trash'></i>
               </Button>
+              
             </>
           ),
         },
       ]}
       pagination
     />
+  )}
 </>
 );
 };
