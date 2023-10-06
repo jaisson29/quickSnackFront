@@ -11,6 +11,7 @@ import { AuthProvider } from './components/Auth/Autenticacion.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import Productos from './pages/productos/Productos.jsx';
 import Categoria from './pages/categoria/Categoria.jsx';
+import Compra from './pages/compra/Compra.jsx'
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
           path='/productos'
           element={<ProtectedRoute children={<Productos />} />}
         />
+         <Route
+          path='/compra'
+          element={<ProtectedRoute children={<Compra />} />}
+        />
         <Route
           path='/historial'
           element={<ProtectedRoute children={<Historial />} />}
@@ -37,7 +42,7 @@ function App() {
           path='/categorias'
           element={<ProtectedRoute children={<Categoria />} />}
         />
-        <Route path='*' element={<PageNotFound />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </AuthProvider>
   );
