@@ -30,12 +30,15 @@ const Categoria = () =>{
         setCargando(false);
         setError(err.message);
       });
-      axios.get(`${urlApi}/api/catego/get`, {
+      axios.get(`${urlApi}/api/catego/getmxp`, {
         headers: {Authorization: `Bearer ${authToken}` },
       })
       .then((respuesta) =>{
-        setvalEli(respuesta.data);
-        console.log(respuesta)
+        const fnList = []
+        respuesta.data.map((element) =>{
+          fnList.push(element.catId)
+        })
+        setvalEli(fnList);
       })
       .catch((err) => {
         setError(err.message);
@@ -172,10 +175,12 @@ const Categoria = () =>{
               <Button onClick={() => editar(row.catId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
+                {valEli.indexOf(row.catId) != -1  ? null : (
+                    <Button onClick={() => eliminar(row.catId)}>
+                      <i className='fa-solid fa-trash'></i>
+                    </Button>
+                )}
                 
-                <Button onClick={() => eliminar(row.catId)}>
-                <i className='fa-solid fa-trash'></i>
-              </Button>
               
             </>
           ),
