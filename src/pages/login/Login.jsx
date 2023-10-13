@@ -1,5 +1,5 @@
 import Logo from '../../assets/logoQS.svg';
-import LogoNom from '../../assets/QSNom.png';
+import LogoNom from '../../assets/QSName.svg';
 import './login.css';
 import Button from '../../components/boton/Button.jsx';
 import { Link, Navigate, redirect } from 'react-router-dom';

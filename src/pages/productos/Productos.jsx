@@ -324,7 +324,7 @@ const Productos = () => {
 						},
 						{
 							cell: (row) => (
-								<div className='text-center flex flex-row gap-5 ml-16'>
+								<div className='flex flex-row gap-5 ml-16 text-center'>
 									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
 										<i className='fa-solid fa-pen'></i>
 									</Button>

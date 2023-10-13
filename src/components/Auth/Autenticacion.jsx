@@ -8,6 +8,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')))
   const [isAuth, setIsAuth] = useState(false)
   const [balance, setBalance] = useState(0)
+  const [cartItems, setCartItems] = useState([])
   const urlApi = 'http://localhost:5000'
 
   const login = async (token) => {
@@ -58,17 +59,14 @@ export function AuthProvider({ children }) {
     }
   }
 
+
   useEffect(() => {
-    // Verificar el token solo si hay un token almacenado en sessionStorage.
     if (authToken) {
       verifyToken(authToken)
     }
-  }, [authToken])
-
-  useEffect(() => {
     authToken && user ? setIsAuth(true) : logout()
     setBalance(0)
-  }, [authToken, user])
+  }, [authToken])
   return (
     <AuthContext.Provider
       value={{
@@ -80,6 +78,8 @@ export function AuthProvider({ children }) {
         login,
         logout,
         urlApi,
+        cartItems,
+        setCartItems
       }}
     >
       {children}

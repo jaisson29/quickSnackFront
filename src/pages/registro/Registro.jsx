@@ -2,7 +2,7 @@ import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/logoQS.svg';
 import './registro.css';
-import LogoNom from '../../assets/QSNom.png';
+import LogoNom from '../../assets/QSName.svg';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
 import axios from 'axios';
