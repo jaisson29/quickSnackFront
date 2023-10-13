@@ -11,6 +11,7 @@ import { AuthProvider } from './components/Auth/Autenticacion.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 import Productos from './pages/productos/Productos.jsx';
 import Categoria from './pages/categoria/Categoria.jsx';
+import Pagina from './pages/pagina/pagina.jsx';
 
 function App() {
   return (
@@ -36,6 +37,11 @@ function App() {
         <Route
           path='/categorias'
           element={<ProtectedRoute children={<Categoria />} />}
+        />
+        <Route path='*' element={<PageNotFound />} />
+        <Route
+          path='/paginas'
+          element={<ProtectedRoute children={<Pagina />} />}
         />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
