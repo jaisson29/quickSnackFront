@@ -11,7 +11,6 @@ const Usuarios = () => {
   const { urlApi, authToken } = useAuth();
   const inputFileRef = useRef(null);
   const [usuarios, setUsuarios] = useState([]);
-//   const [categorias, setCategorias] = useState([]);
   const [file, setFile] = useState(null);
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
@@ -31,16 +30,6 @@ const Usuarios = () => {
         setCargando(false);
         setError(err.message);
       });
-    // axios
-    //   .get(`${urlApi}/api/catego/getAll`, {
-    //     headers: { Authorization: `Bearer ${authToken}` },
-    //   })
-    //   .then((res) => {
-    //     setCategorias(res.data);
-    //   })
-    //   .catch(() => {
-    //     setError('No se pudo obtener las categorías');
-    //   });
   }, [urlApi, authToken, tablaActualizada]);
 
   const [usuData, setUsuData] = useState({
@@ -115,7 +104,7 @@ const Usuarios = () => {
         });
     } else {
       axios
-        .post(`${urlApi}/api/producto/create`, formData, {
+        .post(`${urlApi}/api/usuarios/crearUsu`, formData, {
           headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'multipart/form-data',
@@ -126,10 +115,10 @@ const Usuarios = () => {
           setTablaActualizada(!tablaActualizada);
           setCargando(true);
           setUsuData({
-            prodId: '',
-            prodNom: '',
-            prodDescr: '',
-            prodValCom: '',
+            usuId: '',
+            usuTipoDoc: '',
+            usuNoDoc: '',
+            usuGen: '',
             prodValVen: '',
             catId: '',
           });
@@ -145,7 +134,6 @@ const Usuarios = () => {
         });
     }
   }
-
   function editarProd(id) {
     const usu = usuarios.find((u) => u.usuId === id);
     setUsuData({
@@ -231,53 +219,28 @@ const Usuarios = () => {
             />
           </div>
           <div className='group md:w-1/2'>
-            <label htmlFor='usuContra' className='form-label'>
-              Contraseña
-            </label>
-            <input
-              id='usuContra'
-              name='usuContra'
-              type='password'
-              className='input'
-              value={usuData.usuContra}
-              onInput={inputHandler}
-              required
-            />
+            <label htmlFor='usuContra' className='form-label'> Contraseña </label>
+            <input id='usuContra' name='usuContra' type='password' className='input' onInput={inputHandler} required />
+          </div>
+          <div className='group md:w-1/2'>
+            <label htmlFor="perfilId" className='form-label'> Perfil </label>
+            <select name="perfilId" id="perfilId" className='input' Onchange={inputHandler} required>
+              <option value="">Seleccione un Perfil</option>
+              <option value="1">Administrador</option>
+              <option value="2">Usuario</option>
+              <option value="1">Cajero</option>
+              {/* {perfilId} */}
+            </select>
           </div>
           <div className='w-full md:w-1/2'>
             <label htmlFor='usuGen' className='form-label'> Genéro</label>
             <div>     
-            <input type='radio' name='usuGen' id='masculino' className='input-radio ' value={usuData.usuGen} onChange={inputHandler} required/>
+            <input type='radio' name='usuGen' id='masculino' className='input-radio ' value={1} onChange={inputHandler} required/>
             <label htmlFor=''>Masculino</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
-            <input type='radio' name='usuGen' id='femenino' clasName='input-radio' value={usuData.usuGen} onChange={inputHandler} required/>
+            <input type='radio' name='usuGen' id='femenino' clasName='input-radio' value={2} onChange={inputHandler} required/>
 						<label htmlFor=''>Femenino</label>
             </div>
           </div>
-          
-          {/* <div className='w-full md:w-1/2'>
-            <label htmlFor='catId' className='form-label'>
-              Categoria
-            </label>
-            <select
-              type='number'
-              name='catId'
-              id='catId'
-              className='input'
-              onChange={inputHandler}
-              required
-            >
-              <option value=''>Seleccione una Categoria</option>
-              {categorias.length !== 0
-                ? categorias.map((cat) => {
-                    return (
-                      <option key={cat.catId} value={cat.catId}>
-                        {cat.catNom}
-                      </option>
-                    );
-                  })
-                : null}
-            </select>
-          </div> */}
           <div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
               Subir una imagen
@@ -299,7 +262,7 @@ const Usuarios = () => {
               className='cursor-pointer'
               id='prodSubBtn'
               type='submit'
-              value={usuData.prodId ? 'Actualizar' : 'Crear'}
+              value={usuData.usuId ? 'Actualizar' : 'Crear'}
             />
           </Button>
         </div>
