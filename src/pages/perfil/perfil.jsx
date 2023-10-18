@@ -3,16 +3,19 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
-import './pagina.css';
+import Modales from '../../components/modal/Modales';
+import { Link, useLocation } from 'react-router-dom';
+import './perfil.css';
 import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
+import { redirect } from 'react-router-dom';
 
-
-const Pagina = () =>{
+const Perfil = () =>{
     const {urlApi,authToken} = useAuth();
+    const [perfil, setPerfil] = useState([]);
     const [pagina, setPagina] = useState([]);
-    const [valEli, setvalEli] = useState([]);
+    // const [valEli, setvalEli] = useState([]);
     const [tablaActualizada, setTablaActualizada] = useState(true);
     const [error, setError] = useState('');
     const [cargando, setCargando] = useState(true);
@@ -20,6 +23,18 @@ const Pagina = () =>{
     useEffect(()=> {
         setCargando(true);
         axios
+      .get(`${urlApi}/api/perfil/getAll`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((respuesta) => {
+        setCargando(false);
+        setPerfil(respuesta.data);
+    })
+      .catch((err) => {
+        setCargando(false);
+        setError(err.message);
+      });
+      axios
       .get(`${urlApi}/api/pagina/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
@@ -31,40 +46,40 @@ const Pagina = () =>{
         setCargando(false);
         setError(err.message);
       });
-      axios.get(`${urlApi}/api/pagina/getpagxpef`, {
-        headers: {Authorization: `Bearer ${authToken}` },
-      })
-      .then((respuesta) =>{
-        const fnList = []
-        respuesta.data.map((element) =>{
-          fnList.push(element.paginaId)
-        })
-        setvalEli(fnList);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    //   axios.get(`${urlApi}/api/perfil/getpagxpef`, {
+    //     headers: {Authorization: `Bearer ${authToken}` },
+    //   })
+    //   .then((respuesta) =>{
+    //     const fnList = []
+    //     respuesta.data.map((element) =>{
+    //       fnList.push(element.paginaId)
+    //     })
+    //     setvalEli(fnList);
+    //   })
+    //   .catch((err) => {
+    //     setError(err.message);
+    //   });
   }, [urlApi, authToken, tablaActualizada]);
 
-  const [pagData, setPagData] = useState({
-    paginaId: '',
-    paginaNom: '',
-    paginaIcon: '',
+
+  const [pefData, setPefData] = useState({
+    perfilId: '',
+    perfilNom: '',
     paginaRuta: '',
   });
 
   function inputHandler(event) {
-    setPagData({
-        ...pagData,
+    setPefData({
+        ...pefData,
         [event.target.name]: event.target.value,
     });
   }
   function formHandler(e){
     e.preventDefault();
 
-    if(pagData.paginaId){
+    if(pefData.perfilId){
         axios
-        .put(`${urlApi}/api/pagina/update`,pagData,{
+        .put(`${urlApi}/api/perfil/update`,pefData,{
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
@@ -72,10 +87,9 @@ const Pagina = () =>{
         .then((res) => {
             setTablaActualizada(!tablaActualizada);
             setCargando(true);
-            setPagData({
-                paginaId: '',
-                paginaNom: '',
-                paginaIcon: '',
+            setPefData({
+                perfilId: '',
+                perfilNom: '',
                 paginaRuta: '',
             });
         })
@@ -84,7 +98,7 @@ const Pagina = () =>{
         });
     }else {
         axios
-        .post(`${urlApi}/api/pagina/create`,pagData, {
+        .post(`${urlApi}/api/perfil/create`,pefData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
@@ -92,30 +106,29 @@ const Pagina = () =>{
         .then((respuesta) => {
             setTablaActualizada(!tablaActualizada);
             setCargando(true);
-            setPagData({
-                paginaId: '',
-                paginaNom: '',
-                paginaIcon: '',
+            setPefData({
+                perfilId: '',
+                perfilNom: '',
                 paginaRuta: '',
             });
         })
         .catch((err) => {
-            console.log('Error al crear la pagina', err);
+            console.log('Error al crear el perfil', err);
         });
     }
-  }
+}
 
-  function editar(id){
-    const pag = pagina.find((p) => p.paginaId === id);
-    setPagData({
-        ...pag,
-        paginaId: id,
+function editar(id){
+    const pef = perfil.find((p) => p.perfilId === id);
+    setPefData({
+        ...pef,
+        perfilId: id,
     })
   }
 
   function eliminar(id){
     axios
-    .delete(`${urlApi}/api/pagina/delete/${id}`,{
+    .delete(`${urlApi}/api/perfil/delete/${id}`,{
         headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -136,43 +149,54 @@ const Pagina = () =>{
     <form method='post' onSubmit={formHandler}>
       <div className='row'>
         <div className='w-full md:w-1/2'>
-          <label htmlFor="paginaNom" className='form-label'>
-            Nombre de la pagina
+          <label htmlFor="perfilNom" className='form-label'>
+            Nombre del perfil
           </label>
           <input type="text" 
-          name='paginaNom' 
-          id='paginaNom' 
+          name='perfilNom' 
+          id='perfilNom' 
           className='input' 
           onInput={inputHandler} 
-          value={pagData.paginaNom} 
-          required
-          />
-        </div>
-        <div className='w-full md:w-1/2'>
-          <label htmlFor="paginaIcon" className='form-label'>
-            Icono
-          </label>
-          <input type="text" 
-          name='paginaIcon' 
-          id='paginaIcon' 
-          className='input' 
-          onInput={inputHandler} 
-          value={pagData.paginaIcon} 
+          value={pefData.perfilNom} 
           required
           />
         </div>
         <div className='w-full md:w-1/2'>
           <label htmlFor="paginaRuta" className='form-label'>
-            Ruta de la pagina
+            Pagina ruta
           </label>
           <input type="text" 
           name='paginaRuta' 
           id='paginaRuta' 
           className='input' 
           onInput={inputHandler} 
-          value={pagData.paginaRuta} 
-          required
+          value={pefData.paginaRuta} 
+          readOnly
           />
+        </div>
+        <div className='w-full md:w-1/2'>
+            <label htmlFor='paginaRuta' className='form-label'>
+            Pagina inicial
+            </label>
+            <select
+              type='text'
+              name='paginaRuta'
+              id='paginaRuta'
+              className='input'
+              onChange={inputHandler}
+              required
+            >
+              <option value=''>Seleccione una pagina</option>
+              {pagina.length !== 0
+                ? pagina.map((pag) => {
+                    return (
+                      <option key={pag.paginaRuta} value={pag.paginaRuta}>
+                        {pag.paginaNom}
+                      </option>
+                    );
+                  })
+                : null}
+            </select>
         </div>
         <div className='row'>
           <Button>
@@ -180,7 +204,7 @@ const Pagina = () =>{
             className='cursor-pointer'
             id='catSubBtn'
             type="submit" 
-            value={pagData.paginaId ? 'Actualizar' : 'Crear'}
+            value={pefData.perfilId ? 'Actualizar' : 'Crear'}
             />
           </Button>
         </div>
@@ -191,40 +215,28 @@ const Pagina = () =>{
     ): (<DataTable
       key={tablaActualizada ? 'actualizada' : 'no actualizada'}
       title={'Paginas'}
-      data={pagina}
+      data={perfil}
       columns={[
         {
-            name: 'Icono',
+            name: 'Perfiles',
             selector: (row) => (
-              <>
-              <i className={`fa ${row.paginaIcon} fa-xl `}></i>
-              </>
+                <>
+                <p><strong>{row.perfilId} - Nombre perfil: </strong>{row.perfilNom}</p>
+                <p><strong>Ruta: </strong>{row.paginaRuta}</p>
+                </>
             ),
             sortable: true,
         },
         {
-          name: 'Paginas',
-          selector: (row) => (
-            <>
-              <p><strong>Nombre pagina:</strong>{row.paginaNom}</p>
-              <p><strong>Ruta: </strong>{row.paginaRuta}</p>
-            </>
-          ),
-          sortable: true,
-        },
-        {
           cell: (row) => (
             <>
-              <Button onClick={() => editar(row.paginaId)}>
+              <Button onClick={() => editar(row.perfilId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
-                {valEli.indexOf(row.paginaId) != -1  ? null : (
-                    <Button onClick={() => eliminar(row.paginaId)}>
-                      <i className='fa-solid fa-trash'></i>
-                    </Button>
-                )}
-                
-              
+              <Modales wuye='hola mundo jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj'/>
+              <Button>
+                <i className='fa-solid fa-list-check'></i>
+              </Button>
             </>
           ),
         },
@@ -232,8 +244,9 @@ const Pagina = () =>{
       pagination
     />
   )}
+  
 </>
 );
 };
 
-export default Pagina;
+export default Perfil;
