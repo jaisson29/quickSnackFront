@@ -299,12 +299,13 @@ const Productos = () => {
 					title={'Productos'}
 					data={productos}
 					pagination
+					defaultSortFieldId
 					progressPending={cargando}
 					progressComponent={<Cargando />}
 					columns={[
 						{
 							name: 'Producto',
-							selector: (row) => (
+							cell: (row) => (
 								<>
 									<p>{row.prodNom}</p>
 									<p>{row.prodDescr}</p>
@@ -314,13 +315,16 @@ const Productos = () => {
 						},
 						{
 							name: 'Precio de compra',
-							selector: (row) => row.prodValCom,
+							cell: (row) => row.prodValCom,
 							sortable: true,
+							sortActive: false,
 						},
 						{
 							name: 'Precio de venta',
-							selector: (row) => row.prodValVen,
+							cell: (row) => row.prodValVen,
 							sortable: true,
+							sortActive: false,
+							
 						},
 						{
 							cell: (row) => (
