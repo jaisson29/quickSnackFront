@@ -283,12 +283,7 @@ const Productos = () => {
 				</div>
 				<div className='row'>
 					<Button>
-						<input
-							className='cursor-pointer'
-							id='prodSubBtn'
-							type='submit'
-							value={prodData.prodId ? 'Actualizar' : 'Crear'}
-						/>
+						<input className='cursor-pointer' id='prodSubBtn' type='submit' value={prodData.prodId ? 'Actualizar' : 'Crear'} />
 					</Button>
 				</div>
 			</form>
