@@ -93,8 +93,8 @@ function Login() {
 					</Link>
 				</div>
 				<div className='text-center group'>
-					<Button>
-						<input type='submit' className='cursor-pointer' value='Iniciar sesión' />
+					<Button extraClass='px-0 py-0'>
+						<input type='submit' className='cursor-pointer px-4 h-full' value='Iniciar sesión' />
 					</Button>
 				</div>
 			</form>

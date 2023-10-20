@@ -21,7 +21,8 @@ function reducer(state, action) {
 		case 'LOGOUT':
 			return { ...initialState }
 		case 'SET_USER':
-			return { ...state, user: action.payload }
+			return { ...state, user: act
+        ion.payload }
 		case 'SET_AUTH':
 			return { ...state, isAuth: action.payload }
 		case 'SET_BALANCE':

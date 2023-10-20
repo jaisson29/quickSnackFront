@@ -56,6 +56,7 @@ const Productos = () => {
 				const fnList = []
 				result.data.map((element) => {
 					fnList.push(element.prodId)
+					return element.prodId
 				})
 				setValEli(fnList)
 			})
@@ -319,7 +320,6 @@ const Productos = () => {
 							cell: (row) => row.prodValVen,
 							sortable: true,
 							sortActive: false,
-							
 						},
 						{
 							cell: (row) => (

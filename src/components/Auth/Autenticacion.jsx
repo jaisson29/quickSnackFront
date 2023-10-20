@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')))
 	const [isAuth, setIsAuth] = useState(false)
 	const [balance, setBalance] = useState(0)
-	const [cartItems, setCartItems] = useState([2])
+	const [cartItems, setCartItems] = useState([20])
 	const urlApi = 'http://localhost:5000'
 
 	const login = async (token) => {
@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
 
 	const initialState = {
 		cart: {
-			cartItems: [],
+			cartItems: ['test'],
 		},
 	}
 
