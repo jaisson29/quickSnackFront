@@ -92,6 +92,7 @@ const Perfil = () =>{
                 perfilNom: '',
                 paginaRuta: '',
             });
+            $('#paginaRuta').val('');
         })
         .catch((err) => {
             console.log('error', err);
@@ -111,6 +112,7 @@ const Perfil = () =>{
                 perfilNom: '',
                 paginaRuta: '',
             });
+            $('#paginaRuta').val('');
         })
         .catch((err) => {
             console.log('Error al crear el perfil', err);
@@ -123,7 +125,9 @@ function editar(id){
     setPefData({
         ...pef,
         perfilId: id,
-    })
+        paginaRuta: pef.paginaRuta,
+    });
+    $('#paginaRuta').val(pef.paginaRuta);
   }
 
   function eliminar(id){
