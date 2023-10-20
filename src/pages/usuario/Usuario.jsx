@@ -3,12 +3,12 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
-import $ from 'jquery';
+// import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Usuarios = () => {
-  const { urlApi, authToken } = useAuth();
+  const {urlApi, authToken } = useAuth();
   const inputFileRef = useRef(null);
   const [usuarios, setUsuarios] = useState([]);
   const [file, setFile] = useState(null);
@@ -74,9 +74,9 @@ const Usuarios = () => {
   function formHandler(e) {
     e.preventDefault();
 
-    if (usuData.prodId) {
+    if (usuData.usuId) {
       axios
-        .put(`${urlApi}/api/producto/update`, formData, {
+        .put(`${urlApi}/api/usuario/actualizar`, formData, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -86,32 +86,38 @@ const Usuarios = () => {
           setTablaActualizada(!tablaActualizada);
           setCargando(true);
           setUsuData({
-            prodId: '',
-            prodNom: '',
-            prodDescr: '',
-            prodValCom: '',
-            prodValVen: '',
-            catId: '',
+            usuId: '',
+            usuTipoDoc: '',
+            usuNoDoc: '',
+            usuGen: '',
+            usuNom: '',
+            usuEmail: '',
+            usuContra: '',
+            usuIngreso: '',
+            usuImg: '',
+            perfilId: '',
+            usuFecha: '',
+            usuPassCode: '',
           });
-          $('#catId').val('');
-          setFile(null);
-          if (inputFileRef.current) {
-            inputFileRef.current.value = '';
-          }
+          // $('#catId').val('');
+          // setFile(null);
+          // if (inputFileRef.current) {
+          //   inputFileRef.current.value = '';
+          // }
         })
         .catch((err) => {
           console.log('error', err);
         });
     } else {
       axios
-        .post(`${urlApi}/api/usuarios/crearUsu`, formData, {
+        .post(`${urlApi}/api/usuario/crear`, formData, {
           headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'multipart/form-data',
           },
         })
         .then((respuesta) => {
-          console.log('nuevo producto', respuesta);
+          // console.log('nuevo producto', respuesta);
           setTablaActualizada(!tablaActualizada);
           setCargando(true);
           setUsuData({
@@ -119,19 +125,25 @@ const Usuarios = () => {
             usuTipoDoc: '',
             usuNoDoc: '',
             usuGen: '',
-            prodValVen: '',
-            catId: '',
+            usuNom: '',
+            usuEmail: '',
+            usuContra: '',
+            usuIngreso: '',
+            usuImg: '',
+            perfilId: '',
+            usuFecha: '',
+            usuPassCode: '',
           });
-          $('#catId').val('');
+          // $('#perfilId').val('');
           setFile(null);
-          // document.getElementById('prodImg').value = '';
+          // document.getElementById('usuImg').value = '';
           if (inputFileRef.current) {
             inputFileRef.current.value = '';
           }
         })
-        .catch((err) => {
-          console.log('Error al crear el producto', err);
-        });
+        // .catch((err) => {
+        //   console.log('Error al crear el usuario', err);
+        // });
     }
   }
   function editarProd(id) {
@@ -144,9 +156,9 @@ const Usuarios = () => {
     // $('#catId').val(prod.catId);
   }
 
-  function eliminarProd(id) {
+  function eliminarUsu(id) {
     axios
-      .delete(`${urlApi}/api/producto/delete/${id}`, {
+      .delete(`${urlApi}/api/usuario/borrar/${id}`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -167,19 +179,18 @@ const Usuarios = () => {
       {error ? <Error /> : null}
       <form method='post' onSubmit={formHandler} encType='multipart/form-data'>
         <div className='row'>
+					<div className='w-full md:w-1/2'>
+						<label htmlFor='usuTipoDoc' >Tipo de documento</label>
+						<select name="usuTipoDoc" id="usuTipoDoc" className='input' onChange={inputHandler} value>
+							<option value="">Seleccine un tipo de documento</option>
+							<option value="3">T.I</option>
+							<option value="4">C.C</option>
+							<option value="5">C.E</option>
+						</select>
+					</div>
           <div className='w-full md:w-1/2'>
-            <label htmlFor='usuNom' className='form-label'>
-              Nombre completo 
-            </label>
-            <input
-              type='text'
-              name='usuNom'
-              id='usuNom'
-              className='input'
-              onInput={inputHandler}
-              value={usuData.usuNom}
-              required
-            />
+            <label htmlFor='usuNom' className='form-label'>Nombre completo </label>
+            <input type='text' name='usuNom' id='usuNom' className='input' onInput={inputHandler} value={usuData.usuNom} required />
           </div>
           <div className='w-full md:w-1/2'>
             <label htmlFor='usuEmail' className='form-label'>
@@ -195,15 +206,6 @@ const Usuarios = () => {
               required
             />
           </div>
-					<div className='w-full md:w-1/2'>
-						<label htmlFor='usuTipoDoc' >Tipo de documento</label>
-						<select name="usuTipoDoc" id="usuTipoDoc" className='input'>
-							<option value="">Seleccine un tipo de documento</option>
-							<option value="3">C.C</option>
-							<option value="4">T.I</option>
-							<option value="5"></option>
-						</select>
-					</div>
           <div className='w-full md:w-1/2'>
             <label htmlFor='usuNoDoc' className='form-label'>
               No. Documento
@@ -220,24 +222,24 @@ const Usuarios = () => {
           </div>
           <div className='group md:w-1/2'>
             <label htmlFor='usuContra' className='form-label'> Contraseña </label>
-            <input id='usuContra' name='usuContra' type='password' className='input' onInput={inputHandler} required />
+            <input id='usuContra' name='usuContra' type='password' className='input' value={usuData.usuContra} onInput={inputHandler} required />
           </div>
           <div className='group md:w-1/2'>
             <label htmlFor="perfilId" className='form-label'> Perfil </label>
-            <select name="perfilId" id="perfilId" className='input' Onchange={inputHandler} required>
+            <select name="perfilId" id="perfilId" className='input' onChange={inputHandler} required>
               <option value="">Seleccione un Perfil</option>
               <option value="1">Administrador</option>
               <option value="2">Usuario</option>
-              <option value="1">Cajero</option>
+              <option value="3">Cajero</option>
               {/* {perfilId} */}
             </select>
           </div>
           <div className='w-full md:w-1/2'>
             <label htmlFor='usuGen' className='form-label'> Genéro</label>
             <div>     
-            <input type='radio' name='usuGen' id='masculino' className='input-radio ' value={1} onChange={inputHandler} required/>
+            <input type='radio' name='usuGen' id='masculino' className='input-radio ' value='1'  onChange={inputHandler}  checked/>
             <label htmlFor=''>Masculino</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
-            <input type='radio' name='usuGen' id='femenino' clasName='input-radio' value={2} onChange={inputHandler} required/>
+            <input type='radio' name='usuGen' id='femenino' className='input-radio' value='2' onChange={inputHandler}  />
 						<label htmlFor=''>Femenino</label>
             </div>
           </div>
@@ -308,7 +310,7 @@ const Usuarios = () => {
                   </Button>
                   <Button
                     key={`eliminar-${row.usuId}`}
-                    onClick={() => eliminarProd(row.usuId)}
+                    onClick={() => eliminarUsu(row.usuId)}
                   >
                     <i className='fa-solid fa-trash'></i>
                   </Button>
