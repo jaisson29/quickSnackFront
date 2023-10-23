@@ -9,7 +9,7 @@ const Operaciones = () => {
 
 	return (
 		<>
-			<section>
+			<section className={'bg-slate-400 w-full md:w-10/12 m-auto'}>
 				<div>
 					<button onClick={() => setTipoTrs(7)}>Venta</button>
 					<button onClick={() => setTipoTrs(6)}>Recarga</button>
