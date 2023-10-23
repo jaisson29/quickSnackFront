@@ -14,8 +14,7 @@ import { ProtectedRoute } from './components/ProtectedRoute.jsx'
 import Productos from './pages/productos/Productos.jsx'
 import Categoria from './pages/categoria/Categoria.jsx'
 import Compra from './pages/compra/Compra.jsx'
-import Pagina from './pages/pagina/pagina.jsx'
-import Perfil from './pages/perfil/perfil.jsx'
+import Usuarios from './pages/usuario/Usuario.jsx'
 
 function App() {
 	return (
@@ -26,10 +25,11 @@ function App() {
 				<Route exact path='/home' element={<ProtectedRoute children={<Home />} />} />
 				<Route path='/menu' element={<ProtectedRoute children={<Menu />} />} />
 				<Route path='/productos' element={<ProtectedRoute children={<Productos />} />} />
-				<Route path='/transaccion' element={<ProtectedRoute children={<Transaccion />} />} />
+				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
+				<Route path='/historial' element={<ProtectedRoute children={<Historial />} />} />
+				<Route path='*' element={<PageNotFound />} />
 				<Route path='/categorias' element={<ProtectedRoute children={<Categoria />} />} />
-				<Route path='/paginas' element={<ProtectedRoute children={<Pagina />} />} />
-				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
+				<Route path='/usuarios' element={<ProtectedRoute children={<Usuarios />} />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</AuthProvider>

@@ -11,6 +11,7 @@ import Cargando from '../../components/cargando/Cargando';
 const Compra = () => {
   const { urlApi, authToken } = useAuth(); 
   const [compra, setCompra] = useState([]);
+  const [proveedor, setProveedor] = useState([])
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -30,8 +31,18 @@ const Compra = () => {
         setCargando(false);
         setError(err.message);
       });
+    axios 
+    .get(`${urlApi}/api/compra/getAll`, {
+      headers :{Authorizathion: `Bearer ${authToken}`},
+    })
+    .then((res) => {
+      setProveedor(res.data);
+    })
+    .catch(() => {
+      setError('No se pudo obtener los proveedores');
+    })
   }, [urlApi, authToken, tablaActualizada]);
-
+    
   const [comData, setComData] = useState({
     compraId: '',
     provId: '',
@@ -135,11 +146,22 @@ const Compra = () => {
     onChange={inputHandler}
     required
     >
-    <option value=''>Seleccione unn proveedor</option>
-    <option value='1'>Postobón</option>
-    <option value='2'>Coca Cola</option>
-    <option value='3'>Pepsi</option>
+    <option value=''>Seleccione un proveedor</option>
+      {proveedor.length !== 0
+        ? proveedor.map((prov) => {
+            return (
+              <option key={prov.provId} value={prov.provId}>
+                {prov.provNom}
+              </option>
+            );
+          })
+        : null}
     </select>
+    </div>
+    <div className='mt-2 row'>
+      <Button>
+        <input className='cursor-pointer' id='prodSubBtn' type='submit' value={comData.compraId ? 'Actualizar' : 'Crear'}/>
+      </Button>
     </div>
     <DataTable
           key={tablaActualizada ? 'actualizada' : 'no actualizada'}
