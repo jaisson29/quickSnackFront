@@ -9,12 +9,16 @@ const Operaciones = () => {
 
 	return (
 		<>
-			<section className={'bg-slate-400 w-full md:w-10/12 m-auto'}>
-				<div>
-					<button onClick={() => setTipoTrs(7)}>Venta</button>
-					<button onClick={() => setTipoTrs(6)}>Recarga</button>
+			<section className={'w-full md:w-10/12 m-auto'}>
+				<div className='flex w-full gap-4 card-head'>
+					<button className='cardTab btn-ven activeTab' onClick={() => setTipoTrs(7)}>
+						Venta
+					</button>
+					<button className=' cardTab btn-rec' onClick={() => setTipoTrs(6)}>
+						Recarga
+					</button>
 				</div>
-				<div>
+				<div className='card-body'>
 					<form method='POST' className='' onSubmit={formHandler}>
 						<h1>{tipoTrs === 7 ? 'Pagando' : 'Recargando'}</h1>
 					</form>
