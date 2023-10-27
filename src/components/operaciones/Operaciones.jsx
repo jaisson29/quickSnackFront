@@ -10,11 +10,11 @@ const Operaciones = () => {
 	return (
 		<>
 			<section className={'w-full md:w-10/12 m-auto'}>
-				<div className='flex w-full gap-4 card-head'>
-					<button className='cardTab btn-ven activeTab' onClick={() => setTipoTrs(7)}>
+				<div className='flex w-full gap-10 align-items-end card-head'>
+					<button className={`cardTab btn-ven ${tipoTrs === 7 && "activeTab"}`} onClick={() => setTipoTrs(7)}>
 						Venta
 					</button>
-					<button className=' cardTab btn-rec' onClick={() => setTipoTrs(6)}>
+					<button className={`cardTab btn-rec ${tipoTrs === 6 && "activeTab"}`} onClick={() => setTipoTrs(6)}>
 						Recarga
 					</button>
 				</div>
