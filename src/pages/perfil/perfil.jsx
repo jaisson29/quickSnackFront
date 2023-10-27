@@ -237,10 +237,10 @@ function editar(id){
               <Button onClick={() => editar(row.perfilId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
-              <Modales wuye='hola mundo jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj'/>
-              <Button>
-                <i className='fa-solid fa-list-check'></i>
-              </Button>
+              <Modales titu={"Perfil por pagina"}>
+              <form action=""></form>
+              </Modales>
+              
             </>
           ),
         },

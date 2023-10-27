@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import  Button from "react-bootstrap/Button";
+import { Children, useEffect, useState } from 'react';
+import Button from '../boton/Button';
 import  Modal  from "react-bootstrap/modal";
 
 
@@ -11,15 +11,15 @@ function Modales(props) {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
-          Launch demo modal{props.wuye}
+        <Button onClick={handleShow}>
+        <i className='fa-solid fa-list-check'></i>
         </Button>
   
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>{props.titu}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you are {props.titu}reading this text in a modal!</Modal.Body>
+          <Modal.Body>{}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
