@@ -15,7 +15,7 @@ const Perfil = () =>{
     const {urlApi,authToken} = useAuth();
     const [perfil, setPerfil] = useState([]);
     const [pagina, setPagina] = useState([]);
-    // const [valEli, setvalEli] = useState([]);
+    const [Pxp, setPxp] = useState([]);
     const [tablaActualizada, setTablaActualizada] = useState(true);
     const [error, setError] = useState('');
     const [cargando, setCargando] = useState(true);
@@ -46,19 +46,17 @@ const Perfil = () =>{
         setCargando(false);
         setError(err.message);
       });
-    //   axios.get(`${urlApi}/api/perfil/getpagxpef`, {
-    //     headers: {Authorization: `Bearer ${authToken}` },
-    //   })
-    //   .then((respuesta) =>{
-    //     const fnList = []
-    //     respuesta.data.map((element) =>{
-    //       fnList.push(element.paginaId)
-    //     })
-    //     setvalEli(fnList);
-    //   })
-    //   .catch((err) => {
-    //     setError(err.message);
-    //   });
+      axios.get(`${urlApi}/api/perfil/selPxp`, {
+        headers: {Authorization: `Bearer ${authToken}` },
+      })
+      .then((respuesta) =>{
+        setCargando(false);
+        setPxp(respuesta.data);
+      })
+      .catch((err) => {
+        setCargando(false);
+        setError(err.message);
+      });
   }, [urlApi, authToken, tablaActualizada]);
 
 
@@ -237,10 +235,23 @@ function editar(id){
               <Button onClick={() => editar(row.perfilId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
-              <Modales titu={"Perfil por pagina"}>
-              <form action=""></form>
+              <Modales titu={`Paginas - ${row.perfilNom}`}>
+              <form method="POST">
+                {pagina.map((pag) => {
+                  // console.log(pag)
+                    return (
+                      <div className='row'>
+                      <div className='w-full md:w-1/2 '  >
+                {pag.paginaId}
+                <input type="checkbox" name="chk[]" className='w-full md:w-1/2' value={`${pag.paginaId}`} cheked={Pxp.indexOf(row.paginaId)}/>
+                {pag.paginaNom}
+                <i className={`${pag.paginaIcon}`}></i>
+                </div>
+                </div>
+                    );
+                  })}
+              </form>
               </Modales>
-              
             </>
           ),
         },

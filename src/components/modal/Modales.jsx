@@ -8,7 +8,7 @@ function Modales(props) {
   
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-  
+  console.log(props.children)
     return (
       <>
         <Button onClick={handleShow}>
@@ -19,13 +19,13 @@ function Modales(props) {
           <Modal.Header closeButton>
             <Modal.Title>{props.titu}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{}</Modal.Body>
+          <Modal.Body>{props.children}</Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Cerrar
             </Button>
             <Button variant="primary" onClick={handleClose}>
-              Save Changes
+              Guardar
             </Button>
           </Modal.Footer>
         </Modal>
