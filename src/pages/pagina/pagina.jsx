@@ -3,14 +3,15 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
-import './categoria.css';
+import './pagina.css';
 import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
-const Categoria = () =>{
-    const { urlApi, authToken} = useAuth();
-    const [categoria, setCategoria] = useState([]);
+
+const Pagina = () =>{
+    const {urlApi,authToken} = useAuth();
+    const [pagina, setPagina] = useState([]);
     const [valEli, setvalEli] = useState([]);
     const [tablaActualizada, setTablaActualizada] = useState(true);
     const [error, setError] = useState('');
@@ -19,24 +20,24 @@ const Categoria = () =>{
     useEffect(()=> {
         setCargando(true);
         axios
-      .get(`${urlApi}/api/catego/getAll`, {
+      .get(`${urlApi}/api/pagina/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
       .then((respuesta) => {
         setCargando(false);
-        setCategoria(respuesta.data);
+        setPagina(respuesta.data);
     })
       .catch((err) => {
         setCargando(false);
         setError(err.message);
       });
-      axios.get(`${urlApi}/api/catego/getmxp`, {
+      axios.get(`${urlApi}/api/pagina/getpagxpef`, {
         headers: {Authorization: `Bearer ${authToken}` },
       })
       .then((respuesta) =>{
         const fnList = []
         respuesta.data.map((element) =>{
-          fnList.push(element.catId)
+          fnList.push(element.paginaId)
         })
         setvalEli(fnList);
       })
@@ -45,23 +46,25 @@ const Categoria = () =>{
       });
   }, [urlApi, authToken, tablaActualizada]);
 
-  const [catData, setCatData] = useState({
-    catId: '',
-    catNom: '',
+  const [pagData, setPagData] = useState({
+    paginaId: '',
+    paginaNom: '',
+    paginaIcon: '',
+    paginaRuta: '',
   });
 
   function inputHandler(event) {
-    setCatData({
-        ...catData,
+    setPagData({
+        ...pagData,
         [event.target.name]: event.target.value,
     });
   }
   function formHandler(e){
     e.preventDefault();
 
-    if(catData.catId){
+    if(pagData.paginaId){
         axios
-        .put(`${urlApi}/api/catego/update`,catData,{
+        .put(`${urlApi}/api/pagina/update`,pagData,{
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
@@ -69,9 +72,11 @@ const Categoria = () =>{
         .then((res) => {
             setTablaActualizada(!tablaActualizada);
             setCargando(true);
-            setCatData({
-                catId: '',
-                catNom: '',
+            setPagData({
+                paginaId: '',
+                paginaNom: '',
+                paginaIcon: '',
+                paginaRuta: '',
             });
         })
         .catch((err) => {
@@ -79,7 +84,7 @@ const Categoria = () =>{
         });
     }else {
         axios
-        .post(`${urlApi}/api/catego/create`,catData, {
+        .post(`${urlApi}/api/pagina/create`,pagData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
@@ -87,28 +92,30 @@ const Categoria = () =>{
         .then((respuesta) => {
             setTablaActualizada(!tablaActualizada);
             setCargando(true);
-            setCatData({
-                catId: '',
-                catNom: '',
+            setPagData({
+                paginaId: '',
+                paginaNom: '',
+                paginaIcon: '',
+                paginaRuta: '',
             });
         })
         .catch((err) => {
-            console.log('Error al crear la categoria', err);
+            console.log('Error al crear la pagina', err);
         });
     }
   }
-  
+
   function editar(id){
-    const cat = categoria.find((c) => c.catId === id);
-    setCatData({
-        ...cat,
-        catId: id,
+    const pag = pagina.find((p) => p.paginaId === id);
+    setPagData({
+        ...pag,
+        paginaId: id,
     })
   }
 
   function eliminar(id){
     axios
-    .delete(`${urlApi}/api/catego/delete/${id}`,{
+    .delete(`${urlApi}/api/pagina/delete/${id}`,{
         headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -129,15 +136,41 @@ const Categoria = () =>{
     <form method='post' onSubmit={formHandler}>
       <div className='row'>
         <div className='w-full md:w-1/2'>
-          <label htmlFor="catNom" className='form-label'>
-            Nombre de la categoria
+          <label htmlFor="paginaNom" className='form-label'>
+            Nombre de la pagina
           </label>
           <input type="text" 
-          name='catNom' 
-          id='catNom' 
+          name='paginaNom' 
+          id='paginaNom' 
           className='input' 
           onInput={inputHandler} 
-          value={catData.catNom} 
+          value={pagData.paginaNom} 
+          required
+          />
+        </div>
+        <div className='w-full md:w-1/2'>
+          <label htmlFor="paginaIcon" className='form-label'>
+            Icono
+          </label>
+          <input type="text" 
+          name='paginaIcon' 
+          id='paginaIcon' 
+          className='input' 
+          onInput={inputHandler} 
+          value={pagData.paginaIcon} 
+          required
+          />
+        </div>
+        <div className='w-full md:w-1/2'>
+          <label htmlFor="paginaRuta" className='form-label'>
+            Ruta de la pagina
+          </label>
+          <input type="text" 
+          name='paginaRuta' 
+          id='paginaRuta' 
+          className='input' 
+          onInput={inputHandler} 
+          value={pagData.paginaRuta} 
           required
           />
         </div>
@@ -147,7 +180,7 @@ const Categoria = () =>{
             className='cursor-pointer'
             id='catSubBtn'
             type="submit" 
-            value={catData.catId ? 'Actualizar' : 'Crear'}
+            value={pagData.paginaId ? 'Actualizar' : 'Crear'}
             />
           </Button>
         </div>
@@ -157,14 +190,24 @@ const Categoria = () =>{
       <Cargando />
     ): (<DataTable
       key={tablaActualizada ? 'actualizada' : 'no actualizada'}
-      title={'Categorias'}
-      data={categoria}
+      title={'Paginas'}
+      data={pagina}
       columns={[
         {
-          name: 'Categorias',
+            name: 'Icono',
+            selector: (row) => (
+              <>
+              <i className={`fa ${row.paginaIcon} fa-xl `}></i>
+              </>
+            ),
+            sortable: true,
+        },
+        {
+          name: 'Paginas',
           selector: (row) => (
             <>
-              <p>{row.catNom}</p>
+              <p><strong>Nombre pagina:</strong>{row.paginaNom}</p>
+              <p><strong>Ruta: </strong>{row.paginaRuta}</p>
             </>
           ),
           sortable: true,
@@ -172,11 +215,11 @@ const Categoria = () =>{
         {
           cell: (row) => (
             <>
-              <Button onClick={() => editar(row.catId)}>
+              <Button onClick={() => editar(row.paginaId)}>
                 <i className='fa-solid fa-pen'></i>
               </Button>
-                {valEli.indexOf(row.catId) != -1  ? null : (
-                    <Button onClick={() => eliminar(row.catId)}>
+                {valEli.indexOf(row.paginaId) != -1  ? null : (
+                    <Button onClick={() => eliminar(row.paginaId)}>
                       <i className='fa-solid fa-trash'></i>
                     </Button>
                 )}
@@ -193,4 +236,4 @@ const Categoria = () =>{
 );
 };
 
-export default Categoria;
+export default Pagina;

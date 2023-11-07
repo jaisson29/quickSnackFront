@@ -1,44 +1,36 @@
 import DataTable from 'react-data-table-component';
 
-// A super simple expandable component.
-const ExpandedComponent = ({ data }) => <pre>{data.title}</pre>;
-
 const columns = [
   {
-    name: 'Title',
-    selector: (row) => (
-      <>
-        <p>{row.title}</p>
-        <p>{row.year}</p>
-      </>
-    ),
+    name: 'Nombre',
+    cell: (row) => row.name,
+    sortable: true,
+    sortActive: true // Esta es la columna activa para el ordenamiento
   },
   {
-    name: 'Year',
-    selector: (row) => row.year,
-  },
+    name: 'Edad',
+    cell: (row) => row.age,
+    sortable: true,
+    sortActive: false // Esta columna no está activa para el ordenamiento
+  }
 ];
 
 const data = [
-  {
-    id: 1,
-    title: 'Beetlejuice',
-    year: '1988',
-  },
-  {
-    id: 2,
-    title: 'Ghostbusters',
-    year: '1984',
-  },
+  { name: 'Juan', age: 25 },
+  { name: 'Ana', age: 23 },
+  { name: 'Pedro', age: 27 }
 ];
 
-export default function Home() {
+function App() {
   return (
-    <DataTable
-      columns={columns}
-      data={data}
-      expandableRows
-      expandableRowsComponent={ExpandedComponent}
-    />
+    <div className="App">
+      <DataTable
+        title="Ejemplo de react-data-table"
+        columns={columns}
+        data={data}
+      />
+    </div>
   );
 }
+
+export default App;

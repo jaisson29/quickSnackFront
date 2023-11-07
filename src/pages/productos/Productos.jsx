@@ -56,6 +56,7 @@ const Productos = () => {
 				const fnList = []
 				result.data.map((element) => {
 					fnList.push(element.prodId)
+					return element.prodId
 				})
 				setValEli(fnList)
 			})
@@ -134,7 +135,6 @@ const Productos = () => {
 					},
 				})
 				.then((respuesta) => {
-					console.log('nuevo producto', respuesta)
 					setTablaActualizada(!tablaActualizada)
 					setCargando(true)
 					setProdData({
@@ -283,7 +283,12 @@ const Productos = () => {
 				</div>
 				<div className='row'>
 					<Button>
-						<input className='cursor-pointer' id='prodSubBtn' type='submit' value={prodData.prodId ? 'Actualizar' : 'Crear'} />
+						<input
+							className='cursor-pointer'
+							id='prodSubBtn'
+							type='submit'
+							value={prodData.prodId ? 'Actualizar' : 'Crear'}
+						/>
 					</Button>
 				</div>
 			</form>
@@ -294,12 +299,13 @@ const Productos = () => {
 					title={'Productos'}
 					data={productos}
 					pagination
+					defaultSortFieldId
 					progressPending={cargando}
 					progressComponent={<Cargando />}
 					columns={[
 						{
 							name: 'Producto',
-							selector: (row) => (
+							cell: (row) => (
 								<>
 									<p>{row.prodNom}</p>
 									<p>{row.prodDescr}</p>
@@ -309,13 +315,15 @@ const Productos = () => {
 						},
 						{
 							name: 'Precio de compra',
-							selector: (row) => row.prodValCom,
+							cell: (row) => row.prodValCom,
 							sortable: true,
+							sortActive: false,
 						},
 						{
 							name: 'Precio de venta',
-							selector: (row) => row.prodValVen,
+							cell: (row) => row.prodValVen,
 							sortable: true,
+							sortActive: false,
 						},
 						{
 							cell: (row) => (

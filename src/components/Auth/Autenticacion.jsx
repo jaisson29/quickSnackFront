@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from 'axios'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState, useReducer } from 'react'
 
 const AuthContext = createContext()
 
@@ -10,24 +10,41 @@ export function AuthProvider({ children }) {
 	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')))
 	const [isAuth, setIsAuth] = useState(false)
 	const [balance, setBalance] = useState(0)
-	const [cartItems, setCartItems] = useState([])
 	const urlApi = 'http://localhost:5000'
+
+	const instance = axios.create({
+		baseURL: urlApi,
+	})
+
+	instance.interceptors.response.use(
+		(response) => {
+			// Aquí puedes realizar acciones antes de que la respuesta sea devuelta
+			return response
+		},
+		(error) => {
+			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autroizado) cerrara la sesión
+			if (error.response.status === 401) {
+				logout() // Ejecución de logout() para limpieza de variables de sesión
+			}
+			return Promise.reject(error)
+		},
+	)
 
 	const login = async (token) => {
 		setAuthToken(token)
-		axios
-			.get(`${urlApi}/api/login/verify`, {
+		instance
+			.get(`${urlApi}/api/auth/verify`, {
 				headers: {
-					//Inicializa el header la el http
-					Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization"
+					//Inicializa el header de la paetición
+					Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization" para el envio del token por Bearer
 				},
 			})
-			.then((respuesta) => {
+			.then(async (respuesta) => {
 				const decodedToken = respuesta.data
 				sessionStorage.setItem('token', token)
 				sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]))
 				setAuthToken(sessionStorage.getItem('token'))
-				setUser(JSON.parse(sessionStorage.getItem('user')))
+				await setUser(JSON.parse(sessionStorage.getItem('user')))
 				setIsAuth(true)
 			})
 			.catch((error) => {
@@ -44,7 +61,7 @@ export function AuthProvider({ children }) {
 
 	const verifyToken = async (token) => {
 		try {
-			const response = await axios.get(`${urlApi}/api/login/verify`, {
+			const response = await instance.get(`${urlApi}/api/auth/verify`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -56,10 +73,42 @@ export function AuthProvider({ children }) {
 			setUser(JSON.parse(sessionStorage.getItem('user')))
 			setIsAuth(true)
 		} catch (error) {
-			console.error('Error verificando el token', error)
 			logout()
+			console.error('Error verificando el token', error)
 		}
 	}
+
+	const initialState = {
+		cart: {
+			cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
+		},
+	}
+
+	function reducer(state, action) {
+		switch (action.type) {
+			case 'CART_ADD_ITEM':
+				const newItem = action.payload
+				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId)
+				const cartItems = existItem
+					? state.cart.cartItems.map((item) =>
+							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
+						)
+					: [...state.cart.cartItems, newItem]
+				localStorage.setItem('cartItems', JSON.stringify(cartItems))
+				return { ...state, cart: { ...state.cart, cartItems } }
+			case 'CART_DEL_ITEM':
+				const payloadItem = action.payload
+				const newCartItems = state.cart.cartItems.filter((item) => item.prodId !== payloadItem.prodId)
+				return { ...state, cart: { ...state.cart, cartItems: newCartItems } }
+			case 'CART_CLEAR':
+				localStorage.removeItem('cartItems')
+				return { ...initialState }
+			default:
+				return state
+		}
+	}
+
+	const [state, dispatch] = useReducer(reducer, initialState)
 
 	useEffect(() => {
 		if (authToken) {
@@ -67,11 +116,12 @@ export function AuthProvider({ children }) {
 		}
 		authToken && user ? setIsAuth(true) : logout()
 		setBalance(0)
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [authToken])
+
 	return (
 		<AuthContext.Provider
 			value={{
+				instance,
 				authToken,
 				user,
 				balance,
@@ -80,8 +130,8 @@ export function AuthProvider({ children }) {
 				login,
 				logout,
 				urlApi,
-				cartItems,
-				setCartItems,
+				state,
+				dispatch,
 			}}>
 			{children}
 		</AuthContext.Provider>

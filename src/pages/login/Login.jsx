@@ -21,13 +21,13 @@ function Login() {
 		event.preventDefault()
 
 		axios
-			.post(`${urlApi}/api/login/loguear`, {
+			.post(`${urlApi}/api/auth/loguear`, {
 				...usuData,
 			})
-			.then((respuesta) => {
-				const loginToken = respuesta.data
-				login(loginToken)
-				redirect(`/${user.paginaRuta}`)
+			.then(async (respuesta) => {
+				const loginToken = respuesta.data.token
+				await login(loginToken)
+				redirect(`/${respuesta.data.pg}`)
 			})
 			.catch((error) => {
 				console.error(error)
@@ -93,8 +93,8 @@ function Login() {
 					</Link>
 				</div>
 				<div className='text-center group'>
-					<Button>
-						<input type='submit' className='cursor-pointer' value='Iniciar sesión' />
+					<Button extraClass='px-0 py-0'>
+						<input type='submit' className='h-full px-4 cursor-pointer' value='Iniciar sesión' />
 					</Button>
 				</div>
 			</form>

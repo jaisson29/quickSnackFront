@@ -1,0 +1,57 @@
+/** @format */
+@tailwind components;
+
+@layer components {
+	.cardTab {
+		@apply z-0 w-full h-8 transition-transform border-b-2 rounded-t-2xl bg-slate-300 border-clNar;
+		position: relative;
+	}
+
+	.activeTab {
+		@apply z-10 h-12 border-t-2 border-b-0 border-l-2 border-r-2 bg-stone-200 border-clNar;
+		direction: ltr;
+	}
+
+	.activeTab::after {
+		@apply z-20 w-10 h-6 border-b-2 border-clNar;
+		content: '';
+		position: absolute;
+		bottom: 0px;
+		background: transparent;
+		pointer-events: none;
+	}
+
+	.btn-ven::after {
+		@apply border-l-2 rounded-bl-full -right-10;
+		box-shadow: -20px 0 0 0 theme(stone.200);
+	}
+
+	.btn-rec::after {
+		@apply border-r-2 rounded-br-full -left-10;
+		box-shadow: 20px 0 0 0 theme(stone.200);
+	}
+
+	.card-head {
+		@apply flex items-end w-full gap-2;
+	}
+
+	.card-body {
+		@apply w-full p-5 border-b-2 border-l-2 border-r-2 shadow-md bg-stone-200 border-clNar h-150 rounded-b-2xl;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.form-label {
+		padding: 0;
+	}
+
+	.row {
+		width: 100%;
+	}
+
+	/* .tbl tr, .tbl td, .tbl th, .tbl tbody, .tbl thead, .tbl tfoot {
+		border-collapse: collapse;
+		border: 1px black solid;
+	} */
+}
