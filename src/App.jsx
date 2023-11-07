@@ -28,12 +28,11 @@ function App() {
 				<Route path='/menu' element={<ProtectedRoute children={<Menu />} />} />
 				<Route path='/productos' element={<ProtectedRoute children={<Productos />} />} />
 				<Route path='/transaccion' element={<ProtectedRoute children={<Transaccion />} />} />
-        		<Route path='/usuarios' element={<ProtectedRoute children={<Usuarios />} />} />
+        		<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
 				<Route path='/categorias' element={<ProtectedRoute children={<Categoria />} />} />
 				<Route path='/paginas' element={<ProtectedRoute children={<Pagina />} />} />
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
-				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</AuthProvider>

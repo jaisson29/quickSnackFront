@@ -130,7 +130,7 @@ const Usuarios = () => {
           },
         })
         .then((respuesta) => {
-          // console.log('nuevo producto', respuesta);
+          console.log('nuevo producto', respuesta);
           setTablaActualizada(!tablaActualizada);
           setCargando(true);
           setUsuData({
@@ -241,9 +241,9 @@ const Usuarios = () => {
             <label htmlFor="perfilId" className='form-label'> Perfil </label>
             <select name="perfilId" id="perfilId" className='input' onChange={inputHandler} required>
               <option value="">Seleccione un Perfil</option>
-              <option value="1">Administrador</option>
-              <option value="2">Usuario</option>
-              <option value="3">Cajero</option>
+              {perfiles.length !==0 ? perfiles.map((per) =>{
+                return (<option key={per.perfilId} value={per.perfilId}>{per.perfilNom}</option>)
+              }):null}
               {/* {perfilId} */}
             </select>
           </div>
@@ -256,7 +256,7 @@ const Usuarios = () => {
 						<label htmlFor=''>Femenino</label>
             </div>
           </div>
-          <div className='w-full md:w-1/2'>
+          {/* <div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
               Subir una imagen
             </label>
@@ -269,7 +269,7 @@ const Usuarios = () => {
               onChange={handleFiles}
               ref={inputFileRef} // Referencia al campo de entrada de archivo
             />
-          </div>
+          </div> */}
         </div>
         <div className='row'>
           <Button>
