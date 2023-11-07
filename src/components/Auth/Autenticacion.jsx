@@ -1,7 +1,5 @@
 /** @format */
 
-/** @format */
-
 import axios from 'axios'
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react'
 
@@ -35,7 +33,7 @@ export function AuthProvider({ children }) {
 	const login = async (token) => {
 		setAuthToken(token)
 		instance
-			.get(`${urlApi}/api/login/verify`, {
+			.get(`${urlApi}/api/auth/verify`, {
 				headers: {
 					//Inicializa el header de la paetición
 					Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization" para el envio del token por Bearer
@@ -63,7 +61,7 @@ export function AuthProvider({ children }) {
 
 	const verifyToken = async (token) => {
 		try {
-			const response = await instance.get(`${urlApi}/api/login/verify`, {
+			const response = await instance.get(`${urlApi}/api/auth/verify`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -82,7 +80,7 @@ export function AuthProvider({ children }) {
 
 	const initialState = {
 		cart: {
-			cartItems: [{ prodName: 'galletas', prodValVen: 10000 }],
+			cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
 		},
 	}
 
@@ -90,15 +88,21 @@ export function AuthProvider({ children }) {
 		switch (action.type) {
 			case 'CART_ADD_ITEM':
 				const newItem = action.payload
-				const existItem = state.cart.cartItems.find((item) => item._id === newItem._id)
+				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId)
 				const cartItems = existItem
-					? state.cart.cartItems.map((item) => (item._id === existItem._id ? newItem : item))
+					? state.cart.cartItems.map((item) =>
+							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
+						)
 					: [...state.cart.cartItems, newItem]
+				localStorage.setItem('cartItems', JSON.stringify(cartItems))
 				return { ...state, cart: { ...state.cart, cartItems } }
 			case 'CART_DEL_ITEM':
 				const payloadItem = action.payload
 				const newCartItems = state.cart.cartItems.filter((item) => item.prodId !== payloadItem.prodId)
 				return { ...state, cart: { ...state.cart, cartItems: newCartItems } }
+			case 'CART_CLEAR':
+				localStorage.removeItem('cartItems')
+				return { ...initialState }
 			default:
 				return state
 		}
@@ -117,6 +121,7 @@ export function AuthProvider({ children }) {
 	return (
 		<AuthContext.Provider
 			value={{
+				instance,
 				authToken,
 				user,
 				balance,

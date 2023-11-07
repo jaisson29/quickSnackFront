@@ -36,6 +36,22 @@
 	}
 
 	.card-body {
-		@apply w-full px-5 border-b-2 border-l-2 border-r-2 shadow-md bg-stone-200 border-clNar h-150 rounded-b-2xl;
+		@apply w-full p-5 border-b-2 border-l-2 border-r-2 shadow-md bg-stone-200 border-clNar h-150 rounded-b-2xl;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
+
+	.form-label {
+		padding: 0;
+	}
+
+	.row {
+		width: 100%;
+	}
+
+	/* .tbl tr, .tbl td, .tbl th, .tbl tbody, .tbl thead, .tbl tfoot {
+		border-collapse: collapse;
+		border: 1px black solid;
+	} */
 }

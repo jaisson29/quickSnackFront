@@ -21,10 +21,10 @@ function Login() {
 		event.preventDefault()
 
 		axios
-			.post(`${urlApi}/api/login/loguear`, {
+			.post(`${urlApi}/api/auth/loguear`, {
 				...usuData,
 			})
-			.then( async(respuesta) => {
+			.then(async (respuesta) => {
 				const loginToken = respuesta.data.token
 				await login(loginToken)
 				redirect(`/${respuesta.data.pg}`)

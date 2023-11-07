@@ -26,7 +26,7 @@ const Monto = (props) => {
 	}, [urlApi, user, authToken])
 	return (
 		<>
-			<h2>$ {balance}</h2>
+			<h2 className='m-2'>$ {balance.toLocaleString('es-CO')}</h2>
 		</>
 	)
 }
