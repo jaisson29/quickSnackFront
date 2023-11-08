@@ -42,7 +42,7 @@ const Header = () => {
 					<Dropdown.Menu>
 						<Dropdown.Item href='#/action-1'>Action</Dropdown.Item>
 						<Dropdown.Item href='#/action-2'>Another action</Dropdown.Item>
-						<Dropdown.Item onClick={() => logout()}><i className='fa fa-power-off fa-lg pr-2'></i>Cerrar sesión</Dropdown.Item>
+						<Dropdown.Item onClick={() => logout()}><i className='pr-2 fa fa-power-off fa-lg'></i>Cerrar sesión</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
 				<span onClick={() => {}}></span>
