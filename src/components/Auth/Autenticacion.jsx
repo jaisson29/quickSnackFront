@@ -10,7 +10,8 @@ export function AuthProvider({ children }) {
 	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')))
 	const [isAuth, setIsAuth] = useState(false)
 	const [balance, setBalance] = useState(0)
-	const urlApi = 'http://localhost:5000'
+	const urlApi = 'https://s89vncr4-5000.use2.devtunnels.ms'
+
 
 	const instance = axios.create({
 		baseURL: urlApi,
@@ -69,7 +70,6 @@ export function AuthProvider({ children }) {
 			const decodedToken = response.data
 			sessionStorage.setItem('token', token)
 			sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]))
-			setAuthToken(sessionStorage.getItem('token'))
 			setUser(JSON.parse(sessionStorage.getItem('user')))
 			setIsAuth(true)
 		} catch (error) {
@@ -77,6 +77,7 @@ export function AuthProvider({ children }) {
 			console.error('Error verificando el token', error)
 		}
 	}
+	
 
 	const initialState = {
 		cart: {
@@ -111,6 +112,7 @@ export function AuthProvider({ children }) {
 	const [state, dispatch] = useReducer(reducer, initialState)
 
 	useEffect(() => {
+		console.log("first")
 		if (authToken) {
 			verifyToken(authToken)
 		}
