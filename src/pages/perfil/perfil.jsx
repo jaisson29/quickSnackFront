@@ -75,6 +75,11 @@ const Perfil = () =>{
   function formHandler(e){
     e.preventDefault();
 
+    
+  }
+  function formHandler(e){
+    e.preventDefault();
+
     if(pefData.perfilId){
         axios
         .put(`${urlApi}/api/perfil/update`,pefData,{
@@ -238,7 +243,7 @@ function editar(id){
               <Modales titu={`Paginas - ${row.perfilNom}`}>
               <form method="POST">
                 {pagina.map((pag) => {
-                  // console.log(pag)
+                  console.log(pag)
                     return (
                       <div className='row'>
                       <div className='w-full md:w-1/2 '  >
