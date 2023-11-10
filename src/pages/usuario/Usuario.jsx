@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
@@ -34,15 +35,27 @@ const Usuarios = () => {
       })
       
     axios
-    .get(`${urlApi}/api/perfil/getAll`, {
-      headers: { Authorization: `Bearer ${authToken}` },
-    })
-    .then((respuesta) => {
-      setPerfiles(respuesta.data);
-  })
-    .catch((err) => {
-      setError('No se pudo obtener los perfiles');
-    });
+      .get(`${urlApi}/api/perfil/getAll`, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((respuesta) => {
+        setPerfiles(respuesta.data);
+      })
+      .catch(() => {
+        setError('No se pudo obtener los perfiles');
+      })
+    
+		axios
+      .post(`${urlApi}/api/auth/crearUsu`, usuData, {
+        headers: { Authorization: `Bearer ${authToken}` },
+      })
+      .then((respuesta) => {
+        setUsuarios(respuesta.data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+      
   }, [urlApi, authToken, tablaActualizada]);
 
   const [usuData, setUsuData] = useState({
@@ -130,7 +143,7 @@ const Usuarios = () => {
           },
         })
         .then((respuesta) => {
-          console.log('nuevo producto', respuesta);
+          console.log('nuevo usuario', respuesta);
           setTablaActualizada(!tablaActualizada);
           setCargando(true);
           setUsuData({
@@ -217,7 +230,7 @@ const Usuarios = () => {
               value={usuData.usuEmail}
               onInput={inputHandler}
               required
-            />
+              />
           </div>
           <div className='w-full md:w-1/2'>
             <label htmlFor='usuNoDoc' className='form-label'>
@@ -231,7 +244,7 @@ const Usuarios = () => {
               value={usuData.usuNoDoc}
               onInput={inputHandler}
               required
-            />
+              />
           </div>
           <div className='group md:w-1/2'>
             <label htmlFor='usuContra' className='form-label'> Contraseña </label>
@@ -258,8 +271,8 @@ const Usuarios = () => {
           </div>
           {/* <div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
-              Subir una imagen
-            </label>
+            Subir una imagen
+            </label>  
             <input
               type='file'
               name='usuImg'
@@ -268,8 +281,8 @@ const Usuarios = () => {
               className='inputFile'
               onChange={handleFiles}
               ref={inputFileRef} // Referencia al campo de entrada de archivo
-            />
-          </div> */}
+              />
+            </div> */}
         </div>
         <div className='row'>
           <Button>
