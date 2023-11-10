@@ -3,7 +3,7 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from './Auth/Autenticacion'
 import NavBar from '../components/navbar/navBar.jsx'
-import Header from './header/Header.jsx'
+import Header from './header/header.jsx'
 
 export const ProtectedRoute = ({ children }) => {
 	const { authToken, user } = useAuth()

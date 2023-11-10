@@ -3,14 +3,16 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
-// import $ from 'jquery';
+import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Usuarios = () => {
   const {urlApi, authToken } = useAuth();
   const inputFileRef = useRef(null);
+  
   const [usuarios, setUsuarios] = useState([]);
+  const [perfiles, setPerfiles] = useState([])
   const [file, setFile] = useState(null);
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
@@ -29,7 +31,18 @@ const Usuarios = () => {
       .catch((err) => {
         setCargando(false);
         setError(err.message);
-      });
+      })
+      
+    axios
+    .get(`${urlApi}/api/perfil/getAll`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    })
+    .then((respuesta) => {
+      setPerfiles(respuesta.data);
+  })
+    .catch((err) => {
+      setError('No se pudo obtener los perfiles');
+    });
   }, [urlApi, authToken, tablaActualizada]);
 
   const [usuData, setUsuData] = useState({
@@ -99,11 +112,11 @@ const Usuarios = () => {
             usuFecha: '',
             usuPassCode: '',
           });
-          // $('#catId').val('');
-          // setFile(null);
-          // if (inputFileRef.current) {
-          //   inputFileRef.current.value = '';
-          // }
+          $('#perfilId').val('');
+          setFile(null);
+          if (inputFileRef.current) {
+            inputFileRef.current.value = '';
+          }
         })
         .catch((err) => {
           console.log('error', err);
@@ -117,7 +130,7 @@ const Usuarios = () => {
           },
         })
         .then((respuesta) => {
-          // console.log('nuevo producto', respuesta);
+          console.log('nuevo producto', respuesta);
           setTablaActualizada(!tablaActualizada);
           setCargando(true);
           setUsuData({
@@ -134,11 +147,11 @@ const Usuarios = () => {
             usuFecha: '',
             usuPassCode: '',
           });
-          // $('#perfilId').val('');
+          $('#perfilId').val('');
           setFile(null);
           // document.getElementById('usuImg').value = '';
           if (inputFileRef.current) {
-            inputFileRef.current.value = '';
+              inputFileRef.current.value = '';
           }
         })
         // .catch((err) => {
@@ -180,7 +193,7 @@ const Usuarios = () => {
       <form method='post' onSubmit={formHandler} encType='multipart/form-data'>
         <div className='row'>
 					<div className='w-full md:w-1/2'>
-						<label htmlFor='usuTipoDoc' >Tipo de documento</label>
+						<label htmlFor='usuTipoDoc' className='form-label'>Tipo de documento</label>
 						<select name="usuTipoDoc" id="usuTipoDoc" className='input' onChange={inputHandler} value>
 							<option value="">Seleccine un tipo de documento</option>
 							<option value="3">T.I</option>
@@ -228,9 +241,9 @@ const Usuarios = () => {
             <label htmlFor="perfilId" className='form-label'> Perfil </label>
             <select name="perfilId" id="perfilId" className='input' onChange={inputHandler} required>
               <option value="">Seleccione un Perfil</option>
-              <option value="1">Administrador</option>
-              <option value="2">Usuario</option>
-              <option value="3">Cajero</option>
+              {perfiles.length !==0 ? perfiles.map((per) =>{
+                return (<option key={per.perfilId} value={per.perfilId}>{per.perfilNom}</option>)
+              }):null}
               {/* {perfilId} */}
             </select>
           </div>
@@ -243,7 +256,7 @@ const Usuarios = () => {
 						<label htmlFor=''>Femenino</label>
             </div>
           </div>
-          <div className='w-full md:w-1/2'>
+          {/* <div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
               Subir una imagen
             </label>
@@ -256,7 +269,7 @@ const Usuarios = () => {
               onChange={handleFiles}
               ref={inputFileRef} // Referencia al campo de entrada de archivo
             />
-          </div>
+          </div> */}
         </div>
         <div className='row'>
           <Button>
