@@ -17,6 +17,7 @@ import Compra from './pages/compra/Compra.jsx';
 import Pagina from './pages/pagina/pagina.jsx';
 import Perfil from './pages/perfil/perfil.jsx';
 import Usuario from './pages/usuario/Usuario.jsx';
+import QrCode from './components/qrCode/QrCode.jsx';
 
 function App() {
 	return (

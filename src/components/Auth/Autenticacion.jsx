@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
+import { redirect } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -57,6 +58,7 @@ export function AuthProvider({ children }) {
 		setAuthToken(null);
 		setUser(null);
 		setIsAuth(false);
+		redirect("/")
 	};
 
 	const verifyToken = async (token) => {

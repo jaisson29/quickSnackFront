@@ -51,7 +51,9 @@ function Registro() {
 		});
 	}
 
-	if (isAuth) return <Navigate to='/menu' />;
+	if (isAuth) {
+		return <Navigate to='/menu' />;
+	}
 	return (
 		<ContEntrada>
 			<div className='text-center'>
