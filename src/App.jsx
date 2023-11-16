@@ -1,22 +1,22 @@
 /** @format */
 
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Login from './pages/login/Login.jsx'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Login from './pages/login/Login.jsx';
 // import Inicio from './pages/inicio/Inicio.jsx';
-import Registro from './pages/registro/Registro.jsx'
-import PageNotFound from './pages/PageNotFound/404.jsx'
-import Home from './pages/home/Home.jsx'
-import Menu from './pages/menu/Menu.jsx'
-import Transaccion from './pages/transaccion/Transaccion.jsx'
-import { AuthProvider } from './components/Auth/Autenticacion.jsx'
-import { ProtectedRoute } from './components/ProtectedRoute.jsx'
-import Productos from './pages/productos/Productos.jsx'
-import Categoria from './pages/categoria/Categoria.jsx'
-import Compra from './pages/compra/Compra.jsx'
-import Pagina from './pages/pagina/pagina.jsx'
-import Perfil from './pages/perfil/perfil.jsx'
-import Usuario from './pages/usuario/Usuario.jsx'
+import Registro from './pages/registro/Registro.jsx';
+import PageNotFound from './pages/PageNotFound/404.jsx';
+import Home from './pages/home/Home.jsx';
+import Menu from './pages/menu/Menu.jsx';
+import Transaccion from './pages/transaccion/Transaccion.jsx';
+import { AuthProvider } from './components/Auth/Autenticacion.jsx';
+import { ProtectedRoute } from './components/ProtectedRoute.jsx';
+import Productos from './pages/productos/Productos.jsx';
+import Categoria from './pages/categoria/Categoria.jsx';
+import Compra from './pages/compra/Compra.jsx';
+import Pagina from './pages/pagina/pagina.jsx';
+import Perfil from './pages/perfil/perfil.jsx';
+import Usuario from './pages/usuario/Usuario.jsx';
 
 function App() {
 	return (
@@ -28,15 +28,18 @@ function App() {
 				<Route path='/menu' element={<ProtectedRoute children={<Menu />} />} />
 				<Route path='/productos' element={<ProtectedRoute children={<Productos />} />} />
 				<Route path='/transaccion' element={<ProtectedRoute children={<Transaccion />} />} />
-        		<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
+				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
 				<Route path='/categorias' element={<ProtectedRoute children={<Categoria />} />} />
 				<Route path='/paginas' element={<ProtectedRoute children={<Pagina />} />} />
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
+				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
+				<Route path='/olvid' element={<Usuario />} />
+				<Route path='/reset/:token' element={<Usuario />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</AuthProvider>
-	)
+	);
 }
 
-export default App
+export default App;

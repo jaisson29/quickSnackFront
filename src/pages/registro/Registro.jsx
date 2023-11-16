@@ -1,18 +1,18 @@
 /** @format */
 
-import ContEntrada from '../../components/contEntrada/ContEntrada'
-import { Link, Navigate, redirect, useNavigate } from 'react-router-dom'
-import Logo from '../../assets/logoQS.svg'
-import './registro.css'
-import LogoNom from '../../assets/QSName.svg'
-import { useState } from 'react'
-import Button from '../../components/boton/Button'
-import axios from 'axios'
-import { useAuth } from '../../components/Auth/Autenticacion'
+import ContEntrada from '../../components/contEntrada/ContEntrada';
+import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
+import Logo from '../../assets/logoQS.svg';
+import './registro.css';
+import LogoNom from '../../assets/QSName.svg';
+import { useState } from 'react';
+import Button from '../../components/boton/Button';
+import axios from 'axios';
+import { useAuth } from '../../components/Auth/Autenticacion';
 
 function Registro() {
-	const navigate = useNavigate()
-	const { isAuth, urlApi, authToken } = useAuth()
+	const navigate = useNavigate();
+	const { isAuth, urlApi, authToken } = useAuth();
 	const [usuData, setUsuData] = useState({
 		usuTipoDoc: null,
 		usuGen: null,
@@ -20,37 +20,38 @@ function Registro() {
 		usuEmail: null,
 		usuContra: null,
 		usuIngreso: null,
-	})
+	});
 	// const [valor, setValor] = useState(null);
 
 	const crearUsu = (e) => {
-		e.preventDefault()
+		e.preventDefault();
+		alert('se pulso ');
 		axios
 			.post(`${urlApi}/api/auth/crearUsu`, usuData, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
 			.then((respuesta) => {
-				console.log(respuesta)
+				console.log(respuesta);
 				if (respuesta.status === 200) {
-					navigate('/')
+					navigate('/');
 				} else {
-					console.error('no se pudo registrar')
+					console.error('no se pudo registrar');
 				}
 			})
 			.catch((error) => {
-				redirect('/registro')
-				console.error('error', error)
-			})
-	}
+				redirect('/registro');
+				console.error('error', error);
+			});
+	};
 
 	function handleInputs(event) {
 		setUsuData({
 			...usuData,
 			[event.target.name]: event.target.value,
-		})
+		});
 	}
 
-	if (isAuth) return <Navigate to='/menu' />
+	if (isAuth) return <Navigate to='/menu' />;
 	return (
 		<ContEntrada>
 			<div className='text-center'>
@@ -173,7 +174,7 @@ function Registro() {
 				</div>
 			</form>
 		</ContEntrada>
-	)
+	);
 }
 
-export default Registro
+export default Registro;

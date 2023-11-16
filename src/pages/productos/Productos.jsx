@@ -1,70 +1,70 @@
 /** @format */
 
-import React, { useState, useEffect, useRef } from 'react'
-import { useAuth } from '../../components/Auth/Autenticacion'
-import axios from 'axios'
-import DataTable from 'react-data-table-component'
-import Button from '../../components/boton/Button'
-import './productos.css'
-import $ from 'jquery'
-import Error from '../../components/error/Error'
-import Cargando from '../../components/cargando/Cargando'
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuth } from '../../components/Auth/Autenticacion';
+import DataTable from 'react-data-table-component';
+import Button from '../../components/boton/Button';
+import './productos.css';
+import $ from 'jquery';
+import Error from '../../components/error/Error';
+import Cargando from '../../components/cargando/Cargando';
 
 const Productos = () => {
-	const { urlApi, authToken } = useAuth()
-	const inputFileRef = useRef(null)
+	const { urlApi, authToken, instance } = useAuth();
+	const inputFileRef = useRef(null);
 
-	const [productos, setProductos] = useState([])
-	const [categorias, setCategorias] = useState([])
-	const [valEli, setValEli] = useState([])
-	const [file, setFile] = useState(null)
-	const [tablaActualizada, setTablaActualizada] = useState(true)
-	const [cargando, setCargando] = useState(true)
-	const [error, setError] = useState('')
+	const [productos, setProductos] = useState([]);
+	const [categorias, setCategorias] = useState([]);
+	const [valEli, setValEli] = useState([]);
+	const [file, setFile] = useState(null);
+	const [tablaActualizada, setTablaActualizada] = useState(true);
+	const [cargando, setCargando] = useState(true);
+	const [error, setError] = useState('');
 
 	useEffect(() => {
-		setCargando(true)
-		axios
+		setCargando(true);
+		instance
 			.get(`${urlApi}/api/producto/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
 			.then((respuesta) => {
-				setCargando(false)
-				setProductos(respuesta.data)
+				setCargando(false);
+				setProductos(respuesta.data);
 			})
 			.catch((err) => {
-				setCargando(false)
-				setError(err.message)
-			})
+				setCargando(false);
+				setError(err.message);
+			});
 
-		axios
+		instance
 			.get(`${urlApi}/api/catego/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
 			.then((res) => {
-				setCategorias(res.data)
+				setCategorias(res.data);
 			})
 			.catch(() => {
-				setError('No se pudo obtener las categorías')
-			})
+				setError('No se pudo obtener las categorías');
+			});
 
-		axios
+		instance
 			.get(`${urlApi}/api/producto/getVenXProd`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
 			.then((result) => {
-				const fnList = []
-				result.data.map((element) => {
-					fnList.push(element.prodId)
-					return element.prodId
-				})
-				setValEli(fnList)
+				if (result.status === 200) {
+					const fnList = [];
+					result.data.map((element) => {
+						fnList.push(element.prodId);
+						return element.prodId;
+					});
+					setValEli(fnList);
+				}
 			})
-
 			.catch((err) => {
-				console.log(err)
-			})
-	}, [urlApi, authToken, tablaActualizada])
+				console.log(err);
+			});
+	}, [urlApi, authToken, tablaActualizada, instance]);
 
 	const [prodData, setProdData] = useState({
 		prodId: '',
@@ -74,41 +74,41 @@ const Productos = () => {
 		prodValCom: '',
 		prodValVen: '',
 		catId: '',
-	})
+	});
 
-	const formData = new FormData()
-	formData.append('prodId', prodData.prodId)
-	formData.append('prodNom', prodData.prodNom)
-	formData.append('prodDescr', prodData.prodDescr)
-	formData.append('prodValCom', prodData.prodValCom)
-	formData.append('prodValVen', prodData.prodValVen)
-	formData.append('catId', prodData.catId)
-	formData.append('prodImg', file ? file : prodData.prodImg)
+	const formData = new FormData();
+	formData.append('prodId', prodData.prodId);
+	formData.append('prodNom', prodData.prodNom);
+	formData.append('prodDescr', prodData.prodDescr);
+	formData.append('prodValCom', prodData.prodValCom);
+	formData.append('prodValVen', prodData.prodValVen);
+	formData.append('catId', prodData.catId);
+	formData.append('prodImg', file ? file : prodData.prodImg);
 
 	function inputHandler(event) {
 		setProdData({
 			...prodData,
 			[event.target.name]: event.target.value,
-		})
+		});
 	}
 	function handleFiles(event) {
-		setFile(event.target.files[0])
+		setFile(event.target.files[0]);
 	}
 
 	function formHandler(e) {
-		e.preventDefault()
+		e.preventDefault();
 
 		if (prodData.prodId) {
-			axios
+			instance
 				.put(`${urlApi}/api/producto/update`, formData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
 				})
 				.then((res) => {
-					console.log(res)
-					setTablaActualizada(!tablaActualizada)
-					setCargando(true)
+					console.log(res);
+					setTablaActualizada(!tablaActualizada);
+					setCargando(true);
 					setProdData({
 						prodId: '',
 						prodNom: '',
@@ -116,18 +116,18 @@ const Productos = () => {
 						prodValCom: '',
 						prodValVen: '',
 						catId: '',
-					})
-					$('#catId').val('')
-					setFile(null)
+					});
+					$('#catId').val('');
+					setFile(null);
 					if (inputFileRef.current) {
-						inputFileRef.current.value = ''
+						inputFileRef.current.value = '';
 					}
 				})
 				.catch((err) => {
-					console.log('error', err)
-				})
+					console.log('error', err);
+				});
 		} else {
-			axios
+			instance
 				.post(`${urlApi}/api/producto/create`, formData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
@@ -135,8 +135,8 @@ const Productos = () => {
 					},
 				})
 				.then((respuesta) => {
-					setTablaActualizada(!tablaActualizada)
-					setCargando(true)
+					setTablaActualizada(!tablaActualizada);
+					setCargando(true);
 					setProdData({
 						prodId: '',
 						prodNom: '',
@@ -144,46 +144,46 @@ const Productos = () => {
 						prodValCom: '',
 						prodValVen: '',
 						catId: '',
-					})
-					$('#catId').val('')
-					setFile(null)
+					});
+					$('#catId').val('');
+					setFile(null);
 					// document.getElementById('prodImg').value = '';
 					if (inputFileRef.current) {
-						inputFileRef.current.value = ''
+						inputFileRef.current.value = '';
 					}
 				})
 				.catch((err) => {
-					console.log('Error al crear el producto', err)
-				})
+					console.log('Error al crear el producto', err);
+				});
 		}
 	}
 
 	function editarProd(id) {
-		const prod = productos.find((p) => p.prodId === id)
+		const prod = productos.find((p) => p.prodId === id);
 		setProdData({
 			...prod,
 			prodId: id,
 			catId: prod.catId,
-		})
-		$('#catId').val(prod.catId)
+		});
+		$('#catId').val(prod.catId);
 	}
 
 	function eliminarProd(id) {
-		axios
+		instance
 			.delete(`${urlApi}/api/producto/delete/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			})
 			.then((respuesta) => {
-				console.log(respuesta)
-				setTablaActualizada(!tablaActualizada)
-				setCargando(true)
+				console.log(respuesta);
+				setTablaActualizada(!tablaActualizada);
+				setCargando(true);
 			})
 			.catch((err) => {
-				console.log(err)
-			})
-		return id
+				console.log(err);
+			});
+		return id;
 	}
 
 	return (
@@ -261,7 +261,7 @@ const Productos = () => {
 											<option key={cat.catId} value={cat.catId}>
 												{cat.catNom}
 											</option>
-										)
+										);
 								  })
 								: null}
 						</select>
@@ -343,7 +343,7 @@ const Productos = () => {
 				/>
 			)}
 		</>
-	)
-}
+	);
+};
 
-export default Productos
+export default Productos;
