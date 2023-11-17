@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import Cargando from '../../components/cargando/Cargando';
 import Tarjeta from '../../components/tarjeta/Tarjeta';
-import axios from 'axios';
 import './menu.css';
 
 function Menu() {
-  const { urlApi, authToken } = useAuth();
+  const { urlApi, authToken, instance } = useAuth();
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
     setCargando(true);
-    axios
+    instance
       .get(`${urlApi}/api/producto/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
@@ -35,7 +34,7 @@ function Menu() {
           <Cargando />
         ) : productos.length > 0 ? (
           productos.map((prod) => (
-            <Tarjeta
+            <Tarjeta prod ={prod}
               key={prod.prodId}
               id={prod.prodId}
               nom={prod.prodNom}

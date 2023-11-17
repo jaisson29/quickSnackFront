@@ -1,3 +1,4 @@
+
 /** @format */
 
 import { useAuth } from '../Auth/Autenticacion'
@@ -12,7 +13,7 @@ const Header = () => {
 	const { user, state, logout } = useAuth()
 	let cartItems = state.cart.cartItems
 
-	const { usuNom, perfilNom, usuGen, usuEmail } = user
+	const { usuNom, perfilNom, usuGen } = user
 
 	return (
 		<header className='flex items-center justify-end w-full text-right'>
@@ -40,8 +41,8 @@ const Header = () => {
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu>
-						<Dropdown.Item href='#'>{usuNom}</Dropdown.Item>
-						<Dropdown.Item href='#'>{usuEmail}</Dropdown.Item>
+						<Dropdown.Item href='#/action-1'>Action</Dropdown.Item>
+						<Dropdown.Item href='#/action-2'>Another action</Dropdown.Item>
 						<Dropdown.Item onClick={() => logout()}><i className='pr-2 fa fa-power-off fa-lg'></i>Cerrar sesión</Dropdown.Item>
 					</Dropdown.Menu>
 				</Dropdown>
