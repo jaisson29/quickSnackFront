@@ -88,7 +88,7 @@ function Login() {
 					</Link>
 				</div>
 				<div className='group'>
-					<Link className='pl-5 underline hover:text-clNar' to='/recuperar'>
+					<Link className='pl-5 underline hover:text-clNar' to='/olvid'>
 						Olvido su Contraseña
 					</Link>
 				</div>

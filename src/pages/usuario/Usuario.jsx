@@ -44,17 +44,6 @@ const Usuarios = () => {
       .catch(() => {
         setError('No se pudo obtener los perfiles');
       })
-    
-		axios
-      .post(`${urlApi}/api/auth/crearUsu`, usuData, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      })
-      .then((respuesta) => {
-        setUsuarios(respuesta.data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
       
   }, [urlApi, authToken, tablaActualizada]);
 
@@ -269,7 +258,7 @@ const Usuarios = () => {
 						<label htmlFor=''>Femenino</label>
             </div>
           </div>
-          {/* <div className='w-full md:w-1/2'>
+          <div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
             Subir una imagen
             </label>  
@@ -282,7 +271,7 @@ const Usuarios = () => {
               onChange={handleFiles}
               ref={inputFileRef} // Referencia al campo de entrada de archivo
               />
-            </div> */}
+            </div>
         </div>
         <div className='row'>
           <Button>

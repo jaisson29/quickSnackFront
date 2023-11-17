@@ -2,7 +2,7 @@
 
 import Logo from '../../assets/logoQS.svg'
 import LogoNom from '../../assets/QSName.svg'
-import './login.css'
+import './restablecer.css'
 import Button from '../../components/boton/Button.jsx'
 import { Link, Navigate, redirect } from 'react-router-dom'
 import ContEntrada from '../../components/contEntrada/ContEntrada'
@@ -10,7 +10,7 @@ import { useAuth } from '../../components/Auth/Autenticacion'
 import axios from 'axios'
 import { useState } from 'react'
 
-function Login() {
+function Reset() {
 	const { login, isAuth, urlApi, user } = useAuth()
 	const [usuData, setUsuData] = useState({
 		usuEmail: null,
@@ -53,23 +53,21 @@ function Login() {
 			<form action='' className='flex flex-col gap-4 my-2' method='POST' onSubmit={iniciarSesion}>
 				<div className='row'>
 					<div className=''>
-						<label htmlFor='usuEmail' className='form-label'>
-							Correo eléctronico
+						<label htmlFor='usuContra' className='form-label'>
+							Nueva Contraseña
 						</label>
 						<input
-							id='usuEmail'
-							name='usuEmail'
-							autoComplete='email'
-							type='text'
+							id='usuContra'
+							name='usuContra'
+							autoComplete='pass'
+							type='password'
 							className='input'
 							onInput={handleInputs}
 							required
 						/>
-					</div>
-
-					<div className=''>
+					</div><div className=''>
 						<label htmlFor='usuContra' className='form-label'>
-							Contraseña
+							Confirmar nueva contraseña
 						</label>
 						<input
 							id='usuContra'
@@ -82,19 +80,9 @@ function Login() {
 						/>
 					</div>
 				</div>
-				<div className='group'>
-					<Link className='pl-5 hover:text-clNar' to='/registro'>
-						Crear una cuenta
-					</Link>
-				</div>
-				<div className='group'>
-					<Link className='pl-5 underline hover:text-clNar' to='/recuperar'>
-						Olvido su Contraseña
-					</Link>
-				</div>
 				<div className='text-center group'>
 					<Button extraClass='px-0 py-0'>
-						<input type='submit' className='h-full px-4 cursor-pointer' value='Iniciar sesión' />
+						<input type='submit' className='h-full px-4 cursor-pointer' value='Confirmar' />
 					</Button>
 				</div>
 			</form>
@@ -102,4 +90,4 @@ function Login() {
 	)
 }
 
-export default Login
+export default Reset
