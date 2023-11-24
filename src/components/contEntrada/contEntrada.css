@@ -1,7 +1,22 @@
+/** @format */
+
 @tailwind components;
 
 @layer components {
-  .entrada {
-    box-shadow: 0px 0px 20px 0px #000;
-  }
+	.qsLogo {
+		content: url('../../assets/logoQS.svg');
+	}
+
+	.qsNom {
+		content: url('../../assets/QSName.svg');
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.qsLogo {
+      content: url('../../assets/logoQSW.svg');
+    }
+		.qsNom {
+			content: url('../../assets/QSNameW.svg');
+		}
+	}
 }

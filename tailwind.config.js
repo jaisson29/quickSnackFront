@@ -3,7 +3,7 @@
  * @type {import('tailwindcss').Config}
  */
 
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
 	content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -11,13 +11,19 @@ module.exports = {
 		...colors,
 		extend: {
 			colors: {
-				clRos: '#F8DAC5',
-				clRoj: '#E75A48',
-				clNar: '#FFB034',
+				clBlan: '#FCF9F9',
+				clRos: '#F7B6B6',
+				clRoj: '#D32027',
+				clRojL: '#F45050',
+				clNar: '#F5BB3F',
+				clNegL: '#868282',
+				clNeg: '#3D3B3B',
 			},
 			width: {
-				100: '400px',
-				150: '600px',
+				100: '25rem',
+				130: '30rem',
+				140: '40rem',
+				150: '50rem',
 				'1/24': '4.166667%',
 				'2/24': '8.333333%',
 				'3/24': '12.5%',
@@ -43,8 +49,10 @@ module.exports = {
 				'23/24': '95.833333%',
 			},
 			height: {
-				100: '400px',
-				150: '600px',
+				100: '25rem',
+				130: '30rem',
+				140: '40rem',
+				150: '50rem',
 				'1/12': '8.333333%',
 				'2/12': '16.666667%',
 				'3/12': '25%',
@@ -84,4 +92,4 @@ module.exports = {
 		},
 	},
 	plugins: ['macros'],
-}
+};

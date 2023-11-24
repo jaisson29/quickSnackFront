@@ -31,7 +31,6 @@ export function AuthProvider({ children }) {
 	);
 
 	const login = async (token) => {
-		setAuthToken(token);
 		instance
 			.get(`${urlApi}/api/auth/verify`, {
 				headers: {

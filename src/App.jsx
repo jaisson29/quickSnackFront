@@ -17,6 +17,8 @@ import Compra from './pages/compra/Compra.jsx';
 import Pagina from './pages/pagina/pagina.jsx';
 import Perfil from './pages/perfil/perfil.jsx';
 import Usuario from './pages/usuario/Usuario.jsx';
+// import Olvid from './pages/olvido/Olvid.jsx';
+// import Restablrecer from './pages/restablecer/Restablecer.jsx';
 
 function App() {
 	return (
@@ -34,8 +36,8 @@ function App() {
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
 				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
-				<Route path='/olvid' element={<Usuario />} />
-				<Route path='/reset/:token' element={<Usuario />} />
+				{/* <Route path='/olvid' element={<Olvid />} /> */}
+				{/* <Route path='/reset/:token' element={<Restablecer />} /> */}
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</AuthProvider>
