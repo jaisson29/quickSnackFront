@@ -4,7 +4,7 @@ import Logo from '../../assets/logoQS.svg'
 import LogoNom from '../../assets/QSName.svg'
 import './restablecer.css'
 import Button from '../../components/boton/Button.jsx'
-import { Link, Navigate, redirect } from 'react-router-dom'
+import { Link, Navigate, redirect, useParams, useSearchParams } from 'react-router-dom'
 import ContEntrada from '../../components/contEntrada/ContEntrada'
 import { useAuth } from '../../components/Auth/Autenticacion'
 import axios from 'axios'
@@ -16,6 +16,9 @@ function Reset() {
 		usuEmail: null,
 		usuContra: null,
 	})
+
+	const params = useParams()
+	console.log(params)
 
 	function iniciarSesion(event) {
 		event.preventDefault()

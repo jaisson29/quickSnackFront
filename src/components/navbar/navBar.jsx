@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import './navBar.css'
 import { Link, useLocation } from 'react-router-dom'
 import axios from 'axios'
-import Logo from '../../assets/logoQS.svg'
+import Logo from '../../assets/logoQSW.svg'
 import { useAuth } from '../Auth/Autenticacion'
 import Cargando from '../cargando/Cargando'
 

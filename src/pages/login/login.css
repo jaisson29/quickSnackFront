@@ -47,7 +47,7 @@
 	}
 
 	.input {
-		@apply block w-full h-12 px-2 border-b-2 border-clNeg dark:border-clBlan bg-clBlan dark:bg-clNeg;
+		@apply block w-full h-12 px-2 border-b-2 text-clNeg dark:text-clBlan border-clNeg dark:border-clBlan bg-clBlan dark:bg-clNeg;
 		padding-block: 5px;
 		margin-top: 5px;
 		text-indent: 12px;

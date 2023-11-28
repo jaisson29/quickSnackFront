@@ -303,8 +303,8 @@ const Usuarios = () => {
 					</div>
 					{/* <div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
-              Subir una imagen
-            </label>
+            Subir una imagen
+            </label>  
             <input
               type='file'
               name='usuImg'

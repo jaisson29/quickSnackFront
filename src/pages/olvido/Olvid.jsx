@@ -7,36 +7,29 @@ import './olvido.css';
 import LogoNom from '../../assets/QSName.svg';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
-import axios from 'axios';
 import { useAuth } from '../../components/Auth/Autenticacion';
+import Swal from 'sweetalert2';
 
 function Olvid() {
 	const navigate = useNavigate();
-	const { isAuth, urlApi, authToken } = useAuth();
-	const [usuData, setUsuData] = useState({
-		usuTipoDoc: null,
-		usuGen: null,
-		usuNom: null,
-		usuEmail: null,
-		usuContra: null,
-		usuIngreso: null,
+	const { isAuth, urlApi, authToken, instance } = useAuth();
+	const [emailData, setEmailData] = useState({
+		usuEmail: '',
+		cUsuEmail: '',
 	});
-	// const [valor, setValor] = useState(null);
 
-	const crearUsu = (e) => {
+	const handleForm = (e) => {
 		e.preventDefault();
-		alert('se pulso ');
-		axios
-			.post(`${urlApi}/api/auth/crearUsu`, usuData, {
-				headers: { Authorization: `Bearer ${authToken}` },
-			})
+		instance
+			.post(`${urlApi}/api/auth/forgotPass`, emailData)
 			.then((respuesta) => {
 				console.log(respuesta);
-				if (respuesta.status === 200) {
-					navigate('/');
-				} else {
-					console.error('no se pudo registrar');
-				}
+				Swal.fire({
+					title: 'Error!',
+					text: 'Do you want to continue',
+					icon: 'success',
+					confirmButtonText: 'Cool',
+				});
 			})
 			.catch((error) => {
 				redirect('/registro');
@@ -44,49 +37,49 @@ function Olvid() {
 			});
 	};
 
-	function handleInputs(event) {
-		setUsuData({
-			...usuData,
+	function handleInput(event) {
+		setEmailData({
+			...emailData,
 			[event.target.name]: event.target.value,
 		});
 	}
 
-	if (isAuth) return <Navigate to='/menu' />;
+	if (isAuth) return <Navigate to='/' />;
 	return (
 		<ContEntrada>
 			<div className='text-center'>
 				<img className='mx-auto w-28 h-28' src={Logo} alt=''></img>
 				<img className='mx-auto w-60 h-26' src={LogoNom} alt='' />
 			</div>
-			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={crearUsu}>
+			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={handleForm}>
 				<div className='row'>
-					<div className='w-full group'>
-						<label htmlFor='usuEmail' className='form-label'>
-							Correo eléctronico
-						</label>
+					<div className='form-group'>
 						<input
 							id='usuEmail'
 							name='usuEmail'
 							autoComplete='usuEmail'
-							type='email'
-							className='block border border-black input'
-							onInput={handleInputs}
+							type='mail'
+							className='input'
+							onInput={handleInput}
 							required
 						/>
-					</div>
-					<div className='w-full group'>
 						<label htmlFor='usuEmail' className='form-label'>
+							Correo eléctronico
+						</label>
+					</div>
+					<div className='form-group'>
+						<input
+							id='cUsuEmail'
+							name='cUsuEmail'
+							autoComplete='usuEmail'
+							type='mail'
+							className='input'
+							onInput={handleInput}
+							required
+						/>
+						<label htmlFor='cUsuEmail' className='form-label'>
 							Confirmar Correo eléctronico
 						</label>
-						<input
-							id='cusuEmail'
-							name='cusuEmail'
-							autoComplete='cusuEmail'
-							type='email'
-							className='block border border-black input'
-							onInput={handleInputs}
-							required
-						/>
 					</div>
 					<Link className='pl-5 my-3 underline hover:text-clNar' to='/'>
 						Iniciar sesión

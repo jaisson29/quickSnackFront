@@ -43,7 +43,7 @@ function Login() {
 		});
 	}
 
-	if (isAuth) return <Navigate to={`/${user.paginaRuta}`} />;
+	if (isAuth) return <Navigate to={`/`} />;
 	return (
 		<ContEntrada>
 			<div className='flex flex-col items-end h-44'>
@@ -66,7 +66,6 @@ function Login() {
 							Correo eléctronico
 						</label>
 					</div>
-
 					<div className='form-group'>
 						<input
 							id='usuContra'
@@ -82,10 +81,6 @@ function Login() {
 						</label>
 					</div>
 				</div>
-<<<<<<< HEAD
-				<div className='flex justify-end'>
-					<Link className='underline link' to='/recuperar'>
-=======
 				<div className='group'>
 					<Link className='pl-5 hover:text-clNar' to='/registro'>
 						Crear una cuenta
@@ -93,7 +88,6 @@ function Login() {
 				</div>
 				<div className='group'>
 					<Link className='pl-5 underline hover:text-clNar' to='/olvid'>
->>>>>>> 0682886890eb3414e65126f050b86d5870204bcc
 						Olvido su Contraseña
 					</Link>
 				</div>

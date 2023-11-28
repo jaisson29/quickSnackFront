@@ -17,15 +17,10 @@ import Compra from './pages/compra/Compra.jsx';
 import Pagina from './pages/pagina/pagina.jsx';
 import Perfil from './pages/perfil/perfil.jsx';
 import Usuario from './pages/usuario/Usuario.jsx';
-<<<<<<< HEAD
-// import Olvid from './pages/olvido/Olvid.jsx';
-// import Restablrecer from './pages/restablecer/Restablecer.jsx';
-
-import { createTheme } from 'react-data-table-component';
-=======
 import Olvid from './pages/olvido/Olvid.jsx';
 import Reset from './pages/restablecer/Restablecer.jsx';
->>>>>>> 0682886890eb3414e65126f050b86d5870204bcc
+
+import { createTheme } from 'react-data-table-component';
 
 function App() {
 	createTheme(
@@ -91,13 +86,8 @@ function App() {
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
 				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
-<<<<<<< HEAD
-				{/* <Route path='/olvid' element={<Olvid />} /> */}
-				{/* <Route path='/reset/:token' element={<Restablecer />} /> */}
-=======
 				<Route exact path='/olvid' element={<Olvid/>} />
-				<Route path='/reset' element={<Reset />} />
->>>>>>> 0682886890eb3414e65126f050b86d5870204bcc
+				<Route path='/reset/:token' element={<Reset />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</AuthProvider>
