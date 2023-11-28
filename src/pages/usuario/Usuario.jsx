@@ -18,7 +18,6 @@ const Usuarios = () => {
   const [tablaActualizada, setTablaActualizada] = useState(true);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
-
   useEffect(() => {
     setCargando(true);
     axios
