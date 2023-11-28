@@ -20,7 +20,57 @@ import Usuario from './pages/usuario/Usuario.jsx';
 // import Olvid from './pages/olvido/Olvid.jsx';
 // import Restablrecer from './pages/restablecer/Restablecer.jsx';
 
+import { createTheme } from 'react-data-table-component';
+
 function App() {
+	createTheme(
+		'solarized',
+		{
+			text: {
+				primary: '#268bd2',
+				secondary: '#2aa198',
+			},
+			background: {
+				default: '#3D3B3B',
+			},
+			context: {
+				background: '#cb4b16',
+				text: '#FFFFFF',
+			},
+			divider: {
+				default: '#073642',
+			},
+			action: {
+				button: 'rgba(0,0,0,.54)',
+				hover: 'rgba(0,0,0,.08)',
+				disabled: 'rgba(0,0,0,.12)',
+			},
+		},
+		'dark',
+	);
+
+	createTheme('oscuro', {
+		text: {
+			primary: '#268bd2',
+			secondary: '#2aa198',
+		},
+		background: {
+			default: '#3D3B3B',
+		},
+		context: {
+			background: '#cb4b16',
+			text: '#FFFFFF',
+		},
+		divider: {
+			default: '#073642',
+		},
+		action: {
+			button: 'rgba(0,0,0,.54)',
+			hover: 'rgba(0,0,0,.08)',
+			disabled: 'rgba(0,0,0,.12)',
+		},
+	});
+
 	return (
 		<AuthProvider>
 			<Routes>
