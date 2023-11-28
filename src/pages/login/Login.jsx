@@ -82,8 +82,18 @@ function Login() {
 						</label>
 					</div>
 				</div>
+<<<<<<< HEAD
 				<div className='flex justify-end'>
 					<Link className='underline link' to='/recuperar'>
+=======
+				<div className='group'>
+					<Link className='pl-5 hover:text-clNar' to='/registro'>
+						Crear una cuenta
+					</Link>
+				</div>
+				<div className='group'>
+					<Link className='pl-5 underline hover:text-clNar' to='/olvid'>
+>>>>>>> 0682886890eb3414e65126f050b86d5870204bcc
 						Olvido su Contraseña
 					</Link>
 				</div>
