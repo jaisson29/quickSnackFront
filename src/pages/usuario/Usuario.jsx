@@ -275,7 +275,7 @@ const Usuarios = () => {
 												{per.perfilNom}
 											</option>
 										);
-								  })
+								})
 								: null}
 							{/* {perfilId} */}
 						</select>

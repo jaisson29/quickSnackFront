@@ -1,26 +1,24 @@
 /** @format */
 
-import Logo from '../../assets/logoQS.svg';
-import LogoNom from '../../assets/QSName.svg';
 import './login.css';
 import Button from '../../components/boton/Button.jsx';
 import { Link, Navigate, redirect } from 'react-router-dom';
 import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { useAuth } from '../../components/Auth/Autenticacion';
-import axios from 'axios';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 function Login() {
-	const { login, isAuth, urlApi, user } = useAuth();
+	const { login, isAuth, urlApi, user, instance } = useAuth();
 	const [usuData, setUsuData] = useState({
-		usuEmail: null,
-		usuContra: null,
+		usuEmail: '',
+		usuContra: '',
 	});
 
 	function iniciarSesion(event) {
 		event.preventDefault();
 
-		axios
+		instance
 			.post(`${urlApi}/api/auth/loguear`, {
 				...usuData,
 			})
@@ -29,10 +27,18 @@ function Login() {
 				await login(loginToken);
 				redirect(`/${respuesta.data.pg}`);
 			})
-			.catch((error) => {
-				console.error(error);
-
-				redirect('/');
+			.catch((err) => {
+				Swal.fire({
+					title: 'Error!',
+					text: err.response.data.error,
+					icon: 'error',
+					confirmButtonText: 'Continuar',
+				}).then((res) => {
+					setUsuData({
+						usuEmail: '',
+						usuContra: '',
+					});
+				});
 			});
 	}
 
@@ -43,7 +49,7 @@ function Login() {
 		});
 	}
 
-	if (isAuth) return <Navigate to={`/`} />;
+	if (isAuth) return <Navigate to={`/${user.paginaRuta}`} />;
 	return (
 		<ContEntrada>
 			<div className='flex flex-col items-end h-44'>
@@ -60,6 +66,7 @@ function Login() {
 							type='text'
 							className='input'
 							onInput={handleInputs}
+							value={usuData.usuEmail}
 							required
 						/>
 						<label htmlFor='usuEmail' className='form-label'>
@@ -74,6 +81,7 @@ function Login() {
 							type='password'
 							className='input'
 							onInput={handleInputs}
+							value={usuData.usuContra}
 							required
 						/>
 						<label htmlFor='usuContra' className='form-label'>
@@ -81,13 +89,8 @@ function Login() {
 						</label>
 					</div>
 				</div>
-				<div className='group'>
-					<Link className='pl-5 hover:text-clNar' to='/registro'>
-						Crear una cuenta
-					</Link>
-				</div>
-				<div className='group'>
-					<Link className='pl-5 underline hover:text-clNar' to='/olvid'>
+				<div className='w-full text-end'>
+					<Link className='underline link' to='/olvid'>
 						Olvido su Contraseña
 					</Link>
 				</div>

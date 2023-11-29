@@ -78,7 +78,7 @@ export function AuthProvider({ children }) {
 
 	const initialState = {
 		cart: {
-			cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
+			cartItems: sessionStorage.getItem('cartItems') ? JSON.parse(sessionStorage.getItem('cartItems')) : [],
 		},
 	};
 
@@ -92,7 +92,7 @@ export function AuthProvider({ children }) {
 							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
 					  )
 					: [...state.cart.cartItems, newItem];
-				localStorage.setItem('cartItems', JSON.stringify(cartItems));
+				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 				return { ...state, cart: { ...state.cart, cartItems } };
 			}
 			case 'CART_DECREASE': {
@@ -112,7 +112,7 @@ export function AuthProvider({ children }) {
 				return { ...state, cart: { ...state.cart, cartItems: newCartItems } };
 			}
 			case 'CART_CLEAR':
-				localStorage.removeItem('cartItems');
+				sessionStorage.removeItem('cartItems');
 				return { ...initialState };
 			default:
 				return state;

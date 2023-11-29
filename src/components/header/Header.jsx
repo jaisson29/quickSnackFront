@@ -35,13 +35,14 @@ const Header = () => {
 					<p>{perfilNom}</p>
 				</div>
 				<Dropdown>
-					<Dropdown.Toggle size='lg' className='text-black bg-transparent' id='dropdown-basic'>
+					<Dropdown.Toggle size='lg' className='text-black bg-transparent border-0' id='dropdown-basic'>
 						<img src={usuGen === 1 ? male : female} alt='../../assets/logoQS.svg' className='w-10 h-10 rounded-full' />
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu>
-						<Dropdown.Item href='#/action-1'>Action</Dropdown.Item>
-						<Dropdown.Item href='#/action-2'>Another action</Dropdown.Item>
+						<Dropdown.Item>
+							<Link to={'/personal'}>Datos personales</Link>
+						</Dropdown.Item>
 						<Dropdown.Item onClick={() => logout()}>
 							<i className='pr-2 fa fa-power-off fa-lg'></i>Cerrar sesión
 						</Dropdown.Item>

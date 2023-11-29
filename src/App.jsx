@@ -23,31 +23,27 @@ import Reset from './pages/restablecer/Restablecer.jsx';
 import { createTheme } from 'react-data-table-component';
 
 function App() {
-	createTheme(
-		'solarized',
-		{
-			text: {
-				primary: '#268bd2',
-				secondary: '#2aa198',
-			},
-			background: {
-				default: '#3D3B3B',
-			},
-			context: {
-				background: '#cb4b16',
-				text: '#FFFFFF',
-			},
-			divider: {
-				default: '#073642',
-			},
-			action: {
-				button: 'rgba(0,0,0,.54)',
-				hover: 'rgba(0,0,0,.08)',
-				disabled: 'rgba(0,0,0,.12)',
-			},
+	createTheme('claro', {
+		text: {
+			primary: '#268bd2',
+			secondary: '#2aa198',
 		},
-		'dark',
-	);
+		background: {
+			default: '#3D3B3B',
+		},
+		context: {
+			background: '#cb4b16',
+			text: '#FFFFFF',
+		},
+		divider: {
+			default: '#073642',
+		},
+		action: {
+			button: 'rgba(0,0,0,.54)',
+			hover: 'rgba(0,0,0,.08)',
+			disabled: 'rgba(0,0,0,.12)',
+		},
+	});
 
 	createTheme('oscuro', {
 		text: {
@@ -86,7 +82,7 @@ function App() {
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
 				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
-				<Route exact path='/olvid' element={<Olvid/>} />
+				<Route exact path='/olvid' element={<Olvid />} />
 				<Route path='/reset/:token' element={<Reset />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
@@ -95,4 +91,3 @@ function App() {
 }
 
 export default App;
-// /:token

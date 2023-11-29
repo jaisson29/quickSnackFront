@@ -1,86 +1,100 @@
 /** @format */
 
-import Logo from '../../assets/logoQS.svg'
-import LogoNom from '../../assets/QSName.svg'
-import './restablecer.css'
-import Button from '../../components/boton/Button.jsx'
-import { Link, Navigate, redirect, useParams, useSearchParams } from 'react-router-dom'
-import ContEntrada from '../../components/contEntrada/ContEntrada'
-import { useAuth } from '../../components/Auth/Autenticacion'
-import axios from 'axios'
-import { useState } from 'react'
+import './restablecer.css';
+import Button from '../../components/boton/Button.jsx';
+import { Navigate, redirect, useParams, useNavigate } from 'react-router-dom';
+import ContEntrada from '../../components/contEntrada/ContEntrada';
+import { useAuth } from '../../components/Auth/Autenticacion';
+import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 function Reset() {
-	const { login, isAuth, urlApi, user } = useAuth()
-	const [usuData, setUsuData] = useState({
+	const { isAuth, urlApi, instance } = useAuth();
+	const [passData, setPassData] = useState({
 		usuEmail: null,
 		usuContra: null,
-	})
+	});
+	const params = useParams();
+	const navigate = useNavigate();
 
-	const params = useParams()
-	console.log(params)
+	const handleForm = (event) => {
+		event.preventDefault();
 
-	function iniciarSesion(event) {
-		event.preventDefault()
-
-		axios
-			.post(`${urlApi}/api/auth/loguear`, {
-				...usuData,
+		instance
+			.post(`${urlApi}/api/auth/resetPass`, passData, {
+				headers: {
+					Authorization: `Bearer ${params.token}`,
+				},
 			})
 			.then(async (respuesta) => {
-				const loginToken = respuesta.data.token
-				await login(loginToken)
-				redirect(`/${respuesta.data.pg}`)
+				Swal.fire({
+					title: 'Exito!',
+					text: respuesta.data.message,
+					icon: 'success',
+					confirmButtonText: 'Continuar',
+				}).then((res) => {
+					if (res?.isConfirmed) {
+						navigate('/');
+					}
+				});
 			})
 			.catch((error) => {
-				console.error(error)
+				Swal.fire({
+					title: 'Error!',
+					text: error.message,
+					icon: 'error',
+					confirmButtonText: 'Continuar',
+				}).then((res) => {
+					if (res.isConfirmed()) {
+						navigate('/');
+					}
+				});
+			});
+	};
 
-				redirect('/')
-			})
-	}
-
-	function handleInputs(event) {
-		setUsuData({
-			...usuData,
+	const handleInput = (event) => {
+		setPassData({
+			...passData,
 			[event.target.name]: event.target.value,
-		})
-	}
+		});
+	};
 
-	if (isAuth) return <Navigate to={`/${user.paginaRuta}`} />
+	if (isAuth) return <Navigate to={`/`} />;
 	return (
 		<ContEntrada>
 			<div className='text-center'>
-				<img className='mx-auto w-28 h-28' src={Logo} alt=''></img>
-				<img className='mx-auto w-60 h-26' src={LogoNom} alt='' />
+				<img className='mx-auto w-28 h-28 qsLogo' alt=''></img>
+				<img className='mx-auto w-60 h-26 qsNom' alt='' />
 			</div>
-			<form action='' className='flex flex-col gap-4 my-2' method='POST' onSubmit={iniciarSesion}>
+			<form action='' className='flex flex-col gap-4 my-2' method='POST' onSubmit={handleForm}>
 				<div className='row'>
-					<div className=''>
+					<div className='form-group'>
+						<input
+							id='usuContra'
+							name='usuContra'
+							autoComplete='pass'
+							type='password'
+							className='input'
+							onInput={handleInput}
+							required
+						/>
 						<label htmlFor='usuContra' className='form-label'>
 							Nueva Contraseña
 						</label>
+					</div>
+					<div className='form-group'>
 						<input
 							id='usuContra'
 							name='usuContra'
 							autoComplete='pass'
 							type='password'
 							className='input'
-							onInput={handleInputs}
+							onInput={handleInput}
 							required
 						/>
-					</div><div className=''>
 						<label htmlFor='usuContra' className='form-label'>
 							Confirmar nueva contraseña
 						</label>
-						<input
-							id='usuContra'
-							name='usuContra'
-							autoComplete='pass'
-							type='password'
-							className='input'
-							onInput={handleInputs}
-							required
-						/>
 					</div>
 				</div>
 				<div className='text-center group'>
@@ -90,7 +104,7 @@ function Reset() {
 				</div>
 			</form>
 		</ContEntrada>
-	)
+	);
 }
 
-export default Reset
+export default Reset;

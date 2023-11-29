@@ -2,9 +2,7 @@
 
 import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
-import Logo from '../../assets/logoQS.svg';
 import './olvido.css';
-import LogoNom from '../../assets/QSName.svg';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
 import { useAuth } from '../../components/Auth/Autenticacion';
@@ -25,10 +23,10 @@ function Olvid() {
 			.then((respuesta) => {
 				console.log(respuesta);
 				Swal.fire({
-					title: 'Error!',
-					text: 'Do you want to continue',
+					title: 'Enviado',
+					text: respuesta.data.message,
 					icon: 'success',
-					confirmButtonText: 'Cool',
+					confirmButtonText: 'Continuar',
 				});
 			})
 			.catch((error) => {
@@ -48,8 +46,8 @@ function Olvid() {
 	return (
 		<ContEntrada>
 			<div className='text-center'>
-				<img className='mx-auto w-28 h-28' src={Logo} alt=''></img>
-				<img className='mx-auto w-60 h-26' src={LogoNom} alt='' />
+				<img className='mx-auto w-28 h-28 qsLogo' alt=''></img>
+				<img className='mx-auto w-60 h-26 qsNom' alt='' />
 			</div>
 			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={handleForm}>
 				<div className='row'>
@@ -81,7 +79,7 @@ function Olvid() {
 							Confirmar Correo eléctronico
 						</label>
 					</div>
-					<Link className='pl-5 my-3 underline hover:text-clNar' to='/'>
+					<Link className='underline link' to='/'>
 						Iniciar sesión
 					</Link>
 				</div>

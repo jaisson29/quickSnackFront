@@ -9,6 +9,7 @@
 	.form-group {
 		position: relative;
 		margin-block: 10px;
+		padding-inline: 5px;
 	}
 
 	.form-group .form-label {
@@ -62,6 +63,7 @@
 	.row {
 		width: 100%;
 		display: flex;
+		margin: 5px;
 		flex-wrap: wrap;
 		font-weight: bold;
 		margin: 0;
@@ -71,6 +73,6 @@
 		@apply px-3;
 		width: 100%;
 		max-width: 100%;
-		padding: 0;
+		padding: 5px;
 	}
 }

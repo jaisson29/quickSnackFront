@@ -60,24 +60,51 @@ function Registro() {
 			</div>
 			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={crearUsu}>
 				<div className='row'>
-					<div className=' md:w-1/2'>
-						<label htmlFor='usuNom' className='form-label'>
-							Nombre y apellido
-						</label>
+					<div className='w-full form-group'>
 						<input
 							id='usuNom'
 							name='usuNom'
 							autoComplete='usuNom'
 							type='text'
-							className='block border border-black input form-control'
+							className='input'
 							onInput={handleInputs}
 							required
 						/>
+						<label htmlFor='usuNom' className='form-label'>
+							Nombre completo
+						</label>
+					</div>
+					<div className='radio md:w-1/2'>
+						<div className='form-check form-check-inline'>
+							<input
+								id='masculino'
+								name='usuGen'
+								type='radio'
+								className='input-radio form-check-input'
+								value={1}
+								onChange={handleInputs}
+								required
+							/>
+							<label htmlFor='femenino' className='form-label'>
+								Masculino
+							</label>
+						</div>
+						<div className='form-check form-check-inline'>
+							<input
+								id='femenino'
+								name='usuGen'
+								type='radio'
+								className='input-radio form-check-input'
+								value={2}
+								onChange={handleInputs}
+								required
+							/>
+							<label htmlFor='masculino' className='form-label'>
+								Femenino
+							</label>
+						</div>
 					</div>
 					<div className='md:w-1/2'>
-						<label htmlFor='usuTipoDoc' className='form-label'>
-							Tipo de documento
-						</label>
 						<select
 							id='usuTipoDoc'
 							name='usuTipoDoc'
@@ -87,18 +114,13 @@ function Registro() {
 							onChange={handleInputs}
 							defaultValue=''
 							required>
-							<option value='' defaultChecked>
-								Tipo de documento
-							</option>
+							<option value='' defaultChecked disabled>Tipo de documento</option>
 							<option value='3'>Targeta de identidad</option>
 							<option value='4'>Cedula de ciudadania</option>
 							<option value='5'>Cedula de extranjeria</option>
 						</select>
 					</div>
-					<div className='group md:w-1/2'>
-						<label htmlFor='usuNoDoc' className='form-label'>
-							Numero de documento
-						</label>
+					<div className='w-full form-group'>
 						<input
 							type='text'
 							id='usuNoDoc'
@@ -108,25 +130,25 @@ function Registro() {
 							onInput={handleInputs}
 							required
 						/>
-					</div>
-					<div className='group md:w-1/2'>
-						<label htmlFor='usuEmail' className='form-label'>
-							Correo eléctronico
+						<label htmlFor='usuNoDoc' className='form-label'>
+							Numero de documento
 						</label>
+					</div>
+					<div className='w-full form-group'>
 						<input
 							id='usuEmail'
 							name='usuEmail'
 							autoComplete='usuEmail'
 							type='email'
-							className='block border border-black input'
+							className='input'
 							onInput={handleInputs}
 							required
 						/>
-					</div>
-					<div className='group md:w-1/2'>
-						<label htmlFor='usuContra' className='form-label'>
-							Contraseña
+						<label htmlFor='usuEmail' className='form-label'>
+							Correo eléctronico
 						</label>
+					</div>
+					<div className='w-full form-group'>
 						<input
 							id='usuContra'
 							name='usuContra'
@@ -136,34 +158,11 @@ function Registro() {
 							onInput={handleInputs}
 							required
 						/>
-					</div>
-					<div className='group md:w-1/2'>
-						<input
-							id='masculino'
-							name='usuGen'
-							type='radio'
-							className='input-radio'
-							value={1}
-							onChange={handleInputs}
-							required
-						/>
-						<label htmlFor='femenino' className='form-label'>
-							Masculino
-						</label>
-						<input
-							id='femenino'
-							name='usuGen'
-							type='radio'
-							className='input-radio'
-							value={2}
-							onChange={handleInputs}
-							required
-						/>
-						<label htmlFor='masculino' className='form-label'>
-							Femenino
+						<label htmlFor='usuContra' className='form-label'>
+							Contraseña
 						</label>
 					</div>
-					<Link className='pl-5 my-3 underline hover:text-clNar' to='/'>
+					<Link className='underline link' to='/'>
 						Iniciar sesión
 					</Link>
 				</div>
