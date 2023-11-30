@@ -9,7 +9,7 @@ const PageNotFound = () => {
 	const { logout } = useAuth()
 	return (
 		<section className='flex flex-col items-center justify-center w-full h-full'>
-			<h1 className=''>Page Not Found</h1>
+			<h1 className='text-clNeg dark:text-clBlan'>Page Not Found</h1>
 			<Button>
 				<Link to='/'>
 					<i className='fa-solid fa-house'></i> Go back home.

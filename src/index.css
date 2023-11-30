@@ -1,26 +1,75 @@
+/** @format */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
 
 @layer base {
-  html,
-  body,
-  #root {
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-  }
+	html,
+	body,
+	#root {
+		@apply bg-clBlan dark:bg-clNeg;
+		width: 100%;
+		min-height: 100%;
+		display: flex;
+	}
 
-  ::-webkit-scrollbar {
-    @apply w-1;
-  }
+	::-webkit-scrollbar {
+		@apply w-1;
+	}
 
-  ::-webkit-scrollbar-track {
-    @apply p-3 m-5;
-  }
+	::-webkit-scrollbar-track {
+		@apply p-3 m-5;
+	}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-opacity-30 rounded-lg bg-slate-800;
-  }
+	::-webkit-scrollbar-thumb {
+		@apply rounded-lg bg-opacity-30 bg-slate-800;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover,
+		input:-webkit-autofill:focus,
+		textarea:-webkit-autofill,
+		textarea:-webkit-autofill:hover,
+		textarea:-webkit-autofill:focus,
+		select:-webkit-autofill,
+		select:-webkit-autofill:hover,
+		select:-webkit-autofill:focus {
+			-webkit-text-fill-color: theme(colors.clBlan);
+			-webkit-box-shadow: 0 0 0px 1000px theme(colors.clNeg) inset;
+			transition: background-color 5000s ease-in-out 0s;
+		}
+	}
+
+	@media (prefers-color-scheme: light) {
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover,
+		input:-webkit-autofill:focus,
+		textarea:-webkit-autofill,
+		textarea:-webkit-autofill:hover,
+		textarea:-webkit-autofill:focus,
+		select:-webkit-autofill,
+		select:-webkit-autofill:hover,
+		select:-webkit-autofill:focus {
+			-webkit-text-fill-color: theme(colors.clNeg);
+			-webkit-box-shadow: 0 0 0px 1000px theme(colors.clBlan) inset;
+			transition: background-color 5000s ease-in-out 0s;
+		}
+	}
+
+	.rdt_Table,
+	.rdt_TableRow,
+	.rdt_TableCol,
+	.rdt_TableCol_Sortable,
+	.rdt_TableCell,
+	.rdt_TableHeader,
+	.rdt_TableFooter,
+	.rdt_TableHead,
+	.rdt_TableHeadRow,
+	.rdt_TableBody,
+	.rdt_ExpanderRow {
+		@apply bg-clBlan dark:bg-clNeg text-clNeg dark:text-clBlan;
+	}
 }

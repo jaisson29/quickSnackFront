@@ -1,69 +1,85 @@
+/** @format */
+
 @tailwind components;
 
 @layer components {
-  .menuItem {
-    @apply w-23/24;
-    position: relative;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    right: 0;
-    justify-content: center;
-    text-transform: uppercase;
-    height: 50px;
-    text-align: center;
-    color: #fff;
-    float: right;
-    border-radius: 10px 0 0 10px;
-    transition: color 0.5s;
-  }
-  .menuItem a {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+	.menuItem {
+		@apply w-23/24;
+		position: relative;
+		display: flex;
+		gap: 5px;
+		align-items: center;
+		right: 0;
+		justify-content: center;
+		text-transform: uppercase;
+		height: 50px;
+		text-align: center;
+		color: #fff;
+		float: right;
+		border-radius: 10px 0 0 10px;
+		transition: color 0.5s;
+	}
+	.menuItem a {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 
-  @media (min-width: 640px) {
-    aside:hover span {
-      display: block;
-    }
+	@media (min-width: 640px) {
+		aside:hover span {
+			display: block;
+		}
 
-    aside:hover .menuItem a {
-      justify-content: left;
-      padding-left: 10px;
-    }
-  }
+		aside:hover .menuItem a {
+			justify-content: left;
+			padding-left: 10px;
+		}
+	}
 
-  .acti {
-    color: theme('colors.clRoj');
-    background: #fff;
-  }
+	.acti {
+		@apply bg-clBlan dark:bg-clNeg text-clRoj dark:text-clBlan;
+	}
 
-  .acti::after,
-  .acti::before {
-    content: '';
-    position: absolute;
-    top: -30px;
-    width: 15px;
-    pointer-events: none;
-    right: 0;
-    height: 30px;
-    border-radius: 0 0 25px 0;
-    background: transparent;
-  }
+	.acti::after,
+	.acti::before {
+		content: '';
+		position: absolute;
+		top: -30px;
+		width: 15px;
+		pointer-events: none;
+		right: 0;
+		height: 30px;
+		border-radius: 0 0 25px 0;
+		background: transparent;
+	}
 
-  .acti::after {
-    box-shadow: 0 15px 0 0 #fff;
-  }
+	@media (prefers-color-scheme: light) {
+		.acti::after {
+			box-shadow: 0 15px 0 0 theme(colors.clBlan);
+		}
 
-  .acti::before {
-    top: auto;
-    bottom: -30px;
-    border-radius: 0 25px 0 0;
-    box-shadow: 0 -15px 0 0 #fff;
-  }
+		.acti::before {
+			top: auto;
+			bottom: -30px;
+			border-radius: 0 25px 0 0;
+			box-shadow: 0 -15px 0 0 theme(colors.clBlan);
+		}
+	}
 
-  .rtl {
-    direction: rtl;
-  }
+	@media (prefers-color-scheme: dark) {
+		.acti::after {
+			box-shadow: 0 15px 0 0 theme(colors.clNeg);
+		}
+
+		.acti::before {
+			top: auto;
+			bottom: -30px;
+			border-radius: 0 25px 0 0;
+			box-shadow: 0 -15px 0 0 theme(colors.clNeg);
+		}
+	}
+
+	.rtl {
+		direction: rtl;
+	}
 }

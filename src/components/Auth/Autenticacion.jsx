@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
 	const urlApi = 'http://localhost:5000';
-
+	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	const instance = axios.create({
 		baseURL: urlApi,
 	});
@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
 	);
 
 	const login = async (token) => {
-		setAuthToken(token);
 		instance
 			.get(`${urlApi}/api/auth/verify`, {
 				headers: {
@@ -81,7 +80,7 @@ export function AuthProvider({ children }) {
 
 	const initialState = {
 		cart: {
-			cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
+			cartItems: sessionStorage.getItem('cartItems') ? JSON.parse(sessionStorage.getItem('cartItems')) : [],
 		},
 	};
 
@@ -95,7 +94,7 @@ export function AuthProvider({ children }) {
 							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
 					  )
 					: [...state.cart.cartItems, newItem];
-				localStorage.setItem('cartItems', JSON.stringify(cartItems));
+				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 				return { ...state, cart: { ...state.cart, cartItems } };
 			}
 			case 'CART_DECREASE': {
@@ -115,7 +114,7 @@ export function AuthProvider({ children }) {
 				return { ...state, cart: { ...state.cart, cartItems: newCartItems } };
 			}
 			case 'CART_CLEAR':
-				localStorage.removeItem('cartItems');
+				sessionStorage.removeItem('cartItems');
 				return { ...initialState };
 			default:
 				return state;
@@ -146,6 +145,7 @@ export function AuthProvider({ children }) {
 				logout,
 				urlApi,
 				state,
+				tableTheme,
 				dispatch,
 			}}>
 			{children}

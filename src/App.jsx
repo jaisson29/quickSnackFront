@@ -18,8 +18,56 @@ import Pagina from './pages/pagina/pagina.jsx';
 import Perfil from './pages/perfil/perfil.jsx';
 import Usuario from './pages/usuario/Usuario.jsx';
 import QrCode from './components/qrCode/QrCode.jsx';
+import Olvid from './pages/olvido/Olvid.jsx';
+import Reset from './pages/restablecer/Restablecer.jsx';
+
+import { createTheme } from 'react-data-table-component';
 
 function App() {
+	createTheme('claro', {
+		text: {
+			primary: '#268bd2',
+			secondary: '#2aa198',
+		},
+		background: {
+			default: '#3D3B3B',
+		},
+		context: {
+			background: '#cb4b16',
+			text: '#FFFFFF',
+		},
+		divider: {
+			default: '#073642',
+		},
+		action: {
+			button: 'rgba(0,0,0,.54)',
+			hover: 'rgba(0,0,0,.08)',
+			disabled: 'rgba(0,0,0,.12)',
+		},
+	});
+
+	createTheme('oscuro', {
+		text: {
+			primary: '#268bd2',
+			secondary: '#2aa198',
+		},
+		background: {
+			default: '#3D3B3B',
+		},
+		context: {
+			background: '#cb4b16',
+			text: '#FFFFFF',
+		},
+		divider: {
+			default: '#073642',
+		},
+		action: {
+			button: 'rgba(0,0,0,.54)',
+			hover: 'rgba(0,0,0,.08)',
+			disabled: 'rgba(0,0,0,.12)',
+		},
+	});
+
 	return (
 		<AuthProvider>
 			<Routes>
@@ -35,8 +83,8 @@ function App() {
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
 				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
-				<Route path='/olvid' element={<Usuario />} />
-				<Route path='/reset/:token' element={<Usuario />} />
+				<Route exact path='/olvid' element={<Olvid />} />
+				<Route path='/reset/:token' element={<Reset />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>
 		</AuthProvider>

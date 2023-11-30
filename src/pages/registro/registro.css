@@ -1,10 +1,16 @@
 @tailwind utilities;
 
 @layer utilities {
-  .inputR {
+
+  .radio {
+    @apply flex items-center justify-center;
   }
 
-  .inputSelect {
-    /* @apply bg-clCaf; */
+  .radio label {
+    @apply m-0;
+  }
+
+  .form-check {
+    @apply mt-2;
   }
 }

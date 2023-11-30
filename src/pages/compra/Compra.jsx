@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import axios from 'axios';
 import DataTable from 'react-data-table-component';
@@ -133,9 +133,9 @@ const Compra = () => {
     }
   return(
     <>
-  
+    {error ? <Error /> : null}
     <div className='w-full md:w-1/2'>
-    <label htmlFor='provId' className='form-label'>
+    <label htmlFor='provId' className='form-label' onSubmit={formHandler}>
     Proveedor 
     </label>
     <select
