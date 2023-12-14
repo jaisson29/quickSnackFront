@@ -49,9 +49,7 @@ function Registro() {
 		});
 	}
 
-	if (isAuth) {
-		return <Navigate to='/menu' />;
-	}
+	if (isAuth) return <Navigate to='/menu' />;
 	return (
 		<ContEntrada>
 			<div className='flex flex-col items-end justify-end h-44'>
