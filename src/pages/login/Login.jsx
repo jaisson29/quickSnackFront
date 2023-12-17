@@ -52,7 +52,7 @@ function Login() {
 	if (isAuth) return <Navigate to={`/${user.paginaRuta}`} />;
 	return (
 		<ContEntrada>
-			<div className='flex flex-col items-end h-44'>
+			<div className='flex flex-col items-end justify-end h-44'>
 				<img className='mr-8 w-28 h-28 md:mx-auto qsLogo' alt='Logo Qs' />
 				<img className='w-60 h-26 md:mx-auto qsNom' alt='QuickSnack' />
 			</div>

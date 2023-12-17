@@ -34,8 +34,8 @@ const Historial = ({ nom }) => {
 		<>
 			<Monto></Monto>
 
-			<section className='flex flex-col bg-clBlan dark:bg-clNeg'>
-				{error ? <Error mensaje={error} estilos={'bg-red-200 ring-red-400'} onClick={() => setError('')} /> : null}
+			<section className='flex flex-col bg-clBlan'>
+				{error ? <Error mensaje={error} twStyles={'bg-red-200 ring-red-400'} onClick={() => setError('')} /> : null}
 				{cargando ? (
 					<Cargando />
 				) : (

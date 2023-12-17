@@ -62,36 +62,20 @@ function Reset() {
 	if (isAuth) return <Navigate to={`/`} />;
 	return (
 		<ContEntrada>
-			<div className='text-center'>
-				<img className='mx-auto w-28 h-28 qsLogo' alt=''></img>
-				<img className='mx-auto w-60 h-26 qsNom' alt='' />
+			<div className='flex flex-col items-end h-44'>
+				<img className='mr-8 w-28 h-28 md:mx-auto qsLogo' alt='Logo Qs' />
+				<img className='w-60 h-26 md:mx-auto qsNom' alt='QuickSnack' />
 			</div>
 			<form action='' className='flex flex-col gap-4 my-2' method='POST' onSubmit={handleForm}>
 				<div className='row'>
 					<div className='form-group'>
-						<input
-							id='usuContra'
-							name='usuContra'
-							autoComplete='pass'
-							type='password'
-							className='input'
-							onInput={handleInput}
-							required
-						/>
+						<input id='usuContra' name='usuContra' autoComplete='pass' type='password' className='input' onInput={handleInput} required />
 						<label htmlFor='usuContra' className='form-label'>
 							Nueva Contraseña
 						</label>
 					</div>
 					<div className='form-group'>
-						<input
-							id='usuContra'
-							name='usuContra'
-							autoComplete='pass'
-							type='password'
-							className='input'
-							onInput={handleInput}
-							required
-						/>
+						<input id='usuContra' name='usuContra' autoComplete='pass' type='password' className='input' onInput={handleInput} required />
 						<label htmlFor='usuContra' className='form-label'>
 							Confirmar nueva contraseña
 						</label>

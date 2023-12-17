@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
-import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import './pagina.css';
@@ -10,7 +9,7 @@ import Cargando from '../../components/cargando/Cargando';
 
 
 const Pagina = () =>{
-    const {urlApi,authToken} = useAuth();
+    const {urlApi,authToken, instance} = useAuth();
     const [pagina, setPagina] = useState([]);
     const [valEli, setvalEli] = useState([]);
     const [tablaActualizada, setTablaActualizada] = useState(true);
@@ -19,7 +18,7 @@ const Pagina = () =>{
 
     useEffect(()=> {
         setCargando(true);
-        axios
+        instance
       .get(`${urlApi}/api/pagina/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
@@ -31,7 +30,7 @@ const Pagina = () =>{
         setCargando(false);
         setError(err.message);
       });
-      axios.get(`${urlApi}/api/pagina/getpagxpef`, {
+      instance.get(`${urlApi}/api/pagina/getpagxpef`, {
         headers: {Authorization: `Bearer ${authToken}` },
       })
       .then((respuesta) =>{
@@ -63,7 +62,7 @@ const Pagina = () =>{
     e.preventDefault();
 
     if(pagData.paginaId){
-        axios
+        instance
         .put(`${urlApi}/api/pagina/update`,pagData,{
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -83,7 +82,7 @@ const Pagina = () =>{
             console.log('error', err);
         });
     }else {
-        axios
+        instance
         .post(`${urlApi}/api/pagina/create`,pagData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -114,7 +113,7 @@ const Pagina = () =>{
   }
 
   function eliminar(id){
-    axios
+    instance
     .delete(`${urlApi}/api/pagina/delete/${id}`,{
         headers: {
             Authorization: `Bearer ${authToken}`,

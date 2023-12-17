@@ -208,58 +208,26 @@ const Usuarios = () => {
 						<label htmlFor='usuNom' className='form-label'>
 							Nombre completo{' '}
 						</label>
-						<input
-							type='text'
-							name='usuNom'
-							id='usuNom'
-							className='input'
-							onInput={inputHandler}
-							value={usuData.usuNom}
-							required
-						/>
+						<input type='text' name='usuNom' id='usuNom' className='input' onInput={inputHandler} value={usuData.usuNom} required />
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='usuEmail' className='form-label'>
 							Correo electrónico
 						</label>
-						<input
-							type='text'
-							name='usuEmail'
-							id='usuEmail'
-							className='input'
-							value={usuData.usuEmail}
-							onInput={inputHandler}
-							required
-						/>
+						<input type='text' name='usuEmail' id='usuEmail' className='input' value={usuData.usuEmail} onInput={inputHandler} required />
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='usuNoDoc' className='form-label'>
 							No. Documento
 						</label>
-						<input
-							type='number'
-							name='usuNoDoc'
-							id='usuNoDoc'
-							className='input'
-							value={usuData.usuNoDoc}
-							onInput={inputHandler}
-							required
-						/>
+						<input type='number' name='usuNoDoc' id='usuNoDoc' className='input' value={usuData.usuNoDoc} onInput={inputHandler} required />
 					</div>
 					<div className='group md:w-1/2'>
 						<label htmlFor='usuContra' className='form-label'>
 							{' '}
 							Contraseña{' '}
 						</label>
-						<input
-							id='usuContra'
-							name='usuContra'
-							type='password'
-							className='input'
-							value={usuData.usuContra}
-							onInput={inputHandler}
-							required
-						/>
+						<input id='usuContra' name='usuContra' type='password' className='input' value={usuData.usuContra} onInput={inputHandler} required />
 					</div>
 					<div className='group md:w-1/2'>
 						<label htmlFor='perfilId' className='form-label'>
@@ -275,7 +243,7 @@ const Usuarios = () => {
 												{per.perfilNom}
 											</option>
 										);
-								})
+								  })
 								: null}
 							{/* {perfilId} */}
 						</select>
@@ -286,15 +254,7 @@ const Usuarios = () => {
 							Genéro
 						</label>
 						<div>
-							<input
-								type='radio'
-								name='usuGen'
-								id='masculino'
-								className='input-radio '
-								value='1'
-								onChange={inputHandler}
-								checked
-							/>
+							<input type='radio' name='usuGen' id='masculino' className='input-radio ' value='1' onChange={inputHandler} checked />
 							<label htmlFor=''>Masculino</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type='radio' name='usuGen' id='femenino' className='input-radio' value='2' onChange={inputHandler} />

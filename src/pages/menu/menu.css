@@ -3,7 +3,7 @@
 @layer components {
   .listaProd {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 380px));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 280px));
     justify-content: center;
     gap: 15px;
   }

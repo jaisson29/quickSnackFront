@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { useAuth } from '../Auth/Autenticacion'
-import axios from 'axios'
 
 const Monto = (props) => {
-	const { urlApi, user, authToken, balance, setBalance } = useAuth()
+	const { urlApi, user, authToken, balance, setBalance, instance } = useAuth()
 
 	useEffect(() => {
-		axios
+		instance
 			.get(`${urlApi}/api/transac/getByUser/${user.usuId}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,

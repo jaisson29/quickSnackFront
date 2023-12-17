@@ -1,42 +1,43 @@
 /** @format */
 
-import { useEffect, useState } from 'react'
-import './navBar.css'
-import { Link, useLocation } from 'react-router-dom'
-import axios from 'axios'
-import Logo from '../../assets/logoQSW.svg'
-import { useAuth } from '../Auth/Autenticacion'
-import Cargando from '../cargando/Cargando'
+import { useEffect, useState } from 'react';
+import './navBar.css';
+import { Link, useLocation } from 'react-router-dom';
+import Logo from '../../assets/logoQSW.svg';
+import { useAuth } from '../Auth/Autenticacion';
+import Cargando from '../cargando/Cargando';
 
 function NavBar() {
-	const [paginas, setPaginas] = useState([])
-	const { logout, urlApi, user } = useAuth()
+	const [paginas, setPaginas] = useState([]);
+	const { logout, urlApi, user, instance } = useAuth();
 
 	useEffect(() => {
-		axios
+		instance
 			.get(`${urlApi}/api/pagina/getAll/${user.perfilId}`)
 			.then((respuesta) => {
 				if (respuesta.data.length !== 0) {
-					setPaginas(respuesta.data)
+					setPaginas(respuesta.data);
 				}
 			})
 			.catch((error) => {
-				console.log(error)
-				setPaginas([])
-			})
-	}, [urlApi])
+				console.log(error);
+				setPaginas([]);
+			});
+	}, [urlApi]);
 
-	const location = useLocation()
+	const location = useLocation();
 
 	return (
-		<aside className='fixed left-0 z-10 h-full py-1 pl-1 transition-all transit w-4/24 sm:w-2/24 sm:hover:w-3/24 lg:w-1/24 md:hover:w-4/24 lg:hover:w-3/24 bg-clBlan dark:bg-clNeg'>
-			<nav className='grid w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg rtl bg-clRoj'>
-				<img className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24' src={Logo} alt='' />
-				<ul className='h-full row-span-4 py-4 overflow-x-hidden overflow-y-auto text-sm list-none rtl:mr-2'>
+		<aside className='aside'>
+			<nav>
+				<div className='p-2' id='logoNav'>
+					<img className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24' src={Logo} alt='' />
+				</div>
+				<ul className='md:mb-2 md:ml-1 listNav'>
 					{paginas.length !== 0 ? (
 						paginas.map((pg) => {
-							const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg
-							const { perfilId } = user
+							const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg;
+							const { perfilId } = user;
 							if (perfilId === pg.perfilId) {
 								return (
 									<li id={paginaId} key={paginaId} className={`font-bold menuItem ${location.pathname === paginaRuta ? 'acti' : ''}`}>
@@ -45,25 +46,25 @@ function NavBar() {
 											<i className={`fa ${paginaIcon} fa-xl `}></i>
 										</Link>
 									</li>
-								)
+								);
 							}
 						})
 					) : (
 						<Cargando />
 					)}
-					<li key={0} className='mt-10 menuItem' onClick={logout}>
+					{/* <li key={0} className='mt-10 menuItem' onClick={logout}>
 						<div>
 							<i className='fa fa-power-off fa-lg menuItem'></i>
 							<span className='hidden'>Salir</span>
 						</div>
-					</li>
+					</li> */}
 				</ul>
 			</nav>
 		</aside>
-	)
+	);
 }
 
-export default NavBar
+export default NavBar;
 
 // {
 //   paginas.length > 0

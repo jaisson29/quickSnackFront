@@ -7,24 +7,26 @@
 
 @layer base {
 	html,
-	body,
-	#root {
-		@apply bg-clBlan dark:bg-clNeg;
-		width: 100%;
-		min-height: 100%;
-		display: flex;
+	body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		min-height: 100vh;
 	}
 
+	#root {
+		@apply flex flex-grow w-full min-h-screen bg-clBlan;
+	}
 	::-webkit-scrollbar {
 		@apply w-1;
 	}
 
 	::-webkit-scrollbar-track {
-		@apply p-3 m-5;
+		@apply p-0 m-0 bg-clBlan dark:bg-clNeg;
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply rounded-lg bg-opacity-30 bg-slate-800;
+		@apply p-0 m-0 rounded-lg bg-opacity-30 bg-clNeg dark:bg-clBlan;
 	}
 
 	@media (prefers-color-scheme: dark) {
@@ -59,7 +61,7 @@
 		}
 	}
 
-	.rdt_Table,
+	/* .rdt_Table,
 	.rdt_TableRow,
 	.rdt_TableCol,
 	.rdt_TableCol_Sortable,
@@ -71,5 +73,5 @@
 	.rdt_TableBody,
 	.rdt_ExpanderRow {
 		@apply bg-clBlan dark:bg-clNeg text-clNeg dark:text-clBlan;
-	}
+	} */
 }

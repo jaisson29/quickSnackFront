@@ -2,59 +2,6 @@
 
 @tailwind components;
 @layer components {
-
-	.link {
-		@apply hover:text-clNar text-clNeg dark:text-clBlan;
-	}
-	.form-group {
-		position: relative;
-		margin-block: 10px;
-		padding-inline: 5px;
-	}
-
-	.form-group .form-label {
-		position: absolute;
-		bottom: 6px;
-		left: 20px;
-		width: 100%;
-		pointer-events: none;
-	}
-
-	.form-label {
-		@apply text-clNeg dark:text-clBlan;
-		display: inline-block;
-		width: 100%;
-		padding-left: 20px;
-		font-weight: bold;
-	}
-
-	.form-group .input:focus + .form-label,
-	.form-group .input:valid + .form-label {
-		animation: floatLabel 0.3s ease-in-out forwards;
-	}
-
-	@keyframes floatLabel {
-		0% {
-			font-size: 16px;
-			opacity: 0.5;
-			transform: translateY(0px);
-		}
-
-		100% {
-			font-size: 14px;
-			opacity: 1;
-			transform: translateY(-30px);
-		}
-	}
-
-	.input {
-		@apply block w-full h-12 px-2 border-b-2 text-clNeg dark:text-clBlan border-clNeg dark:border-clBlan bg-clBlan dark:bg-clNeg;
-		padding-block: 5px;
-		margin-top: 5px;
-		text-indent: 12px;
-    outline: none;
-	}
-
 	.inputFile {
 		width: 100%;
 		text-overflow: ellipsis;
@@ -74,5 +21,60 @@
 		width: 100%;
 		max-width: 100%;
 		padding: 5px;
+	}
+
+	.form-group {
+		position: relative;
+		margin-block: 10px;
+		padding-inline: 5px;
+	}
+
+	.form-group .input:focus + .form-label,
+	.form-group .input:valid + .form-label {
+		@apply bg-transparent;
+		animation: floatLabel 0.3s ease-in-out forwards;
+	}
+
+	.form-group .form-label {
+		position: absolute;
+		bottom: 6px;
+		left: 20px;
+		pointer-events: none;
+	}
+
+	.input {
+		@apply block w-full h-12 px-2 border-b-2 text-clNeg dark:text-clBlan border-clNeg dark:border-clBlan bg-clBlan dark:bg-clNeg;
+		padding-block: 5px;
+		margin-top: 5px;
+		text-indent: 12px;
+		outline: none;
+	}
+
+	@keyframes floatLabel {
+		0% {
+			font-size: 16px;
+			opacity: 0.5;
+			transform: translateY(0px);
+		}
+
+		100% {
+			font-size: 14px;
+			opacity: 1;
+			transform: translateY(-30px);
+		}
+	}
+
+	#entradaSec {
+		& .link {
+			@apply dark:text-clBlan;
+		}
+
+		& .form-label {
+			@apply dark:text-clBlan bg-clBlan dark:bg-clNeg;
+		}
+
+		& .input {
+			@apply dark:text-clBlan dark:border-clBlan dark:bg-clNeg;
+		}
 	}
 }

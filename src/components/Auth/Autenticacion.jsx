@@ -3,6 +3,7 @@
 import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import { redirect } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const AuthContext = createContext();
 
@@ -23,6 +24,14 @@ export function AuthProvider({ children }) {
 			return response;
 		},
 		(error) => {
+			//Cuando el error cuando la peticion es erronea
+			if (error.response.status === 400) {
+				Swal.fire({
+					icon: 'error',
+					title: error.response.data.error,
+					timer: 300000,
+				});
+			}
 			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autroizado) cerrara la sesión
 			if (error.response.status === 401) {
 				logout(); // Ejecución de logout() para limpieza de variables de sesión
@@ -57,7 +66,7 @@ export function AuthProvider({ children }) {
 		setAuthToken(null);
 		setUser(null);
 		setIsAuth(false);
-		redirect("/")
+		redirect('/');
 	};
 
 	const verifyToken = async (token) => {
@@ -90,9 +99,7 @@ export function AuthProvider({ children }) {
 				const newItem = action.payload;
 				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId);
 				const cartItems = existItem
-					? state.cart.cartItems.map((item) =>
-							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
-					  )
+					? state.cart.cartItems.map((item) => (item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item))
 					: [...state.cart.cartItems, newItem];
 				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 				return { ...state, cart: { ...state.cart, cartItems } };
@@ -101,9 +108,7 @@ export function AuthProvider({ children }) {
 				const newItem = action.payload;
 				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId);
 				if (existItem) {
-					const cartItems = state.cart.cartItems.map((item) =>
-						item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad - 1 } : item,
-					);
+					const cartItems = state.cart.cartItems.map((item) => (item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad - 1 } : item));
 					return { ...state, cart: { ...state.cart, cartItems } };
 				}
 				return state;

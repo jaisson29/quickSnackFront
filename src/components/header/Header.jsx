@@ -15,7 +15,10 @@ const Header = () => {
 	const { usuNom, perfilNom, usuGen } = user;
 
 	return (
-		<header className='flex items-center justify-end w-full text-right'>
+		<header className='flex items-center justify-end w-full gap-3 my-2 text-right'>
+			<section className='mx-2'>
+				<Monto />
+			</section>
 			{user.perfilId === 2 && (
 				<Link to='/carrito' className='relative'>
 					<i className='fa fa-cart-shopping fa-2xl'></i>
@@ -26,20 +29,23 @@ const Header = () => {
 					)}
 				</Link>
 			)}
-			<section className='mx-2'>
-				<Monto />
-			</section>
-			<section className='flex items-center gap-4'>
+			<section className='flex items-center gap-2'>
 				<div>
-					<p>{usuNom}</p>
-					<p>{perfilNom}</p>
+					<p>Hola.</p>
+					<p className='w-20 font-bold truncate'>{usuNom}</p>
 				</div>
-				<Dropdown>
-					<Dropdown.Toggle size='lg' className='text-black bg-transparent border-0' id='dropdown-basic'>
-						<img src={usuGen === 1 ? male : female} alt='../../assets/logoQS.svg' className='w-10 h-10 rounded-full' />
+				<Dropdown className='w-10 '>
+					<Dropdown.Toggle size='lg' className='p-0 text-black bg-transparent border-0 after:m-0' id='dropdown-basic'>
+						<img src={usuGen === 1 ? male : female} alt='user' className='object-contain w-10 h-10 rounded-full' />
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu>
+						<Dropdown.Item>
+							<strong className='divide-y divide-clNeg'>
+								<p className='w-32 text-xl truncate'>{'jaissdasdadadssondel valbuenas'}</p>
+								<p>{perfilNom}</p>
+							</strong>
+						</Dropdown.Item>
 						<Dropdown.Item>
 							<Link to={'/personal'}>Datos personales</Link>
 						</Dropdown.Item>

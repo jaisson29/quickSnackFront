@@ -3,26 +3,35 @@
 @tailwind components;
 
 @layer components {
-	.menuItem {
-		@apply w-23/24;
-		position: relative;
-		display: flex;
-		gap: 5px;
-		align-items: center;
-		right: 0;
-		justify-content: center;
-		text-transform: uppercase;
-		height: 50px;
-		text-align: center;
-		color: #fff;
-		float: right;
-		border-radius: 10px 0 0 10px;
-		transition: color 0.5s;
+	.aside {
+		@apply z-10 w-full h-20 p-2 transition-all bg-gradient-to-t from-clBlan to-transparent md:bg-transparent md:pl-3 md:py-5 md:h-full md:w-3/24 lg:w-2/24 md:hover:w-6/24 lg:hover:w-3/24;
+		background: theme(colors.clBlan);
+		position: fixed;
+		bottom: 0;
+
+		& nav {
+			@apply flex flex-col content-center w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg md:rtl bg-clRoj;
+
+			& li {
+				min-width: 50px;
+				min-height: 40px;
+			}
+		}
+
+		#logoNav {
+			@apply hidden md:block;
+		}
+		.acti {
+			@apply bg-clBlan text-clNeg;
+		}
+
+		.listNav {
+			@apply flex h-full py-2 overflow-x-hidden overflow-y-auto text-sm list-none md:py-4 justify-evenly md:justify-start md:flex-col rtl:mr-2;
+		}
 	}
-	.menuItem a {
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+
+	.rtl {
+		direction: rtl;
 	}
 
 	@media (min-width: 640px) {
@@ -36,24 +45,38 @@
 		}
 	}
 
-	.acti {
-		@apply bg-clBlan dark:bg-clNeg text-clRoj dark:text-clBlan;
+	.menuItem {
+		@apply text-clBlan;
+		border-radius: 100%;
 	}
+	
 
-	.acti::after,
-	.acti::before {
-		content: '';
-		position: absolute;
-		top: -30px;
-		width: 15px;
-		pointer-events: none;
-		right: 0;
-		height: 30px;
-		border-radius: 0 0 25px 0;
-		background: transparent;
-	}
+	@media (min-width: 768px) {
+		.menuItem {
+			@apply relative right-0 flex items-center justify-center float-right gap-2 text-center uppercase text-clBlan w-23/24 h-14;
+			border-radius: 15px 0 0 15px !important;
+			transition: color 0.5s;
+		}
 
-	@media (prefers-color-scheme: light) {
+		.menuItem a {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.acti::after,
+		.acti::before {
+			content: '';
+			position: absolute;
+			top: -30px;
+			width: 15px;
+			pointer-events: none;
+			right: 0;
+			height: 30px;
+			border-radius: 0 0 25px 0;
+			background: transparent;
+		}
+
 		.acti::after {
 			box-shadow: 0 15px 0 0 theme(colors.clBlan);
 		}
@@ -64,22 +87,5 @@
 			border-radius: 0 25px 0 0;
 			box-shadow: 0 -15px 0 0 theme(colors.clBlan);
 		}
-	}
-
-	@media (prefers-color-scheme: dark) {
-		.acti::after {
-			box-shadow: 0 15px 0 0 theme(colors.clNeg);
-		}
-
-		.acti::before {
-			top: auto;
-			bottom: -30px;
-			border-radius: 0 25px 0 0;
-			box-shadow: 0 -15px 0 0 theme(colors.clNeg);
-		}
-	}
-
-	.rtl {
-		direction: rtl;
 	}
 }

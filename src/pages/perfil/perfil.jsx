@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
-import axios from 'axios';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import Modales from '../../components/modal/Modales';
@@ -12,7 +11,7 @@ import Cargando from '../../components/cargando/Cargando';
 import { redirect } from 'react-router-dom';
 
 const Perfil = () =>{
-    const {urlApi,authToken} = useAuth();
+    const {urlApi,authToken, instance} = useAuth();
     const [perfil, setPerfil] = useState([]);
     const [pagina, setPagina] = useState([]);
     // const [valEli, setvalEli] = useState([]);
@@ -22,7 +21,7 @@ const Perfil = () =>{
 
     useEffect(()=> {
         setCargando(true);
-        axios
+        instance
       .get(`${urlApi}/api/perfil/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
@@ -34,7 +33,7 @@ const Perfil = () =>{
         setCargando(false);
         setError(err.message);
       });
-      axios
+      instance
       .get(`${urlApi}/api/pagina/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
@@ -46,7 +45,7 @@ const Perfil = () =>{
         setCargando(false);
         setError(err.message);
       });
-    //   axios.get(`${urlApi}/api/perfil/getpagxpef`, {
+    //   instance.get(`${urlApi}/api/perfil/getpagxpef`, {
     //     headers: {Authorization: `Bearer ${authToken}` },
     //   })
     //   .then((respuesta) =>{
@@ -78,7 +77,7 @@ const Perfil = () =>{
     e.preventDefault();
 
     if(pefData.perfilId){
-        axios
+        instance
         .put(`${urlApi}/api/perfil/update`,pefData,{
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -98,7 +97,7 @@ const Perfil = () =>{
             console.log('error', err);
         });
     }else {
-        axios
+        instance
         .post(`${urlApi}/api/perfil/create`,pefData, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -131,7 +130,7 @@ function editar(id){
   }
 
   function eliminar(id){
-    axios
+    instance
     .delete(`${urlApi}/api/perfil/delete/${id}`,{
         headers: {
             Authorization: `Bearer ${authToken}`,

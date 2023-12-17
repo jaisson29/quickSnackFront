@@ -9,14 +9,14 @@ const Tarjeta = ({ prod, id, nom, descr, cat, img, precio }) => {
 	const cantRef = useRef();
 	const [cantidad, setCantidad] = useState(1);
 	return (
-		<li className='w-full rounded-lg bg-slate-200 dark:bg-clNegL' key={id}>
+		<li className='w-full rounded-lg bg-slate-200' key={id}>
 			<div className='flex items-center justify-center w-full rounded-lg'>
 				<img className='object-contain h-52 w-52' src={`${urlApi}/uploads/${img}`} alt={nom} />
 			</div>
-			<p>{nom}</p>
-			<p>{descr}</p>
+			<h3 className='font-bold'>{nom}</h3>
+			<h5>{descr}</h5>
 			<p>{cat}</p>
-			<p>{precio}</p>
+			<span>{precio}</span>
 			<form
 				className={'flex'}
 				onSubmit={async (event) => {

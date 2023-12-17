@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Login from './pages/login/Login.jsx';
-// import Inicio from './pages/inicio/Inicio.jsx';
 import Registro from './pages/registro/Registro.jsx';
 import PageNotFound from './pages/PageNotFound/404.jsx';
 import Home from './pages/home/Home.jsx';
@@ -19,52 +18,8 @@ import Usuario from './pages/usuario/Usuario.jsx';
 import Olvid from './pages/olvido/Olvid.jsx';
 import Reset from './pages/restablecer/Restablecer.jsx';
 
-import { createTheme } from 'react-data-table-component';
-
 function App() {
-	createTheme('claro', {
-		text: {
-			primary: '#268bd2',
-			secondary: '#2aa198',
-		},
-		background: {
-			default: '#3D3B3B',
-		},
-		context: {
-			background: '#cb4b16',
-			text: '#FFFFFF',
-		},
-		divider: {
-			default: '#073642',
-		},
-		action: {
-			button: 'rgba(0,0,0,.54)',
-			hover: 'rgba(0,0,0,.08)',
-			disabled: 'rgba(0,0,0,.12)',
-		},
-	});
 
-	createTheme('oscuro', {
-		text: {
-			primary: '#268bd2',
-			secondary: '#2aa198',
-		},
-		background: {
-			default: '#3D3B3B',
-		},
-		context: {
-			background: '#cb4b16',
-			text: '#FFFFFF',
-		},
-		divider: {
-			default: '#073642',
-		},
-		action: {
-			button: 'rgba(0,0,0,.54)',
-			hover: 'rgba(0,0,0,.08)',
-			disabled: 'rgba(0,0,0,.12)',
-		},
-	});
 
 	return (
 		<AuthProvider>

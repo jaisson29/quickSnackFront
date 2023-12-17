@@ -45,36 +45,20 @@ function Olvid() {
 	if (isAuth) return <Navigate to='/' />;
 	return (
 		<ContEntrada>
-			<div className='text-center'>
-				<img className='mx-auto w-28 h-28 qsLogo' alt=''></img>
-				<img className='mx-auto w-60 h-26 qsNom' alt='' />
+			<div className='flex flex-col items-end justify-end h-44'>
+				<img className='mr-8 w-28 h-28 md:mx-auto qsLogo' alt='Logo Qs' />
+				<img className='w-60 h-26 md:mx-auto qsNom' alt='QuickSnack' />
 			</div>
 			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={handleForm}>
 				<div className='row'>
 					<div className='form-group'>
-						<input
-							id='usuEmail'
-							name='usuEmail'
-							autoComplete='usuEmail'
-							type='mail'
-							className='input'
-							onInput={handleInput}
-							required
-						/>
+						<input id='usuEmail' name='usuEmail' autoComplete='usuEmail' type='mail' className='input' onInput={handleInput} required />
 						<label htmlFor='usuEmail' className='form-label'>
 							Correo eléctronico
 						</label>
 					</div>
 					<div className='form-group'>
-						<input
-							id='cUsuEmail'
-							name='cUsuEmail'
-							autoComplete='usuEmail'
-							type='mail'
-							className='input'
-							onInput={handleInput}
-							required
-						/>
+						<input id='cUsuEmail' name='cUsuEmail' autoComplete='usuEmail' type='mail' className='input' onInput={handleInput} required />
 						<label htmlFor='cUsuEmail' className='form-label'>
 							Confirmar Correo eléctronico
 						</label>
