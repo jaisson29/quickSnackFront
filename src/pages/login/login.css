@@ -20,7 +20,7 @@
 		@apply px-3;
 		width: 100%;
 		max-width: 100%;
-		padding: 5px;
+		padding: 10px;
 	}
 
 	.form-group {
@@ -43,7 +43,7 @@
 	}
 
 	.input {
-		@apply block w-full h-12 px-2 border-b-2 text-clNeg dark:text-clBlan border-clNeg dark:border-clBlan bg-clBlan dark:bg-clNeg;
+		@apply block w-full h-12 px-2 border-b-2 text-clNeg border-clNeg bg-clBlan;
 		padding-block: 5px;
 		margin-top: 5px;
 		text-indent: 12px;
@@ -76,5 +76,22 @@
 		& .input {
 			@apply dark:text-clBlan dark:border-clBlan dark:bg-clNeg;
 		}
+
+		@media (prefers-color-scheme: dark) {
+			input:-webkit-autofill,
+			input:-webkit-autofill:hover,
+			input:-webkit-autofill:focus,
+			textarea:-webkit-autofill,
+			textarea:-webkit-autofill:hover,
+			textarea:-webkit-autofill:focus,
+			select:-webkit-autofill,
+			select:-webkit-autofill:hover,
+			select:-webkit-autofill:focus {
+				-webkit-text-fill-color: theme(colors.clBlan);
+				-webkit-box-shadow: 0 0 0px 1000px theme(colors.clNeg) inset;
+				transition: background-color 5000s ease-in-out 0s;
+			}
+		}
 	}
 }
+

@@ -4,17 +4,21 @@
 
 @layer components {
 	.aside {
-		@apply z-10 w-full h-20 p-2 transition-all bg-gradient-to-t from-clBlan to-transparent md:bg-transparent md:pl-3 md:py-5 md:h-full md:w-3/24 lg:w-2/24 md:hover:w-6/24 lg:hover:w-3/24;
+		@apply z-10 w-full h-24 p-2 transition-all bg-gradient-to-t from-clBlan to-transparent md:bg-transparent md:pl-3 md:py-5 md:h-full md:w-3/24 lg:w-2/24 md:hover:w-6/24 lg:hover:w-3/24;
 		background: theme(colors.clBlan);
 		position: fixed;
 		bottom: 0;
 
 		& nav {
-			@apply flex flex-col content-center w-full h-full grid-cols-1 grid-rows-6 bg-opacity-100 rounded-lg md:rtl bg-clRoj;
+			@apply flex flex-col content-center w-full h-full grid-cols-1 grid-rows-6 px-5 pb-2 bg-opacity-100 md:px-0 rounded-3xl md:rounded-lg md:rtl bg-clRoj;
 
-			& li {
-				min-width: 50px;
-				min-height: 40px;
+			& .menuItem {
+				@apply w-20 p-2 rounded-2xl md:w-full text-clBlan;
+
+				& span {
+					position: relative;
+					top: 5px;
+				}
 			}
 		}
 
@@ -22,11 +26,11 @@
 			@apply hidden md:block;
 		}
 		.acti {
-			@apply bg-clBlan text-clNeg;
+			@apply bg-clBlan text-clNeg !important;
 		}
 
 		.listNav {
-			@apply flex h-full py-2 overflow-x-hidden overflow-y-auto text-sm list-none md:py-4 justify-evenly md:justify-start md:flex-col rtl:mr-2;
+			@apply flex h-full py-2 overflow-x-auto overflow-y-auto text-sm list-none md:overflow-x-hidden md:py-4 justify-evenly md:justify-start md:flex-col rtl:mr-2;
 		}
 	}
 
@@ -44,12 +48,6 @@
 			padding-left: 10px;
 		}
 	}
-
-	.menuItem {
-		@apply text-clBlan;
-		border-radius: 100%;
-	}
-	
 
 	@media (min-width: 768px) {
 		.menuItem {
@@ -89,3 +87,4 @@
 		}
 	}
 }
+

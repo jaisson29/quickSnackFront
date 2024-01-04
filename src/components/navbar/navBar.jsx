@@ -41,13 +41,14 @@ function NavBar() {
 							if (perfilId === pg.perfilId) {
 								return (
 									<li id={paginaId} key={paginaId} className={`font-bold menuItem ${location.pathname === paginaRuta ? 'acti' : ''}`}>
-										<Link className='flex items-center justify-center w-full h-full gap-2' to={paginaRuta}>
-											<span className='hidden text-ellipsis'>{paginaNom}</span>
+										<Link className='flex flex-col-reverse items-center justify-center w-full h-full gap-2 md:flex-row' to={paginaRuta}>
+											<span className='md:hidden text-ellipsis'>{paginaNom}</span>
 											<i className={`fa ${paginaIcon} fa-xl `}></i>
 										</Link>
 									</li>
 								);
 							}
+							return <></>;
 						})
 					) : (
 						<Cargando />

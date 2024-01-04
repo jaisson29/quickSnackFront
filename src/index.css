@@ -18,7 +18,8 @@
 		@apply flex flex-grow w-full min-h-screen bg-clBlan;
 	}
 	::-webkit-scrollbar {
-		@apply w-1;
+		width: 4px;
+		height: 4px;
 	}
 
 	::-webkit-scrollbar-track {
@@ -29,21 +30,6 @@
 		@apply p-0 m-0 rounded-lg bg-opacity-30 bg-clNeg dark:bg-clBlan;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		input:-webkit-autofill,
-		input:-webkit-autofill:hover,
-		input:-webkit-autofill:focus,
-		textarea:-webkit-autofill,
-		textarea:-webkit-autofill:hover,
-		textarea:-webkit-autofill:focus,
-		select:-webkit-autofill,
-		select:-webkit-autofill:hover,
-		select:-webkit-autofill:focus {
-			-webkit-text-fill-color: theme(colors.clBlan);
-			-webkit-box-shadow: 0 0 0px 1000px theme(colors.clNeg) inset;
-			transition: background-color 5000s ease-in-out 0s;
-		}
-	}
 
 	@media (prefers-color-scheme: light) {
 		input:-webkit-autofill,

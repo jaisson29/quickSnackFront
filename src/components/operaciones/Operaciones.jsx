@@ -39,38 +39,36 @@ const Operaciones = () => {
 
 	function transactionHandler() {
 		if (state.cart.cartItems.length === 0) return;
-		if (usuNoDocRef.current.value) {
-			const usuDoc = { usuNoDoc: usuNoDocRef.current.value };
-			instance
-				.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
-					headers: {
-						authorization: `Bearer ${authToken}`,
-					},
-				})
-				.then((res) => {
-					console.log(res.usuId);
-					transacData.usuId = res.data.usuId;
-					console.log(transacData);
-					instance
-						.post(`${urlApi}/api/transac/`, transacData, {
-							headers: {
-								authorization: `Bearer ${authToken}`,
-							},
-						})
-						.then((res) => {
-							console.log(res);
-						})
-						.catch((err) => {
-							console.log(err);
-						});
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		} else {
-			console.log('first');
+
+		const usuDoc = { usuNoDoc: usuNoDocRef.current?.value ?? '0000000000' };
+		instance.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
+				headers: {
+					authorization: `Bearer ${authToken}`,
+				},
+			})
+			.then((res) => {
+				console.log(res.usuId);
+				transacData.usuId = res.data.usuId;
+				console.log(transacData);
+				instance.post(`${urlApi}/api/transac/`, transacData, {
+						headers: {
+							authorization: `Bearer ${authToken}`,
+						},
+					})
+					.then((res) => {
+						console.log(res);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		
+		if(usuNoDocRef.current){
+			usuNoDocRef.current.value = '';
 		}
-		usuNoDocRef.current.value = '';
 		dispatch({ type: 'CART_CLEAR' });
 	}
 

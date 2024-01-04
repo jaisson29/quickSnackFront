@@ -14,18 +14,17 @@ export function AuthProvider({ children }) {
 	const [balance, setBalance] = useState(0);
 	const urlApi = 'http://localhost:5000';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+
 	const instance = axios.create({
 		baseURL: urlApi,
 	});
 
 	instance.interceptors.response.use(
-		(response) => {
-			// Aquí puedes realizar acciones antes de que la respuesta sea devuelta
-			return response;
-		},
+		(response) => response,	// Aquí puedes realizar acciones antes de que la respuesta sea devuelta
 		(error) => {
 			//Cuando el error cuando la peticion es erronea
-			if (error.response.status === 400) {
+			if (error.response?.status === 400) {
 				Swal.fire({
 					icon: 'error',
 					title: error.response.data.error,
@@ -33,7 +32,7 @@ export function AuthProvider({ children }) {
 				});
 			}
 			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autroizado) cerrara la sesión
-			if (error.response.status === 401) {
+			if (error.response?.status === 401 | 500) {
 				logout(); // Ejecución de logout() para limpieza de variables de sesión
 			}
 			return Promise.reject(error);
@@ -99,28 +98,36 @@ export function AuthProvider({ children }) {
 				const newItem = action.payload;
 				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId);
 				const cartItems = existItem
-					? state.cart.cartItems.map((item) => (item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item))
+					? state.cart.cartItems.map((item) =>
+						item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item
+					)
 					: [...state.cart.cartItems, newItem];
-				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
-				return { ...state, cart: { ...state.cart, cartItems } };
+				sessionStorage.setItem('cartItems', JSON.stringify(cartItems))
+				return { ...state, cart: { cartItems } }; // Update cartItems directly
 			}
+
 			case 'CART_DECREASE': {
 				const newItem = action.payload;
 				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId);
 				if (existItem) {
 					const cartItems = state.cart.cartItems.map((item) => (item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad - 1 } : item));
+					sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 					return { ...state, cart: { ...state.cart, cartItems } };
 				}
 				return state;
 			}
+
 			case 'CART_DEL_ITEM': {
 				const payloadItem = action.payload;
 				const newCartItems = state.cart.cartItems.filter((item) => item.prodId !== payloadItem.prodId);
+				sessionStorage.setItem('cartItems', JSON.stringify(newCartItems));
 				return { ...state, cart: { ...state.cart, cartItems: newCartItems } };
 			}
+
 			case 'CART_CLEAR':
-				sessionStorage.removeItem('cartItems');
-				return { ...initialState };
+				sessionStorage.setItem('cartItems', JSON.stringify([]))
+				return { ...state, cart: { cartItems: [] } }; // Clear cartItems directly
+
 			default:
 				return state;
 		}
@@ -135,7 +142,7 @@ export function AuthProvider({ children }) {
 		}
 		authToken && user ? setIsAuth(true) : logout();
 		setBalance(0);
-	}, [authToken]);
+	}, [authToken, state.cart.cartItems, dispatch]);
 
 	return (
 		<AuthContext.Provider

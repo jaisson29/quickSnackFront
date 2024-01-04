@@ -2,7 +2,7 @@
 
 import './transaccion.css'
 import Operaciones from '../../components/operaciones/Operaciones'
-import Historial from '../../components/historial/Historial'
+import Historial from '../historial/Historial'
 import { useAuth } from '../../components/Auth/Autenticacion'
 
 const Transaccion = () => {

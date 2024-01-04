@@ -15,7 +15,7 @@ const Header = () => {
 	const { usuNom, perfilNom, usuGen } = user;
 
 	return (
-		<header className='flex items-center justify-end w-full gap-3 my-2 text-right'>
+		<header className='flex items-center justify-end float-right mr-4 gap-3 my-2 text-right shadow-md w-fit'>
 			<section className='mx-2'>
 				<Monto />
 			</section>
@@ -39,10 +39,10 @@ const Header = () => {
 						<img src={usuGen === 1 ? male : female} alt='user' className='object-contain w-10 h-10 rounded-full' />
 					</Dropdown.Toggle>
 
-					<Dropdown.Menu>
+					<Dropdown.Menu className='w-52'>
 						<Dropdown.Item>
 							<strong className='divide-y divide-clNeg'>
-								<p className='w-32 text-xl truncate'>{'jaissdasdadadssondel valbuenas'}</p>
+								<p className='w-32 text-xl truncate'>{usuNom}</p>
 								<p>{perfilNom}</p>
 							</strong>
 						</Dropdown.Item>

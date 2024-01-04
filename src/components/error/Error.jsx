@@ -1,10 +1,10 @@
 import './error.css';
 
-const Error = ({ mensaje, estilos, ...rest }) => {
+const Error = ({ mensaje, twStyles, ...rest }) => {
   return (
     <div
       {...rest}
-      className={`relative top-5 w-full rounded-lg text-center whitespace-normal ring-2 ring-offset-2 ${estilos}`}
+      className={`relative top-5 w-full rounded-lg text-center whitespace-normal ring-2 ring-offset-2 ${twStyles}`}
     >
       <span>{mensaje}</span>
     </div>

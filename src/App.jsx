@@ -18,6 +18,7 @@ import Perfil from './pages/perfil/perfil.jsx';
 import Usuario from './pages/usuario/Usuario.jsx';
 import Olvid from './pages/olvido/Olvid.jsx';
 import Reset from './pages/restablecer/Restablecer.jsx';
+import Carrito from './pages/carrito/Carrito.jsx';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
 				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
 				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
+				<Route path='/carrito' element={<ProtectedRoute children={<Carrito />} />} />
 				<Route exact path='/olvid' element={<Olvid />} />
 				<Route path='/reset/:token' element={<Reset />} />
 				<Route path='*' element={<PageNotFound />} />
