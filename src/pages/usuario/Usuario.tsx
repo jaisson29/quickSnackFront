@@ -9,8 +9,8 @@ import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Usuarios = () => {
-	const { urlApi, authToken, tableTheme, instance } = useAuth();
-	const inputFileRef = useRef(null);
+	const { urlApi, authToken, tableTheme, instance }: any = useAuth();
+	const inputFileRef: any = useRef(null);
 
 	const [usuarios, setUsuarios] = useState([]);
 	const [perfiles, setPerfiles] = useState([]);
@@ -25,11 +25,11 @@ const Usuarios = () => {
 			.get(`${urlApi}/api/usuario/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				setCargando(false);
 				setUsuarios(respuesta.data);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				setCargando(false);
 				setError(err.message);
 			});
@@ -38,10 +38,10 @@ const Usuarios = () => {
 			.get(`${urlApi}/api/perfil/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				setPerfiles(respuesta.data);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				setError('No se pudo obtener los perfiles');
 			});
 	}, [urlApi, authToken, tablaActualizada]);
@@ -75,17 +75,17 @@ const Usuarios = () => {
 	formData.append('usuPassCode', usuData.usuPassCode);
 	formData.append('usuImg', file ? file : usuData.usuImg);
 
-	function inputHandler(event) {
+	function inputHandler(event: any) {
 		setUsuData({
 			...usuData,
 			[event.target.name]: event.target.value,
 		});
 	}
-	function handleFiles(event) {
+	function handleFiles(event: any) {
 		setFile(event.target.files[0]);
 	}
 
-	function formHandler(e) {
+	function formHandler(e: any) {
 		e.preventDefault();
 
 		if (usuData.usuId) {
@@ -95,7 +95,7 @@ const Usuarios = () => {
 						Authorization: `Bearer ${authToken}`,
 					},
 				})
-				.then((res) => {
+				.then((res: any) => {
 					console.log(res);
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
@@ -119,7 +119,7 @@ const Usuarios = () => {
 						inputFileRef.current.value = '';
 					}
 				})
-				.catch((err) => {
+				.catch((err: any) => {
 					console.log('error', err);
 				});
 		} else {
@@ -130,7 +130,7 @@ const Usuarios = () => {
 						'Content-Type': 'multipart/form-data',
 					},
 				})
-				.then((respuesta) => {
+				.then((respuesta: any) => {
 					console.log('nuevo producto', respuesta);
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
@@ -160,8 +160,8 @@ const Usuarios = () => {
 			// });
 		}
 	}
-	function editarProd(id) {
-		const usu = usuarios.find((u) => u.usuId === id);
+	function editarProd(id: number) {
+		const usu: any = usuarios.find((u: any) => u.usuId === id);
 		setUsuData({
 			...usu,
 			usuId: id,
@@ -170,19 +170,19 @@ const Usuarios = () => {
 		// $('#catId').val(prod.catId);
 	}
 
-	function eliminarUsu(id) {
+	function eliminarUsu(id: number) {
 		instance
 			.delete(`${urlApi}/api/usuario/borrar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				console.log(respuesta);
 				setTablaActualizada(!tablaActualizada);
 				setCargando(true);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err);
 			});
 		return id;
@@ -197,7 +197,7 @@ const Usuarios = () => {
 						<label htmlFor='usuTipoDoc' className='form-label'>
 							Tipo de documento
 						</label>
-						<select name='usuTipoDoc' id='usuTipoDoc' className='input' onChange={inputHandler} value>
+						<select name='usuTipoDoc' id='usuTipoDoc' className='input' onChange={inputHandler}>
 							<option value=''>Seleccine un tipo de documento</option>
 							<option value='3'>T.I</option>
 							<option value='4'>C.C</option>
@@ -237,7 +237,7 @@ const Usuarios = () => {
 						<select name='perfilId' id='perfilId' className='input' onChange={inputHandler} required>
 							<option value=''>Seleccione un Perfil</option>
 							{perfiles.length !== 0
-								? perfiles.map((per) => {
+								? perfiles.map((per: any) => {
 										return (
 											<option key={per.perfilId} value={per.perfilId}>
 												{per.perfilNom}
@@ -295,12 +295,7 @@ const Usuarios = () => {
 					columns={[
 						{
 							name: 'usuario',
-							selector: (row) => (
-								<>
-									<p>{row.usuNom}</p>
-									<p>{row.usuEmail}</p>
-								</>
-							),
+							selector: (row: any) => row.usuId,
 							sortable: true,
 						},
 						{
@@ -316,6 +311,8 @@ const Usuarios = () => {
 						{
 							cell: (row) => (
 								<>
+									<p>{row.usuNom}</p>
+									<p>{row.usuEmail}</p>
 									<Button key={`editar-${row.usuId}`} onClick={() => editarProd(row.usuId)}>
 										<i className='fa-solid fa-pen'></i>
 									</Button>
@@ -333,3 +330,4 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
+

@@ -11,7 +11,7 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 
 function Registro() {
 	const navigate = useNavigate();
-	const { isAuth, urlApi, authToken, instance } = useAuth();
+	const { isAuth, urlApi, authToken, instance }: any = useAuth();
 	const [usuData, setUsuData] = useState({
 		usuTipoDoc: null,
 		usuGen: null,
@@ -22,13 +22,13 @@ function Registro() {
 	});
 	// const [valor, setValor] = useState(null);
 
-	const crearUsu = (e) => {
+	const crearUsu = (e: any) => {
 		e.preventDefault();
 		instance
 			.post(`${urlApi}/api/auth/crearUsu`, usuData, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				console.log(respuesta);
 				if (respuesta.status === 200) {
 					navigate('/');
@@ -36,13 +36,13 @@ function Registro() {
 					console.error('no se pudo registrar');
 				}
 			})
-			.catch((error) => {
+			.catch((error: any) => {
 				redirect('/registro');
 				console.error('error', error);
 			});
 	};
 
-	function handleInputs(event) {
+	function handleInputs(event: any) {
 		setUsuData({
 			...usuData,
 			[event.target.name]: event.target.value,
@@ -83,7 +83,6 @@ function Registro() {
 							id='usuTipoDoc'
 							name='usuTipoDoc'
 							autoComplete='current-password'
-							type='password'
 							className='input inputSelect'
 							onChange={handleInputs}
 							defaultValue=''
@@ -129,3 +128,4 @@ function Registro() {
 }
 
 export default Registro;
+

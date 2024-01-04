@@ -1,17 +1,18 @@
 /** @format */
 
-import './transaccion.css'
-import Operaciones from '../../components/operaciones/Operaciones'
-import Historial from '../historial/Historial'
-import { useAuth } from '../../components/Auth/Autenticacion'
+import './transaccion.css';
+import Operaciones from '../../components/operaciones/Operaciones';
+import Historial from '../historial/Historial';
+import { useAuth } from '../../components/Auth/Autenticacion';
 
 const Transaccion = () => {
-	const { user } = useAuth()
+	const { user }: any = useAuth();
 	if (user.perfilId === 3) {
-		return <Operaciones />
+		return <Operaciones />;
 	} else {
-		return <Historial />
+		return <Historial />;
 	}
-}
+};
 
-export default Transaccion
+export default Transaccion;
+

@@ -10,12 +10,12 @@ import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Productos = () => {
-	const { urlApi, authToken, instance } = useAuth();
-	const inputFileRef = useRef(null);
+	const { urlApi, authToken, instance }: any = useAuth();
+	const inputFileRef: any = useRef(null);
 
 	const [productos, setProductos] = useState([]);
 	const [categorias, setCategorias] = useState([]);
-	const [valEli, setValEli] = useState([]);
+	const [valEli, setValEli]: any = useState([]);
 	const [file, setFile] = useState(null);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
 	const [cargando, setCargando] = useState(true);
@@ -27,11 +27,11 @@ const Productos = () => {
 			.get(`${urlApi}/api/producto/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				setCargando(false);
 				setProductos(respuesta.data);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				setCargando(false);
 				setError(err.message);
 			});
@@ -40,7 +40,7 @@ const Productos = () => {
 			.get(`${urlApi}/api/catego/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((res) => {
+			.then((res: any) => {
 				setCategorias(res.data);
 			})
 			.catch(() => {
@@ -51,17 +51,17 @@ const Productos = () => {
 			.get(`${urlApi}/api/producto/getVenXProd`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((result) => {
+			.then((result: any) => {
 				if (result.status === 200) {
-					const fnList = [];
-					result.data.map((element) => {
+					const fnList: any = [];
+					result.data.map((element: any) => {
 						fnList.push(element.prodId);
 						return element.prodId;
 					});
 					setValEli(fnList);
 				}
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err);
 			});
 	}, [urlApi, authToken, tablaActualizada, instance]);
@@ -85,17 +85,17 @@ const Productos = () => {
 	formData.append('catId', prodData.catId);
 	formData.append('prodImg', file ? file : prodData.prodImg);
 
-	function inputHandler(event) {
+	function inputHandler(event: any) {
 		setProdData({
 			...prodData,
 			[event.target.name]: event.target.value,
 		});
 	}
-	function handleFiles(event) {
+	function handleFiles(event: any) {
 		setFile(event.target.files[0]);
 	}
 
-	function formHandler(e) {
+	function formHandler(e: any) {
 		e.preventDefault();
 
 		if (prodData.prodId) {
@@ -105,7 +105,7 @@ const Productos = () => {
 						Authorization: `Bearer ${authToken}`,
 					},
 				})
-				.then((res) => {
+				.then((res: any) => {
 					console.log(res);
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
@@ -116,14 +116,14 @@ const Productos = () => {
 						prodValCom: '',
 						prodValVen: '',
 						catId: '',
-					});
+					} as any);
 					$('#catId').val('');
 					setFile(null);
 					if (inputFileRef.current) {
 						inputFileRef.current.value = '';
 					}
 				})
-				.catch((err) => {
+				.catch((err: any) => {
 					console.log('error', err);
 				});
 		} else {
@@ -134,7 +134,7 @@ const Productos = () => {
 						'Content-Type': 'multipart/form-data',
 					},
 				})
-				.then((respuesta) => {
+				.then((respuesta: any) => {
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
 					setProdData({
@@ -144,7 +144,7 @@ const Productos = () => {
 						prodValCom: '',
 						prodValVen: '',
 						catId: '',
-					});
+					} as any);
 					$('#catId').val('');
 					setFile(null);
 					// document.getElementById('prodImg').value = '';
@@ -152,14 +152,14 @@ const Productos = () => {
 						inputFileRef.current.value = '';
 					}
 				})
-				.catch((err) => {
+				.catch((err: any) => {
 					console.log('Error al crear el producto', err);
 				});
 		}
 	}
 
-	function editarProd(id) {
-		const prod = productos.find((p) => p.prodId === id);
+	function editarProd(id: any) {
+		const prod: any = productos.find((p: any) => p.prodId === id);
 		setProdData({
 			...prod,
 			prodId: id,
@@ -168,19 +168,19 @@ const Productos = () => {
 		$('#catId').val(prod.catId);
 	}
 
-	function eliminarProd(id) {
+	function eliminarProd(id: any) {
 		instance
 			.delete(`${urlApi}/api/producto/delete/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				console.log(respuesta);
 				setTablaActualizada(!tablaActualizada);
 				setCargando(true);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err);
 			});
 		return id;
@@ -195,29 +195,13 @@ const Productos = () => {
 						<label htmlFor='prodNom' className='form-label'>
 							Nombre de el producto
 						</label>
-						<input
-							type='text'
-							name='prodNom'
-							id='prodNom'
-							className='input'
-							onInput={inputHandler}
-							value={prodData.prodNom}
-							required
-						/>
+						<input type='text' name='prodNom' id='prodNom' className='input' onInput={inputHandler} value={prodData.prodNom} required />
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='prodDescr' className='form-label'>
 							Descripción
 						</label>
-						<input
-							type='text'
-							name='prodDescr'
-							id='prodDescr'
-							className='input'
-							value={prodData.prodDescr}
-							onInput={inputHandler}
-							required
-						/>
+						<input type='text' name='prodDescr' id='prodDescr' className='input' value={prodData.prodDescr} onInput={inputHandler} required />
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='prodValCom' className='form-label'>
@@ -253,10 +237,10 @@ const Productos = () => {
 						<label htmlFor='catId' className='form-label'>
 							Categoria
 						</label>
-						<select type='number' name='catId' id='catId' className='input' onChange={inputHandler} required>
+						<select name='catId' id='catId' className='input' onChange={inputHandler} required>
 							<option value=''>Seleccione una Categoria</option>
 							{categorias.length !== 0
-								? categorias.map((cat) => {
+								? categorias.map((cat: any) => {
 										return (
 											<option key={cat.catId} value={cat.catId}>
 												{cat.catNom}
@@ -283,12 +267,7 @@ const Productos = () => {
 				</div>
 				<div className='row'>
 					<Button>
-						<input
-							className='cursor-pointer'
-							id='prodSubBtn'
-							type='submit'
-							value={prodData.prodId ? 'Actualizar' : 'Crear'}
-						/>
+						<input className='cursor-pointer' id='prodSubBtn' type='submit' value={prodData.prodId ? 'Actualizar' : 'Crear'} />
 					</Button>
 				</div>
 			</form>
@@ -299,39 +278,33 @@ const Productos = () => {
 					title={'Productos'}
 					data={productos}
 					pagination
-					defaultSortFieldId
 					progressPending={cargando}
 					progressComponent={<Cargando />}
 					columns={[
 						{
 							name: 'Producto',
-							cell: (row) => (
-								<>
-									<p>{row.prodNom}</p>
-									<p>{row.prodDescr}</p>
-								</>
-							),
+							cell: (row: any) => row.prodId,
 							sortable: true,
 						},
 						{
 							name: 'Precio de compra',
-							cell: (row) => row.prodValCom,
+							cell: (row: any) => row.prodValCom,
 							sortable: true,
-							sortActive: false,
 						},
 						{
 							name: 'Precio de venta',
-							cell: (row) => row.prodValVen,
+							cell: (row: any) => row.prodValVen,
 							sortable: true,
-							sortActive: false,
 						},
 						{
 							cell: (row) => (
 								<div className='flex flex-row gap-5 ml-16 text-center'>
+									<p>{row.prodNom}</p>
+									<p>{row.prodDescr}</p>
 									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
 										<i className='fa-solid fa-pen'></i>
 									</Button>
-									{valEli.indexOf(row.prodId) != -1 ? null : (
+									{valEli.indexOf(row.prodId) !== -1 ? null : (
 										<Button key={`eliminar-${row.prodId}`} onClick={() => eliminarProd(row.prodId)}>
 											<i className='fa-solid fa-trash'></i>
 										</Button>
@@ -347,3 +320,4 @@ const Productos = () => {
 };
 
 export default Productos;
+

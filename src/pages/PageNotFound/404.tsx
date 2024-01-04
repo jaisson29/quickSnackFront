@@ -6,7 +6,7 @@ import Button from '../../components/boton/Button'
 import { useAuth } from '../../components/Auth/Autenticacion'
 
 const PageNotFound = () => {
-	const { logout } = useAuth()
+	const { logout }: any = useAuth()
 	return (
 		<section className='flex flex-col items-center justify-center w-full h-full'>
 			<h1 className='text-clNeg dark:text-clBlan'>Page Not Found</h1>

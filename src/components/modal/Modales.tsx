@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { Modal } from "react-bootstrap";
 
 
-function Modales(props) {
+function Modales(props: any) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);

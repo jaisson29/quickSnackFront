@@ -1,24 +1,23 @@
 /** @format */
 
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from './pages/login/Login.jsx';
-import Registro from './pages/registro/Registro.jsx';
-import PageNotFound from './pages/PageNotFound/404.jsx';
-import Home from './pages/home/Home.jsx';
-import Menu from './pages/menu/Menu.jsx';
-import Transaccion from './pages/transaccion/Transaccion.jsx';
-import { AuthProvider } from './components/Auth/Autenticacion.jsx';
-import { ProtectedRoute } from './components/ProtectedRoute.jsx';
-import Productos from './pages/productos/Productos.jsx';
-import Categoria from './pages/categoria/Categoria.jsx';
-import Compra from './pages/compra/Compra.jsx';
-import Pagina from './pages/pagina/pagina.jsx';
-import Perfil from './pages/perfil/perfil.jsx';
-import Usuario from './pages/usuario/Usuario.jsx';
-import Olvid from './pages/olvido/Olvid.jsx';
-import Reset from './pages/restablecer/Restablecer.jsx';
-import Carrito from './pages/carrito/Carrito.jsx';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProvider } from './components/Auth/Autenticacion';
+import Login from './pages/login/Login';
+import Registro from './pages/registro/Registro';
+import PageNotFound from './pages/PageNotFound/404';
+import Home from './pages/home/Home';
+import Menu from './pages/menu/Menu';
+import Transaccion from './pages/transaccion/Transaccion';
+import Productos from './pages/productos/Productos';
+import Categoria from './pages/categoria/Categoria';
+import Compra from './pages/compra/Compra';
+import Pagina from './pages/pagina/pagina';
+import Perfil from './pages/perfil/perfil';
+import Usuario from './pages/usuario/Usuario';
+import Olvid from './pages/olvido/Olvid';
+import Reset from './pages/restablecer/Restablecer';
+import Carrito from './pages/carrito/Carrito';
 
 function App() {
 
@@ -26,9 +25,9 @@ function App() {
 	return (
 		<AuthProvider>
 			<Routes>
-				<Route index exact path='/' element={<Login />} />
-				<Route exact path='/registro' element={<Registro />} />
-				<Route exact path='/home' element={<ProtectedRoute children={<Home />} />} />
+				<Route path='/' element={<Login />} />
+				<Route path='/registro' element={<Registro />} />
+				<Route path='/home' element={<ProtectedRoute children={<Home />} />} />
 				<Route path='/menu' element={<ProtectedRoute children={<Menu />} />} />
 				<Route path='/productos' element={<ProtectedRoute children={<Productos />} />} />
 				<Route path='/transaccion' element={<ProtectedRoute children={<Transaccion />} />} />
@@ -39,7 +38,7 @@ function App() {
 				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
 				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
 				<Route path='/carrito' element={<ProtectedRoute children={<Carrito />} />} />
-				<Route exact path='/olvid' element={<Olvid />} />
+				<Route path='/olvid' element={<Olvid />} />
 				<Route path='/reset/:token' element={<Reset />} />
 				<Route path='*' element={<PageNotFound />} />
 			</Routes>

@@ -9,17 +9,17 @@ import Cargando from '../cargando/Cargando';
 
 function NavBar() {
 	const [paginas, setPaginas] = useState([]);
-	const { logout, urlApi, user, instance } = useAuth();
+	const { logout, urlApi, user, instance }: any = useAuth();
 
 	useEffect(() => {
 		instance
 			.get(`${urlApi}/api/pagina/getAll/${user.perfilId}`)
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				if (respuesta.data.length !== 0) {
 					setPaginas(respuesta.data);
 				}
 			})
-			.catch((error) => {
+			.catch((error: any) => {
 				console.log(error);
 				setPaginas([]);
 			});
@@ -35,7 +35,7 @@ function NavBar() {
 				</div>
 				<ul className='md:mb-2 md:ml-1 listNav'>
 					{paginas.length !== 0 ? (
-						paginas.map((pg) => {
+						paginas.map((pg: any) => {
 							const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg;
 							const { perfilId } = user;
 							if (perfilId === pg.perfilId) {
@@ -67,26 +67,3 @@ function NavBar() {
 
 export default NavBar;
 
-// {
-//   paginas.length > 0
-//     ? paginas.map((pg) => {
-//         return (
-//           <li
-//             id={pg.paginaId}
-//             key={pg.paginaId}
-//             className={`font-bold ${
-//               location.pathname === pg.paginaRuta ? 'acti' : ''
-//             }`}
-//           >
-//             <Link
-//               className='flex items-center justify-center w-full h-full gap-2'
-//               to={pg.paginaRuta}
-//             >
-//               <i className={`fa ${pg.paginaIcon} fa-xl `}></i>
-//               <span className='hidden text-ellipsis'>{pg.paginaNom}</span>
-//             </Link>
-//           </li>
-//         );
-//       })
-//     : null;
-// }

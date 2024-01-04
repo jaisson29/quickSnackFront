@@ -1,7 +1,7 @@
 /** @format */
 
 import './login.css';
-import Button from '../../components/boton/Button.jsx';
+import Button from '../../components/boton/Button';
 import { Link, Navigate, redirect } from 'react-router-dom';
 import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { useAuth } from '../../components/Auth/Autenticacion';
@@ -9,25 +9,25 @@ import { useState } from 'react';
 import Swal from 'sweetalert2';
 
 function Login() {
-	const { login, isAuth, urlApi, user, instance } = useAuth();
+	const { login, isAuth, urlApi, user, instance }: any = useAuth();
 	const [usuData, setUsuData] = useState({
 		usuEmail: '',
 		usuContra: '',
 	});
 
-	function iniciarSesion(event) {
+	function iniciarSesion(event: any) {
 		event.preventDefault();
 
 		instance
 			.post(`${urlApi}/api/auth/loguear`, {
 				...usuData,
 			})
-			.then(async (respuesta) => {
+			.then(async (respuesta: any) => {
 				const loginToken = respuesta.data.token;
 				await login(loginToken);
 				redirect(`/${respuesta.data.pg}`);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				Swal.fire({
 					title: 'Error!',
 					text: err.response.data.error,
@@ -42,7 +42,7 @@ function Login() {
 			});
 	}
 
-	function handleInputs(event) {
+	function handleInputs(event: any) {
 		setUsuData({
 			...usuData,
 			[event.target.name]: event.target.value,

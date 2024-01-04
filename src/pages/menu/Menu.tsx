@@ -5,7 +5,7 @@ import Tarjeta from '../../components/tarjeta/Tarjeta';
 import './menu.css';
 
 function Menu() {
-  const { urlApi, authToken, instance } = useAuth();
+  const { urlApi, authToken, instance }: any = useAuth();
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState('');
@@ -16,15 +16,15 @@ function Menu() {
       .get(`${urlApi}/api/producto/getAll`, {
         headers: { Authorization: `Bearer ${authToken}` },
       })
-      .then((respuesta) => {
+      .then((respuesta: any) => {
         setCargando(false);
         setProductos(respuesta.data);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         setCargando(false);
         setError(err.message);
       });
-  }, [urlApi, authToken]);
+  }, [urlApi, authToken, instance]);
 
   return (
     <>
@@ -33,7 +33,7 @@ function Menu() {
         {cargando ? (
           <Cargando />
         ) : productos.length > 0 ? (
-          productos.map((prod) => (
+          productos.map((prod: any) => (
             <Tarjeta prod ={prod}
               key={prod.prodId}
               id={prod.prodId}

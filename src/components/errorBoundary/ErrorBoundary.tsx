@@ -1,37 +1,42 @@
-/** @format */
+import React, { ErrorInfo, ReactElement, ReactNode } from 'react';
+import Button from '../boton/Button';
+import { Link } from 'react-router-dom';
 
-import React from 'react'
-import Button from '../boton/Button'
-import { Link } from 'react-router-dom'
+interface ErrorBoundaryProps {
+	children?: ReactNode;
+}
 
-export default class ErrorBoundary extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = { hasError: false }
+type ErrorFallback = ReactElement | ReactNode;
+interface State {
+	hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, State> {
+	constructor(props: ErrorBoundaryProps) {
+		super(props);
+		this.state = { hasError: false };
 	}
 
-	componentDidCatch(error, errorInfo) {
-		// Puedes registrar el error a un servicio de reporte de errores
-		console.log(error)
-		console.log(errorInfo)
-		this.setState({ hasError: true })
+	componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+		console.error(error, errorInfo);
+		this.setState({ hasError: true });
 	}
 
-	render() {
+	render(): ReactNode {
 		if (this.state.hasError) {
-			// Puedes renderizar cualquier interfaz de respaldo
 			return (
 				<>
 					<h1>Algo salió mal.</h1>
 					<Button>
-						<Link to={'/'}>
+						<Link to='/'>
 							<i className='fa-soli fa-close'></i> Cerrar sesión
 						</Link>
 					</Button>
 				</>
-			)
+			);
 		}
 
-		return this.props.children
+		return this.props.children;
 	}
 }
+

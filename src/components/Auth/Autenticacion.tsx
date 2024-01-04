@@ -5,23 +5,22 @@ import React, { createContext, useContext, useEffect, useState, useReducer } fro
 import { redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const AuthContext = createContext();
+const AuthContext = createContext({});
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children }: any) {
 	const [authToken, setAuthToken] = useState(sessionStorage.getItem('token'));
-	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
+	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') as string));
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
 	const urlApi = 'http://localhost:5000';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
 
 	const instance = axios.create({
 		baseURL: urlApi,
 	});
 
 	instance.interceptors.response.use(
-		(response) => response,	// Aquí puedes realizar acciones antes de que la respuesta sea devuelta
+		(response) => response, // Aquí puedes realizar acciones antes de que la respuesta sea devuelta
 		(error) => {
 			//Cuando el error cuando la peticion es erronea
 			if (error.response?.status === 400) {
@@ -32,14 +31,14 @@ export function AuthProvider({ children }) {
 				});
 			}
 			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autroizado) cerrara la sesión
-			if (error.response?.status === 401 | 500) {
+			if (error.response?.status === (401 | 500)) {
 				logout(); // Ejecución de logout() para limpieza de variables de sesión
 			}
 			return Promise.reject(error);
 		},
 	);
 
-	const login = async (token) => {
+	const login = async (token: string) => {
 		instance
 			.get(`${urlApi}/api/auth/verify`, {
 				headers: {
@@ -52,7 +51,7 @@ export function AuthProvider({ children }) {
 				sessionStorage.setItem('token', token);
 				sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
 				setAuthToken(sessionStorage.getItem('token'));
-				await setUser(JSON.parse(sessionStorage.getItem('user')));
+				await setUser(JSON.parse(sessionStorage.getItem('user') as string));
 				setIsAuth(true);
 			})
 			.catch((error) => {
@@ -68,7 +67,7 @@ export function AuthProvider({ children }) {
 		redirect('/');
 	};
 
-	const verifyToken = async (token) => {
+	const verifyToken = async (token: string) => {
 		try {
 			const response = await instance.get(`${urlApi}/api/auth/verify`, {
 				headers: {
@@ -78,7 +77,7 @@ export function AuthProvider({ children }) {
 			const decodedToken = response.data;
 			sessionStorage.setItem('token', token);
 			sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
-			setUser(JSON.parse(sessionStorage.getItem('user')));
+			setUser(JSON.parse(sessionStorage.getItem('user') as string));
 			setIsAuth(true);
 		} catch (error) {
 			logout();
@@ -88,29 +87,31 @@ export function AuthProvider({ children }) {
 
 	const initialState = {
 		cart: {
-			cartItems: sessionStorage.getItem('cartItems') ? JSON.parse(sessionStorage.getItem('cartItems')) : [],
+			cartItems: sessionStorage.getItem('cartItems') ? JSON.parse(sessionStorage.getItem('cartItems') as string) : [],
 		},
 	};
 
-	function reducer(state, action) {
+	function reducer(state: any, action: any) {
 		switch (action.type) {
 			case 'CART_ADD_ITEM': {
 				const newItem = action.payload;
-				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId);
+				const existItem = state.cart.cartItems.find((item: any) => item.prodId === newItem.prodId);
 				const cartItems = existItem
-					? state.cart.cartItems.map((item) =>
-						item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item
-					)
+					? state.cart.cartItems.map((item: any) =>
+							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
+					  )
 					: [...state.cart.cartItems, newItem];
-				sessionStorage.setItem('cartItems', JSON.stringify(cartItems))
+				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 				return { ...state, cart: { cartItems } }; // Update cartItems directly
 			}
 
 			case 'CART_DECREASE': {
 				const newItem = action.payload;
-				const existItem = state.cart.cartItems.find((item) => item.prodId === newItem.prodId);
+				const existItem = state.cart.cartItems.find((item: any) => item.prodId === newItem.prodId);
 				if (existItem) {
-					const cartItems = state.cart.cartItems.map((item) => (item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad - 1 } : item));
+					const cartItems = state.cart.cartItems.map((item: any) =>
+						item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad - 1 } : item,
+					);
 					sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 					return { ...state, cart: { ...state.cart, cartItems } };
 				}
@@ -119,13 +120,13 @@ export function AuthProvider({ children }) {
 
 			case 'CART_DEL_ITEM': {
 				const payloadItem = action.payload;
-				const newCartItems = state.cart.cartItems.filter((item) => item.prodId !== payloadItem.prodId);
+				const newCartItems = state.cart.cartItems.filter((item: any) => item.prodId !== payloadItem.prodId);
 				sessionStorage.setItem('cartItems', JSON.stringify(newCartItems));
 				return { ...state, cart: { ...state.cart, cartItems: newCartItems } };
 			}
 
 			case 'CART_CLEAR':
-				sessionStorage.setItem('cartItems', JSON.stringify([]))
+				sessionStorage.setItem('cartItems', JSON.stringify([]));
 				return { ...state, cart: { cartItems: [] } }; // Clear cartItems directly
 
 			default:
@@ -168,3 +169,4 @@ export function AuthProvider({ children }) {
 export function useAuth() {
 	return useContext(AuthContext);
 }
+

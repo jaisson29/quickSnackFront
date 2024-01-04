@@ -7,8 +7,7 @@ import Button from '../boton/Button';
 import { useParams } from 'react-router-dom';
 
 const Operaciones = () => {
-	function reducer(state, action) {}
-	const { urlApi, instance, authToken, state, dispatch } = useAuth();
+	const { urlApi, instance, authToken, state, dispatch }: any = useAuth();
 	const [productos, setProductos] = useState([]);
 	const [tipoTrs, setTipoTrs] = useState(7);
 	const transacData = {
@@ -17,8 +16,8 @@ const Operaciones = () => {
 		det: state.cart.cartItems,
 	};
 
-	const cantidadRef = useRef();
-	const usuNoDocRef = useRef();
+	const cantidadRef: any = useRef();
+	const usuNoDocRef: any = useRef();
 
 	useEffect(() => {
 		dispatch({ type: 'CART_CLEAR' });
@@ -29,10 +28,10 @@ const Operaciones = () => {
 					authorization: `Bearer ${authToken}`,
 				},
 			})
-			.then((result) => {
+			.then((result: any) => {
 				setProductos(result.data);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err);
 			});
 	}, [tipoTrs]);
@@ -46,7 +45,7 @@ const Operaciones = () => {
 					authorization: `Bearer ${authToken}`,
 				},
 			})
-			.then((res) => {
+			.then((res: any) => {
 				console.log(res.usuId);
 				transacData.usuId = res.data.usuId;
 				console.log(transacData);
@@ -55,14 +54,14 @@ const Operaciones = () => {
 							authorization: `Bearer ${authToken}`,
 						},
 					})
-					.then((res) => {
+					.then((res: any) => {
 						console.log(res);
 					})
-					.catch((err) => {
+					.catch((err: any) => {
 						console.log(err);
 					});
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err);
 			});
 		
@@ -72,10 +71,10 @@ const Operaciones = () => {
 		dispatch({ type: 'CART_CLEAR' });
 	}
 
-	function formHandler(event) {
+	function formHandler(event: any) {
 		event.preventDefault();
 		const produc = Number(event.target.prodId.value);
-		const item = productos.find((prod) => prod.prodId === produc);
+		const item: any = productos.find((prod: any) => prod.prodId === produc);
 		dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, cantidad: Number(event.target.cantidad.value) } });
 		cantidadRef.current.value = 1;
 	}
@@ -107,8 +106,8 @@ const Operaciones = () => {
 								<label htmlFor='prodValVen' className='form-label'>
 									Precio de Venta
 								</label>
-								<select type='number' step={'any'} name='prodId' id='prodValVen' className='input' required>
-									{productos.map((prod) => {
+								<select name='prodId' id='prodValVen' className='input' required>
+									{productos.map((prod: any) => {
 										return (
 											<option key={prod.prodId} value={prod.prodId}>
 												{tipoTrs === 6 ? `$ ${Number(prod.prodNom).toLocaleString('es-CO')}` : prod.prodNom}
@@ -149,7 +148,7 @@ const Operaciones = () => {
 							</tr>
 						</thead>
 						<tbody>
-							{state.cart.cartItems.map((item) => {
+							{state.cart.cartItems.map((item: any) => {
 								return (
 									<tr key={item.prodId} className=' h-fit'>
 										<td>{tipoTrs === 6 ? `$ ${Number(item.prodNom).toLocaleString('es-CO')}` : item.prodNom}</td>

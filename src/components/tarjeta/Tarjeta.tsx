@@ -1,12 +1,11 @@
 /** @format */
 
-import { useRef, useState } from 'react';
+import {  useState } from 'react';
 import { useAuth } from '../Auth/Autenticacion';
 import Button from '../boton/Button';
 
-const Tarjeta = ({ prod, id, nom, descr, cat, img, precio }) => {
-	const { urlApi, dispatch } = useAuth();
-	const cantRef = useRef();
+const Tarjeta = ({ prod, id, nom, descr, cat, img, precio }: any) => {
+	const { urlApi, dispatch }: any = useAuth();
 	const [cantidad, setCantidad] = useState(1);
 	return (
 		<li className='w-full rounded-lg bg-slate-200' key={id}>
@@ -19,7 +18,7 @@ const Tarjeta = ({ prod, id, nom, descr, cat, img, precio }) => {
 			<span>{precio}</span>
 			<form
 				className={'flex'}
-				onSubmit={async (event) => {
+				onSubmit={async (event: any) => {
 					event.preventDefault();
 					const cant = Number(event.target.cant.value);
 					dispatch({ type: 'CART_ADD_ITEM', payload: { cantidad: cant, ...prod } });

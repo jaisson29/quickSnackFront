@@ -3,14 +3,13 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import './categoria.css';
-import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Categoria = () => {
-	const { urlApi, authToken, instance } = useAuth();
+	const { urlApi, authToken, instance }: any = useAuth();
 	const [categoria, setCategoria] = useState([]);
-	const [valEli, setvalEli] = useState([]);
+	const [valEli, setvalEli]: any = useState([]);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
 	const [error, setError] = useState('');
 	const [cargando, setCargando] = useState(true);
@@ -21,11 +20,11 @@ const Categoria = () => {
 			.get(`${urlApi}/api/catego/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				setCargando(false);
 				setCategoria(respuesta.data);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				setCargando(false);
 				setError(err.message);
 			});
@@ -33,30 +32,30 @@ const Categoria = () => {
 			.get(`${urlApi}/api/catego/getmxp`, {
 				headers: { Authorization: `Bearer ${authToken}` },
 			})
-			.then((respuesta) => {
-				const fnList = [];
-				respuesta.data.map((element) => {
+			.then((respuesta: any) => {
+				const fnList: any = [];
+				respuesta.data.map((element: any) => {
 					fnList.push(element.catId);
 				});
 				setvalEli(fnList);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				setError(err.message);
 			});
-	}, [urlApi, authToken, tablaActualizada]);
+	}, [urlApi, authToken, tablaActualizada, instance]);
 
 	const [catData, setCatData] = useState({
 		catId: '',
 		catNom: '',
 	});
 
-	function inputHandler(event) {
+	function inputHandler(event: any) {
 		setCatData({
 			...catData,
 			[event.target.name]: event.target.value,
 		});
 	}
-	function formHandler(e) {
+	function formHandler(e: any) {
 		e.preventDefault();
 
 		if (catData.catId) {
@@ -66,7 +65,7 @@ const Categoria = () => {
 						Authorization: `Bearer ${authToken}`,
 					},
 				})
-				.then((res) => {
+				.then((res: any) => {
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
 					setCatData({
@@ -74,7 +73,7 @@ const Categoria = () => {
 						catNom: '',
 					});
 				})
-				.catch((err) => {
+				.catch((err: any) => {
 					console.log('error', err);
 				});
 		} else {
@@ -84,7 +83,7 @@ const Categoria = () => {
 						Authorization: `Bearer ${authToken}`,
 					},
 				})
-				.then((respuesta) => {
+				.then((respuesta: any) => {
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
 					setCatData({
@@ -92,33 +91,33 @@ const Categoria = () => {
 						catNom: '',
 					});
 				})
-				.catch((err) => {
+				.catch((err: any) => {
 					console.log('Error al crear la categoria', err);
 				});
 		}
 	}
 
-	function editar(id) {
-		const cat = categoria.find((c) => c.catId === id);
+	function editar(id: number) {
+		const cat: any = categoria.find((c: any) => c.catId === id);
 		setCatData({
 			...cat,
 			catId: id,
 		});
 	}
 
-	function eliminar(id) {
+	function eliminar(id: number) {
 		instance
 			.delete(`${urlApi}/api/catego/delete/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			})
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				console.log(respuesta);
 				setTablaActualizada(!tablaActualizada);
 				setCargando(true);
 			})
-			.catch((err) => {
+			.catch((err: any) => {
 				console.log(err);
 			});
 		return id;
@@ -151,20 +150,17 @@ const Categoria = () => {
 					columns={[
 						{
 							name: 'Categorias',
-							selector: (row) => (
-								<>
-									<p>{row.catNom}</p>
-								</>
-							),
+							selector: (row: any) => row.catNom,
 							sortable: true,
 						},
 						{
-							cell: (row) => (
+							cell: (row: any) => (
 								<>
+									<p>{row.catNom}</p>
 									<Button onClick={() => editar(row.catId)}>
 										<i className='fa-solid fa-pen'></i>
 									</Button>
-									{valEli.indexOf(row.catId) != -1 ? null : (
+									{valEli.indexOf(row?.catId) !== -1 ? null : (
 										<Button onClick={() => eliminar(row.catId)}>
 											<i className='fa-solid fa-trash'></i>
 										</Button>
@@ -181,3 +177,4 @@ const Categoria = () => {
 };
 
 export default Categoria;
+

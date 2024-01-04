@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 const useForm = () => {
-	const [form, setForm] = useState({});
-	const [files, setFile] = useState([]);
+	const [form, setForm]: any = useState({});
+	const [files, setFile]: any = useState([]);
 
-	const handleForm = (event) => {
+	const handleForm = (event: any) => {
 		if (event.target.type === 'file') {
 			setFile([...files, ...event.target.files]);
 		} else {
@@ -23,7 +23,7 @@ const useForm = () => {
 			formData.append(key, form[key]);
 		}
 		if (files) {
-			files.forEach((file, index) => {
+			files.forEach((file: any, index: any) => {
 				formData.append(`file${index}}`, file);
 			});
 		}
@@ -38,3 +38,4 @@ const useForm = () => {
 };
 
 export default useForm;
+

@@ -3,7 +3,7 @@
 import React from 'react';
 import './contEntrada.css';
 
-const ConEntrada = ({ children }) => {
+const ConEntrada = ({ children }: any) => {
 	return (
 		<>
 			{/* div to the colored square */}

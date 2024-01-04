@@ -9,13 +9,13 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const Header = () => {
-	const { user, state, logout } = useAuth();
+	const { user, state, logout }: any = useAuth();
 	let cartItems = state.cart.cartItems;
 
 	const { usuNom, perfilNom, usuGen } = user;
 
 	return (
-		<header className='flex items-center justify-end float-right mr-4 gap-3 my-2 text-right shadow-md w-fit'>
+		<header className='flex items-center justify-end float-right gap-3 my-2 mr-4 text-right shadow-md w-fit'>
 			<section className='mx-2'>
 				<Monto />
 			</section>
@@ -61,3 +61,4 @@ const Header = () => {
 };
 
 export default Header;
+

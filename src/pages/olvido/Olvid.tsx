@@ -9,18 +9,17 @@ import { useAuth } from '../../components/Auth/Autenticacion';
 import Swal from 'sweetalert2';
 
 function Olvid() {
-	const navigate = useNavigate();
-	const { isAuth, urlApi, authToken, instance } = useAuth();
+	const { isAuth, urlApi, instance }: any = useAuth();
 	const [emailData, setEmailData] = useState({
 		usuEmail: '',
 		cUsuEmail: '',
 	});
 
-	const handleForm = (e) => {
+	const handleForm = (e: any) => {
 		e.preventDefault();
 		instance
 			.post(`${urlApi}/api/auth/forgotPass`, emailData)
-			.then((respuesta) => {
+			.then((respuesta: any) => {
 				console.log(respuesta);
 				Swal.fire({
 					title: 'Enviado',
@@ -29,13 +28,13 @@ function Olvid() {
 					confirmButtonText: 'Continuar',
 				});
 			})
-			.catch((error) => {
+			.catch((error: any) => {
 				redirect('/registro');
 				console.error('error', error);
 			});
 	};
 
-	function handleInput(event) {
+	function handleInput(event: any) {
 		setEmailData({
 			...emailData,
 			[event.target.name]: event.target.value,

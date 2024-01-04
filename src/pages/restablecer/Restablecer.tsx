@@ -1,15 +1,15 @@
 /** @format */
 
 import './restablecer.css';
-import Button from '../../components/boton/Button.jsx';
-import { Navigate, redirect, useParams, useNavigate } from 'react-router-dom';
+import Button from '../../components/boton/Button';
+import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
 function Reset() {
-	const { isAuth, urlApi, instance } = useAuth();
+	const { isAuth, urlApi, instance }: any = useAuth();
 	const [passData, setPassData] = useState({
 		usuEmail: null,
 		usuContra: null,
@@ -17,7 +17,7 @@ function Reset() {
 	const params = useParams();
 	const navigate = useNavigate();
 
-	const handleForm = (event) => {
+	const handleForm = (event: any) => {
 		event.preventDefault();
 
 		instance
@@ -26,7 +26,7 @@ function Reset() {
 					Authorization: `Bearer ${params.token}`,
 				},
 			})
-			.then(async (respuesta) => {
+			.then(async (respuesta: any) => {
 				Swal.fire({
 					title: 'Exito!',
 					text: respuesta.data.message,
@@ -38,21 +38,21 @@ function Reset() {
 					}
 				});
 			})
-			.catch((error) => {
+			.catch((error: any) => {
 				Swal.fire({
 					title: 'Error!',
 					text: error.message,
 					icon: 'error',
 					confirmButtonText: 'Continuar',
 				}).then((res) => {
-					if (res.isConfirmed()) {
+					if (res.isConfirmed) {
 						navigate('/');
 					}
 				});
 			});
 	};
 
-	const handleInput = (event) => {
+	const handleInput = (event: any) => {
 		setPassData({
 			...passData,
 			[event.target.name]: event.target.value,
@@ -92,3 +92,4 @@ function Reset() {
 }
 
 export default Reset;
+

@@ -7,8 +7,8 @@ import Cargando from '../../components/cargando/Cargando';
 import { useAuth } from '../../components/Auth/Autenticacion';
 
 const Historial = () => {
-	const { urlApi, user, authToken, instance } = useAuth();
-	const [usuTransacs, setUsuTransacs] = useState([]);
+	const { urlApi, user, authToken, instance }: any = useAuth();
+	const [usuTransacs, setUsuTransacs]: any = useState([]);
 	const [error, setError] = useState('');
 	const [cargando, setCargando] = useState(true);
 	const [hasFetched, setHasFetched] = useState(false);
@@ -26,7 +26,7 @@ const Historial = () => {
 				} else {
 					setUsuTransacs(response.data);
 				}
-			} catch (error) {
+			} catch (error: any) {
 				setError(error.response.data.error);
 			} finally {
 				setCargando(false);
@@ -50,22 +50,25 @@ const Historial = () => {
 				) : (
 					usuTransacs.length !== 0 &&
 					usuTransacs[0].catId &&
-					usuTransacs.sort((a, b) => -(new Date(a.transacFecha) - new Date(b.transacFecha))).map(function (trs) {
-						let dt = trs.transacFecha.split('T');
-						return (
-							<div key={trs.transacId} className='flex items-center px-4 gap-7'>
-								<div
-									className={`rounded-full ${trs.transacTipo === 6 ? 'bg-green-600' : 'bg-red-600'
-										} w-6 h-6 text-center ring-2 ${trs.transacTipo === 6 ? 'ring-green-600' : 'ring-red-600'} ring-offset-2`}>
-									<i className={`fa fa-${trs.transacTipo === 6 ? 'plus' : 'minus'} text-white`}></i>
+					usuTransacs
+						.sort((a: any, b: any) => -(new Date(a.transacFecha) as any - new Date(b.transacFecha).getTime()))
+						.map(function (trs: any) {
+							let dt = trs.transacFecha.split('T');
+							return (
+								<div key={trs.transacId} className='flex items-center px-4 gap-7'>
+									<div
+										className={`rounded-full ${trs.transacTipo === 6 ? 'bg-green-600' : 'bg-red-600'} w-6 h-6 text-center ring-2 ${
+											trs.transacTipo === 6 ? 'ring-green-600' : 'ring-red-600'
+										} ring-offset-2`}>
+										<i className={`fa fa-${trs.transacTipo === 6 ? 'plus' : 'minus'} text-white`}></i>
+									</div>
+									<div>
+										<p>{`${trs.transacTipo === 6 ? trs.tot : -trs.tot}`}</p>
+										<p>{`${dt[0]} ${dt[1].split('.')[0]}`}</p>
+									</div>
 								</div>
-								<div>
-									<p>{`${trs.transacTipo === 6 ? trs.tot : -trs.tot}`}</p>
-									<p>{`${dt[0]} ${dt[1].split('.')[0]}`}</p>
-								</div>
-							</div>
-						);
-					})
+							);
+						})
 				)}
 			</section>
 		</>
@@ -73,3 +76,4 @@ const Historial = () => {
 };
 
 export default Historial;
+

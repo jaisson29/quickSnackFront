@@ -1,6 +1,6 @@
 /** @format */
 
-const Button = ( {children , twStyles = "", ...rest}) => {
+const Button = ( {children , twStyles = "", ...rest}:any) => {
 	return (
 		<button
 			{...rest}
