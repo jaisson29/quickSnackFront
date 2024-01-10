@@ -36,6 +36,7 @@ const Pagina = () => {
 				const fnList: any = [];
 				respuesta.data.map((element: any) => {
 					fnList.push(element.paginaId);
+					return element.paginaId
 				});
 				setvalEli(fnList);
 			})
@@ -131,7 +132,7 @@ const Pagina = () => {
 	}
 	return (
 		<>
-			{/* {error ? <Error /> : null} */}
+			{error && <Error mensaje={error} />}
 			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>

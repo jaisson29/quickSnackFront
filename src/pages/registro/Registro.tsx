@@ -2,9 +2,7 @@
 
 import ContEntrada from '../../components/contEntrada/ContEntrada';
 import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
-import Logo from '../../assets/logoQS.svg';
 import './registro.css';
-import LogoNom from '../../assets/QSName.svg';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
 import { useAuth } from '../../components/Auth/Autenticacion';
@@ -20,7 +18,6 @@ function Registro() {
 		usuContra: null,
 		usuIngreso: null,
 	});
-	// const [valor, setValor] = useState(null);
 
 	const crearUsu = (e: any) => {
 		e.preventDefault();
@@ -59,7 +56,7 @@ function Registro() {
 			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={crearUsu}>
 				<div className='row'>
 					<div className='w-full form-group'>
-						<input id='usuNom' name='usuNom' autoComplete='usuNom' type='text' className='input' onInput={handleInputs} required />
+						<input id='usuNom' name='usuNom' autoComplete='username' type='text' className='input' onInput={handleInputs} required />
 						<label htmlFor='usuNom' className='form-label'>
 							Nombre completo
 						</label>
@@ -82,27 +79,25 @@ function Registro() {
 						<select
 							id='usuTipoDoc'
 							name='usuTipoDoc'
+							title='Seleccione su tipo de documento'
 							autoComplete='current-password'
 							className='input inputSelect'
 							onChange={handleInputs}
 							defaultValue=''
 							required>
-							<option value='' defaultChecked disabled>
-								Tipo de documento
-							</option>
-							<option value='3'>Targeta de identidad</option>
+							<option value='3'>Tarjeta de identidad</option>
 							<option value='4'>Cedula de ciudadania</option>
 							<option value='5'>Cedula de extranjeria</option>
 						</select>
 					</div>
 					<div className='w-full form-group'>
-						<input type='text' id='usuNoDoc' name='usuNoDoc' autoComplete='usuNoDoc' className='input' onInput={handleInputs} required />
+						<input type='text' id='usuNoDoc' name='usuNoDoc' className='input' onInput={handleInputs} required />
 						<label htmlFor='usuNoDoc' className='form-label'>
 							Numero de documento
 						</label>
 					</div>
 					<div className='w-full form-group'>
-						<input id='usuEmail' name='usuEmail' autoComplete='usuEmail' type='email' className='input' onInput={handleInputs} required />
+						<input id='usuEmail' name='usuEmail' autoComplete='email' type='email' className='input' onInput={handleInputs} required />
 						<label htmlFor='usuEmail' className='form-label'>
 							Correo eléctronico
 						</label>
@@ -128,4 +123,3 @@ function Registro() {
 }
 
 export default Registro;
-

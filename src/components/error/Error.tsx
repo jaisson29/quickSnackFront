@@ -1,6 +1,6 @@
 import './error.css';
 
-const Error = ({ mensaje, twStyles, ...rest }: any) => {
+const Error = ({ mensaje, twStyles = '', ...rest }: any) => {
   return (
     <div
       {...rest}

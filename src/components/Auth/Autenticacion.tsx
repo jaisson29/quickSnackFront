@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState, useReducer } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer } from 'react';
 import { redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -12,7 +12,7 @@ export function AuthProvider({ children }: any) {
 	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') as string));
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
-	const urlApi = 'http://localhost:5000';
+	const urlApi = 'https://gmghpq4g-5000.use2.devtunnels.ms';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 	const instance = axios.create({
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: any) {
 				sessionStorage.setItem('token', token);
 				sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
 				setAuthToken(sessionStorage.getItem('token'));
-				await setUser(JSON.parse(sessionStorage.getItem('user') as string));
+				setUser(JSON.parse(sessionStorage.getItem('user') as string));
 				setIsAuth(true);
 			})
 			.catch((error) => {
@@ -64,25 +64,8 @@ export function AuthProvider({ children }: any) {
 		setAuthToken(null);
 		setUser(null);
 		setIsAuth(false);
+		setBalance(0);
 		redirect('/');
-	};
-
-	const verifyToken = async (token: string) => {
-		try {
-			const response = await instance.get(`${urlApi}/api/auth/verify`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
-			const decodedToken = response.data;
-			sessionStorage.setItem('token', token);
-			sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
-			setUser(JSON.parse(sessionStorage.getItem('user') as string));
-			setIsAuth(true);
-		} catch (error) {
-			logout();
-			console.error('Error verificando el token', error);
-		}
 	};
 
 	const initialState = {
@@ -138,12 +121,29 @@ export function AuthProvider({ children }: any) {
 
 	useEffect(() => {
 		console.log('render');
+
+		const verifyToken = async (token: string) => {
+			try {
+				const response = await instance.get(`${urlApi}/api/auth/verify`, {
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				});
+				const decodedToken = response.data;
+				sessionStorage.setItem('token', token);
+				sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
+				// setIsAuth(true);
+			} catch (error) {
+				logout();
+				console.error('Error verificando el token', error);
+			}
+		};
+
 		if (authToken) {
 			verifyToken(authToken);
 		}
 		authToken && user ? setIsAuth(true) : logout();
-		setBalance(0);
-	}, [authToken, state.cart.cartItems, dispatch]);
+	}, [authToken, state.cart.cartItems, dispatch, user, instance]);
 
 	return (
 		<AuthContext.Provider
@@ -169,4 +169,3 @@ export function AuthProvider({ children }: any) {
 export function useAuth() {
 	return useContext(AuthContext);
 }
-

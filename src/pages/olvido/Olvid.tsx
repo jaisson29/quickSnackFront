@@ -1,7 +1,7 @@
 /** @format */
 
 import ContEntrada from '../../components/contEntrada/ContEntrada';
-import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
+import { Link, Navigate, redirect } from 'react-router-dom';
 import './olvido.css';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';

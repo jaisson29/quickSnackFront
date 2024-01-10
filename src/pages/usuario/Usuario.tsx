@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
@@ -14,7 +14,7 @@ const Usuarios = () => {
 
 	const [usuarios, setUsuarios] = useState([]);
 	const [perfiles, setPerfiles] = useState([]);
-	const [file, setFile] = useState(null);
+	const [file, setFile]: any = useState(null);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
 	const [cargando, setCargando] = useState(true);
 	const [error, setError] = useState('');
@@ -44,7 +44,7 @@ const Usuarios = () => {
 			.catch((err: any) => {
 				setError('No se pudo obtener los perfiles');
 			});
-	}, [urlApi, authToken, tablaActualizada]);
+	}, [urlApi, authToken, tablaActualizada, instance]);
 
 	const [usuData, setUsuData] = useState({
 		usuId: '',
@@ -73,7 +73,7 @@ const Usuarios = () => {
 	formData.append('perfilId', usuData.perfilId);
 	formData.append('usuFecha', usuData.usuFecha);
 	formData.append('usuPassCode', usuData.usuPassCode);
-	formData.append('usuImg', file ? file : usuData.usuImg);
+	formData.append('usuImg', file);
 
 	function inputHandler(event: any) {
 		setUsuData({
@@ -81,9 +81,10 @@ const Usuarios = () => {
 			[event.target.name]: event.target.value,
 		});
 	}
-	function handleFiles(event: any) {
-		setFile(event.target.files[0]);
-	}
+
+	// function handleFiles(event: any) {
+	// 	setFile(event.target.files[0]);
+	// }
 
 	function formHandler(e: any) {
 		e.preventDefault();
@@ -255,10 +256,10 @@ const Usuarios = () => {
 						</label>
 						<div>
 							<input type='radio' name='usuGen' id='masculino' className='input-radio ' value='1' onChange={inputHandler} checked />
-							<label htmlFor=''>Masculino</label>
+							<label htmlFor='masculino'>Masculino</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type='radio' name='usuGen' id='femenino' className='input-radio' value='2' onChange={inputHandler} />
-							<label htmlFor=''>Femenino</label>
+							<label htmlFor='femenino'>Femenino</label>
 						</div>
 					</div>
 					{/* <div className='w-full md:w-1/2'>
@@ -309,7 +310,7 @@ const Usuarios = () => {
 							sortable: true,
 						},
 						{
-							cell: (row) => (
+							cell: (row: any) => (
 								<>
 									<p>{row.usuNom}</p>
 									<p>{row.usuEmail}</p>
@@ -330,4 +331,3 @@ const Usuarios = () => {
 };
 
 export default Usuarios;
-

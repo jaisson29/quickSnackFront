@@ -126,26 +126,27 @@ const Perfil = () => {
 		$('#paginaRuta').val(pef.paginaRuta);
 	}
 
-	function eliminar(id: any) {
-		instance
-			.delete(`${urlApi}/api/perfil/delete/${id}`, {
-				headers: {
-					Authorization: `Bearer ${authToken}`,
-				},
-			})
-			.then((respuesta: any) => {
-				console.log(respuesta);
-				setTablaActualizada(!tablaActualizada);
-				setCargando(true);
-			})
-			.catch((err: any) => {
-				console.log(err);
-			});
-		return id;
-	}
+	// function eliminar(id: any) {
+	// 	instance
+	// 		.delete(`${urlApi}/api/perfil/delete/${id}`, {
+	// 			headers: {
+	// 				Authorization: `Bearer ${authToken}`,
+	// 			},
+	// 		})
+	// 		.then((respuesta: any) => {
+	// 			console.log(respuesta);
+	// 			setTablaActualizada(!tablaActualizada);
+	// 			setCargando(true);
+	// 		})
+	// 		.catch((err: any) => {
+	// 			console.log(err);
+	// 		});
+	// 	return id;
+	// }
+
 	return (
 		<>
-			{/* {error ? <Error /> : null} */}
+			{error && <Error mensaje={error} />}
 			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>
@@ -161,20 +162,19 @@ const Perfil = () => {
 						<input type='text' name='paginaRuta' id='paginaRuta' className='input' onInput={inputHandler} value={pefData.paginaRuta} readOnly />
 					</div>
 					<div className='w-full md:w-1/2'>
-						<label htmlFor='paginaRuta' className='form-label'>
+						<label htmlFor='paginaInicial' className='form-label'>
 							Pagina inicial
 						</label>
-						<select name='paginaRuta' id='paginaRuta' className='input' onChange={inputHandler} required>
+						<select name='paginaInicial' id='paginaInicial' className='input' onChange={inputHandler} required>
 							<option value=''>Seleccione una pagina</option>
-							{pagina.length !== 0
-								? pagina.map((pag: any) => {
-										return (
-											<option key={pag.paginaRuta} value={pag.paginaRuta}>
-												{pag.paginaNom}
-											</option>
-										);
-								  })
-								: null}
+							{pagina.length !== 0 &&
+								pagina.map((pag: any) => {
+									return (
+										<option key={pag.paginaRuta} value={pag.paginaRuta}>
+											{pag.paginaNom}
+										</option>
+									);
+								})}
 						</select>
 					</div>
 					<div className='row'>
@@ -227,4 +227,3 @@ const Perfil = () => {
 };
 
 export default Perfil;
-

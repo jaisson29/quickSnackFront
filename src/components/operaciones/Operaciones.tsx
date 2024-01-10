@@ -1,10 +1,9 @@
 /** @format */
 
-import { useState, useReducer, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './operaciones.css';
 import { useAuth } from '../Auth/Autenticacion';
 import Button from '../boton/Button';
-import { useParams } from 'react-router-dom';
 
 const Operaciones = () => {
 	const { urlApi, instance, authToken, state, dispatch }: any = useAuth();
@@ -34,13 +33,16 @@ const Operaciones = () => {
 			.catch((err: any) => {
 				console.log(err);
 			});
-	}, [tipoTrs]);
+	}, [tipoTrs, authToken, urlApi, dispatch]);
 
 	function transactionHandler() {
-		if (state.cart.cartItems.length === 0) return;
+		if (state.cart.cartItems.length === 0) {
+			return;
+		}
 
 		const usuDoc = { usuNoDoc: usuNoDocRef.current?.value ?? '0000000000' };
-		instance.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
+		instance
+			.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
 				headers: {
 					authorization: `Bearer ${authToken}`,
 				},
@@ -49,7 +51,8 @@ const Operaciones = () => {
 				console.log(res.usuId);
 				transacData.usuId = res.data.usuId;
 				console.log(transacData);
-				instance.post(`${urlApi}/api/transac/`, transacData, {
+				instance
+					.post(`${urlApi}/api/transac/`, transacData, {
 						headers: {
 							authorization: `Bearer ${authToken}`,
 						},
@@ -64,8 +67,8 @@ const Operaciones = () => {
 			.catch((err: any) => {
 				console.log(err);
 			});
-		
-		if(usuNoDocRef.current){
+
+		if (usuNoDocRef.current) {
 			usuNoDocRef.current.value = '';
 		}
 		dispatch({ type: 'CART_CLEAR' });
@@ -120,16 +123,7 @@ const Operaciones = () => {
 								<label htmlFor='cantidad' className='form-label'>
 									Cantidad
 								</label>
-								<input
-									type='number'
-									className='input'
-									inputMode='numeric'
-									name='cantidad'
-									ref={cantidadRef}
-									id='cantidad'
-									min={1}
-									defaultValue={1}
-								/>
+								<input type='number' className='input' inputMode='numeric' name='cantidad' ref={cantidadRef} id='cantidad' min={1} defaultValue={1} />
 							</div>
 						</div>
 						<div className='flex items-end w-full row md:w-1/2'>

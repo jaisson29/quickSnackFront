@@ -1,6 +1,6 @@
 /** @format */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '../Auth/Autenticacion';
 
 const Monto = (props: any) => {
@@ -22,13 +22,8 @@ const Monto = (props: any) => {
 					setBalance(monto);
 				}
 			});
-	}, [urlApi, user, authToken]);
-	return (
-		<>
-			<h2 className='m-2'>$ {balance.toLocaleString('es-CO')}</h2>
-		</>
-	);
+	}, [urlApi, user, authToken, setBalance, instance]);
+	return <h2 className='m-2'>$ {balance.toLocaleString('es-CO')}</h2>;
 };
 
 export default Monto;
-

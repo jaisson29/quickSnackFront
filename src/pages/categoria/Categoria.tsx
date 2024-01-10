@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../components/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
@@ -36,6 +36,7 @@ const Categoria = () => {
 				const fnList: any = [];
 				respuesta.data.map((element: any) => {
 					fnList.push(element.catId);
+					return element.catId
 				});
 				setvalEli(fnList);
 			})
@@ -124,7 +125,7 @@ const Categoria = () => {
 	}
 	return (
 		<>
-			{/* {error ? <Error /> : null} */}
+			{error && <Error mensaje={error}/>}
 			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>

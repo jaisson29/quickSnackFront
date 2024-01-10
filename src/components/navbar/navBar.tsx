@@ -9,7 +9,7 @@ import Cargando from '../cargando/Cargando';
 
 function NavBar() {
 	const [paginas, setPaginas] = useState([]);
-	const { logout, urlApi, user, instance }: any = useAuth();
+	const { urlApi, user, instance }: any = useAuth();
 
 	useEffect(() => {
 		instance
@@ -23,7 +23,7 @@ function NavBar() {
 				console.log(error);
 				setPaginas([]);
 			});
-	}, [urlApi]);
+	}, [urlApi, instance, user.perfilId]);
 
 	const location = useLocation();
 
@@ -66,4 +66,3 @@ function NavBar() {
 }
 
 export default NavBar;
-
