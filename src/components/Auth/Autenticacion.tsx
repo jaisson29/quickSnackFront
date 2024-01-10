@@ -12,7 +12,8 @@ export function AuthProvider({ children }: any) {
 	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') as string));
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
-	const urlApi = 'https://gmghpq4g-5000.use2.devtunnels.ms';
+	const urlApi = 'http://localhost:5000';
+	// const urlApi = 'https://gmghpq4g-5000.use2.devtunnels.ms';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 	const instance = axios.create({
