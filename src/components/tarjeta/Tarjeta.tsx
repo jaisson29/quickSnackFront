@@ -32,9 +32,9 @@ const Tarjeta = ({ prod, id, nom, descr, cat, img, precio }: any) => {
 					<i onClick={() => setCantidad(cantidad + 1)} className='fa fa-plus-circle'></i>
 				</span>
 
-				<input type='hidden' name='cant' defaultValue={1} value={cantidad} />
+				<input type='hidden' name='cant' value={cantidad} />
 
-				<Button extraClass={'px-0 py-0'}>
+				<Button twStyles={'px-0 py-0'}>
 					<input className='w-full h-full' type='submit' value='Agregar' />
 				</Button>
 			</form>

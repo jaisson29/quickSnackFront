@@ -40,8 +40,8 @@ export function AuthProvider({ children }: any) {
 	);
 
 	const login = async (token: string) => {
-		instance
-			.get(`${urlApi}/api/auth/verify`, {
+		try {
+			const respuesta = await instance.get(`${urlApi}/api/auth/verify`, {
 				headers: {
 					//Inicializa el header de la paetición
 					Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization" para el envio del token por Bearer

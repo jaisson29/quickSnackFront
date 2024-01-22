@@ -15,31 +15,29 @@ function Login() {
 		usuContra: '',
 	});
 
-	function iniciarSesion(event: any) {
+	async function iniciarSesion(event: any) {
 		event.preventDefault();
 
-		instance
-			.post(`${urlApi}/api/auth/loguear`, {
+		try {
+			const respuesta = await instance.post(`${urlApi}/api/auth/loguear`, {
 				...usuData,
-			})
-			.then(async (respuesta: any) => {
-				const loginToken = respuesta.data.token;
-				await login(loginToken);
-				redirect(`/${respuesta.data.pg}`);
-			})
-			.catch((err: any) => {
-				Swal.fire({
-					title: 'Error!',
-					text: err.response.data.error,
-					icon: 'error',
-					confirmButtonText: 'Continuar',
-				}).then((res) => {
-					setUsuData({
-						usuEmail: '',
-						usuContra: '',
-					});
+			});
+			const loginToken = respuesta.data.token;
+			await login(loginToken);
+			redirect(`/${respuesta.data.pg}`);
+		} catch (err: any) {
+			Swal.fire({
+				title: 'Error!',
+				text: err.response.data.error,
+				icon: 'error',
+				confirmButtonText: 'Continuar',
+			}).then((res) => {
+				setUsuData({
+					usuEmail: '',
+					usuContra: '',
 				});
 			});
+		}
 	}
 
 	function handleInputs(event: any) {
@@ -110,3 +108,4 @@ function Login() {
 }
 
 export default Login;
+
