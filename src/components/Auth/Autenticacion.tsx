@@ -46,18 +46,16 @@ export function AuthProvider({ children }: any) {
 					//Inicializa el header de la paetición
 					Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization" para el envio del token por Bearer
 				},
-			})
-			.then(async (respuesta) => {
-				const decodedToken = respuesta.data;
-				sessionStorage.setItem('token', token);
-				sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
-				setAuthToken(sessionStorage.getItem('token'));
-				setUser(JSON.parse(sessionStorage.getItem('user') as string));
-				setIsAuth(true);
-			})
-			.catch((error) => {
-				console.error('Error verificando el token', error);
 			});
+			const decodedToken = respuesta.data;
+			sessionStorage.setItem('token', token);
+			sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
+			setAuthToken(sessionStorage.getItem('token'));
+			setUser(JSON.parse(sessionStorage.getItem('user') as string));
+			setIsAuth(true);
+		} catch (error) {
+			console.error('Error verificando el token', error);
+		}
 	};
 
 	const logout = () => {
@@ -170,3 +168,4 @@ export function AuthProvider({ children }: any) {
 export function useAuth() {
 	return useContext(AuthContext);
 }
+
