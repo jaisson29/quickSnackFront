@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import './operaciones.css';
-import { useAuth } from '../Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import Button from '../boton/Button';
 
 const Operaciones = () => {
@@ -169,7 +169,7 @@ const Operaciones = () => {
 						</>
 					)}
 
-					<Button onClick={() => transactionHandler()} extraClass={'my-2 self-end'}>
+					<Button onClick={() => transactionHandler()} twStyles={'my-2 self-end'}>
 						Completar
 					</Button>
 				</div>

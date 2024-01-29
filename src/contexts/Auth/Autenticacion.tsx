@@ -166,6 +166,7 @@ export function AuthProvider({ children }: any) {
 }
 
 export function useAuth() {
+	if(!AuthContext) throw new Error('Esta fuera del contexto de autenticacion')
 	return useContext(AuthContext);
 }
 

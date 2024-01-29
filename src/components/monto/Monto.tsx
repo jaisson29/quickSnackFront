@@ -1,7 +1,7 @@
 /** @format */
 
 import { useEffect } from 'react';
-import { useAuth } from '../Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 
 const Monto = (props: any) => {
 	const { urlApi, user, authToken, balance, setBalance, instance }: any = useAuth();

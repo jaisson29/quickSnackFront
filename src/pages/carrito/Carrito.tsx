@@ -1,7 +1,7 @@
 /** @format */
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import Error from '../../components/error/Error';
 import Button from '../../components/boton/Button';
 import Swal from 'sweetalert2';

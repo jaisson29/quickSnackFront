@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
 import Modales from '../../components/modal/Modales';

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../components/Auth/Autenticacion';
+import { useAuth } from '../contexts/Auth/Autenticacion';
 import axios from 'axios';
 
 function useFetch(url: string) {

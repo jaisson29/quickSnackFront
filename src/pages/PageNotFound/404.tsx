@@ -3,7 +3,7 @@
 import { Link } from 'react-router-dom'
 import './404.css'
 import Button from '../../components/boton/Button'
-import { useAuth } from '../../components/Auth/Autenticacion'
+import { useAuth } from '../../contexts/Auth/Autenticacion'
 
 const PageNotFound = () => {
 	const { logout }: any = useAuth()

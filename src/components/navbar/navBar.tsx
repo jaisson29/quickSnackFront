@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import './navBar.css';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../../assets/logoQSW.svg';
-import { useAuth } from '../Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import Cargando from '../cargando/Cargando';
 
 function NavBar() {

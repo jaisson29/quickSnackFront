@@ -5,7 +5,7 @@ import { Link, Navigate, redirect, useNavigate } from 'react-router-dom';
 import './registro.css';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 
 function Registro() {
 	const navigate = useNavigate();

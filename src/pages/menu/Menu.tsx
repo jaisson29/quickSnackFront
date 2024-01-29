@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import Cargando from '../../components/cargando/Cargando';
 import Tarjeta from '../../components/tarjeta/Tarjeta';
 import Error from '../../components/error/Error';

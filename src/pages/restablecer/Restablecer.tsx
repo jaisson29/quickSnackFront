@@ -4,7 +4,7 @@ import './restablecer.css';
 import Button from '../../components/boton/Button';
 import { Navigate, useParams, useNavigate } from 'react-router-dom';
 import ContEntrada from '../../components/contEntrada/ContEntrada';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 
@@ -82,7 +82,7 @@ function Reset() {
 					</div>
 				</div>
 				<div className='text-center group'>
-					<Button extraClass='px-0 py-0'>
+					<Button twStyles='px-0 py-0'>
 						<input type='submit' className='h-full px-4 cursor-pointer' value='Confirmar' />
 					</Button>
 				</div>

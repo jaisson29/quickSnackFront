@@ -5,7 +5,7 @@ import { Link, Navigate, redirect } from 'react-router-dom';
 import './olvido.css';
 import { useState } from 'react';
 import Button from '../../components/boton/Button';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import Swal from 'sweetalert2';
 
 function Olvid() {

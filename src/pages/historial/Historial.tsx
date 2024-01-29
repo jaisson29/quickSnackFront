@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import './historial.css';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
-import { useAuth } from '../../components/Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 
 const Historial = () => {
 	const { urlApi, user, authToken, instance }: any = useAuth();

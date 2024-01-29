@@ -1,6 +1,6 @@
 /** @format */
 
-import { useAuth } from '../Auth/Autenticacion';
+import { useAuth } from '../../contexts/Auth/Autenticacion';
 import './header.css';
 import male from '../../assets/icon-male-100.png';
 import female from '../../assets/icon-female-100.png';
@@ -9,13 +9,35 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 
 const Header = () => {
-	const { user, state, logout }: any = useAuth();
+	const { user, state, logout, urlApi }: any = useAuth();
 	let cartItems = state.cart.cartItems;
 
-	const { usuNom, perfilNom, usuGen } = user;
+	const { usuNom, perfilNom } = user;
+
+	const usuImg = user.usuImg ? `${urlApi}/uploads/${user.usuImg}` : user.usuGen === 1 ? male : female;
 
 	return (
-		<header className='flex items-center justify-end float-right gap-3 my-2 mr-4 text-right shadow-md w-fit'>
+		<header className='flex items-center justify-end float-right h-16 gap-3 pl-3 my-2 mr-4 text-right rounded-l-full shadow-md w-fit'>
+			<Dropdown className='w-10 '>
+				<Dropdown.Toggle size='lg' className='p-0 text-black bg-transparent border-0 after:m-0 after:hidden' id='dropdown-basic'>
+					<img src={usuImg} alt={usuNom} className='object-contain rounded-full w-14 h-14' />
+				</Dropdown.Toggle>
+
+				<Dropdown.Menu className='w-52'>
+					<Dropdown.Item>
+						<strong className='divide-y divide-clNeg'>
+							<p className='w-32 text-xl truncate'>{usuNom}</p>
+							<p>{perfilNom}</p>
+						</strong>
+					</Dropdown.Item>
+					<Dropdown.Item>
+						<Link to={'/personal'}>Datos personales</Link>
+					</Dropdown.Item>
+					<Dropdown.Item onClick={() => logout()}>
+						<i className='pr-2 fa fa-power-off fa-lg'></i>Cerrar sesión
+					</Dropdown.Item>
+				</Dropdown.Menu>
+			</Dropdown>
 			<section className='mx-2'>
 				<Monto />
 			</section>
@@ -34,26 +56,6 @@ const Header = () => {
 					<p>Hola.</p>
 					<p className='w-20 font-bold truncate'>{usuNom}</p>
 				</div>
-				<Dropdown className='w-10 '>
-					<Dropdown.Toggle size='lg' className='p-0 text-black bg-transparent border-0 after:m-0' id='dropdown-basic'>
-						<img src={usuGen === 1 ? male : female} alt='user' className='object-contain w-10 h-10 rounded-full' />
-					</Dropdown.Toggle>
-
-					<Dropdown.Menu className='w-52'>
-						<Dropdown.Item>
-							<strong className='divide-y divide-clNeg'>
-								<p className='w-32 text-xl truncate'>{usuNom}</p>
-								<p>{perfilNom}</p>
-							</strong>
-						</Dropdown.Item>
-						<Dropdown.Item>
-							<Link to={'/personal'}>Datos personales</Link>
-						</Dropdown.Item>
-						<Dropdown.Item onClick={() => logout()}>
-							<i className='pr-2 fa fa-power-off fa-lg'></i>Cerrar sesión
-						</Dropdown.Item>
-					</Dropdown.Menu>
-				</Dropdown>
 				<span onClick={() => {}}></span>
 			</section>
 		</header>

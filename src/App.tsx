@@ -2,7 +2,7 @@
 
 import { Routes, Route } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { AuthProvider } from './components/Auth/Autenticacion';
+import { AuthProvider } from './contexts/Auth/Autenticacion';
 import Login from './pages/login/Login';
 import Registro from './pages/registro/Registro';
 import PageNotFound from './pages/PageNotFound/404';
@@ -18,6 +18,7 @@ import Usuario from './pages/usuario/Usuario';
 import Olvid from './pages/olvido/Olvid';
 import Reset from './pages/restablecer/Restablecer';
 import Carrito from './pages/carrito/Carrito';
+import { UsuarioInfo } from './pages/usuarioInfo/UsuarioInfo'
 
 function App() {
 
@@ -27,17 +28,18 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Login />} />
 				<Route path='/registro' element={<Registro />} />
-				<Route path='/home' element={<ProtectedRoute children={<Home />} />} />
-				<Route path='/menu' element={<ProtectedRoute children={<Menu />} />} />
-				<Route path='/productos' element={<ProtectedRoute children={<Productos />} />} />
-				<Route path='/transaccion' element={<ProtectedRoute children={<Transaccion />} />} />
-				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
-				<Route path='/categorias' element={<ProtectedRoute children={<Categoria />} />} />
-				<Route path='/paginas' element={<ProtectedRoute children={<Pagina />} />} />
-				<Route path='/perfil' element={<ProtectedRoute children={<Perfil />} />} />
-				<Route path='/compra' element={<ProtectedRoute children={<Compra />} />} />
-				<Route path='/usuarios' element={<ProtectedRoute children={<Usuario />} />} />
-				<Route path='/carrito' element={<ProtectedRoute children={<Carrito />} />} />
+				<Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+				<Route path='/menu' element={<ProtectedRoute><Menu /></ProtectedRoute>} />
+				<Route path='/productos' element={<ProtectedRoute><Productos /></ProtectedRoute>} />
+				<Route path='/transaccion' element={<ProtectedRoute><Transaccion /></ProtectedRoute>} />
+				<Route path='/usuarios' element={<ProtectedRoute><Usuario /></ProtectedRoute>} />
+				<Route path='/categorias' element={<ProtectedRoute><Categoria /></ProtectedRoute>} />
+				<Route path='/paginas' element={<ProtectedRoute><Pagina /></ProtectedRoute>} />
+				<Route path='/perfil' element={<ProtectedRoute><Perfil /></ProtectedRoute>} />
+				<Route path='/compra' element={<ProtectedRoute><Compra /></ProtectedRoute>} />
+				<Route path='/usuarios' element={<ProtectedRoute><Usuario /></ProtectedRoute>} />
+				<Route path='/carrito' element={<ProtectedRoute><Carrito /></ProtectedRoute>} />
+				<Route path='/personal' element={<ProtectedRoute><UsuarioInfo /></ProtectedRoute>} />
 				<Route path='/olvid' element={<Olvid />} />
 				<Route path='/reset/:token' element={<Reset />} />
 				<Route path='*' element={<PageNotFound />} />
