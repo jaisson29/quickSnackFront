@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from 'axios';
-import { createContext, useContext, useEffect, useState, useReducer } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer, useMemo } from 'react';
 import { redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -146,27 +146,30 @@ export function AuthProvider({ children }: any) {
 
 	return (
 		<AuthContext.Provider
-			value={{
-				instance,
-				authToken,
-				user,
-				balance,
-				setBalance,
-				isAuth,
-				login,
-				logout,
-				urlApi,
-				state,
-				tableTheme,
-				dispatch,
-			}}>
+			value={useMemo(
+				() => ({
+					instance,
+					authToken,
+					user,
+					balance,
+					setBalance,
+					isAuth,
+					login,
+					logout,
+					urlApi,
+					state,
+					tableTheme,
+					dispatch,
+				}),
+				[authToken, balance, instance, isAuth, login, state, tableTheme, user],
+			)}>
 			{children}
 		</AuthContext.Provider>
 	);
 }
 
 export function useAuth() {
-	if(!AuthContext) throw new Error('Esta fuera del contexto de autenticacion')
+	if (!AuthContext) throw new Error('Esta fuera del contexto de autenticacion');
 	return useContext(AuthContext);
 }
 
