@@ -12,8 +12,8 @@ export function AuthProvider({ children }: any) {
 	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') as string));
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
-	const urlApi = 'https://quick-snack-back-pfnnnu6w3-jaisson-valbuenas-projects.vercel.app/';
-	// const urlApi = 'https://gmghpq4g-5000.use2.devtunnels.ms';
+	// const urlApi = 'https://quick-anack-back.onrender.com';
+	const urlApi = 'http://localhost:5000';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 	const instance = axios.create({
@@ -24,15 +24,15 @@ export function AuthProvider({ children }: any) {
 		(response) => response, // Aquí puedes realizar acciones antes de que la respuesta sea devuelta
 		(error) => {
 			//Cuando el error cuando la peticion es erronea
-			if (error.response?.status === 400) {
+			if (error.response?.status === 400 || error.status === 500) {
 				Swal.fire({
 					icon: 'error',
-					title: error.response.data.error,
-					timer: 300000,
+					title: error.response.data.message,
+					timer: 6000,
 				});
 			}
 			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autroizado) cerrara la sesión
-			if (error.response?.status === (401 | 500)) {
+			if (error.response?.status === (401)) {
 				logout(); // Ejecución de logout() para limpieza de variables de sesión
 			}
 			return Promise.reject(error);

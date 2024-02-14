@@ -6,13 +6,15 @@ import female from '../../assets/icon-female-100.png';
 
 const UsuarioInfo = () => {
 	const { user, urlApi }: any = useAuth();
+	console.log(user)
 
 	const usuImg = user.usuImg ? `${urlApi}/uploads/${user.usuImg}` : user.usuGen === 1 ? male : female;
 
 	return (
 		<div className={`bg-clBlan`}>
-			<img src={usuImg} alt={user.usuNom} />
+			<img className={`h-10 w-10 object-cover`} src={usuImg} alt={user.usuNom} />
 			<span>{user.usuNoDoc}</span>
+			{/* <span>{user.usuTipoDoc}</span> */}
 		</div>
 	);
 };

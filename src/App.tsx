@@ -22,7 +22,6 @@ import { UsuarioInfo } from './pages/usuarioInfo/UsuarioInfo'
 
 function App() {
 
-
 	return (
 		<AuthProvider>
 			<Routes>
@@ -49,3 +48,4 @@ function App() {
 }
 
 export default App;
+

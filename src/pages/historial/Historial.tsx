@@ -20,14 +20,14 @@ const Historial = () => {
 				const response = await instance.get(`${urlApi}/api/transac/getByUser/${user.usuId}`, {
 					headers: { Authorization: `Bearer ${authToken}` },
 				});
-
-				if (response.status === 204 || !response.data[0].catId) {
+				console.log(response)
+				if (response.status === 204 && response.data.length === 0) {
 					setError('No se encontraron resultados');
 				} else {
-					setUsuTransacs(response.data);
+					setUsuTransacs(response?.data);
 				}
 			} catch (error: any) {
-				setError(error.response.data.error);
+				setError(error?.response?.data?.message);
 			} finally {
 				setCargando(false);
 			}
