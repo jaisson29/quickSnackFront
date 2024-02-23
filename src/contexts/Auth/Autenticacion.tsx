@@ -1,15 +1,14 @@
-/** @format */
-
 import axios from 'axios';
-import { createContext, useContext, useEffect, useState, useReducer, useMemo } from 'react';
+import { createContext, useContext, useEffect, useState, useReducer, useMemo, useCallback } from 'react';
 import { redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Usuario } from '../../types';
 
 const AuthContext = createContext({});
 
 export function AuthProvider({ children }: any) {
 	const [authToken, setAuthToken] = useState(sessionStorage.getItem('token'));
-	const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user') as string));
+	const [user, setUser] = useState<Usuario | null>();
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
 	// const urlApi = 'https://quick-anack-back.onrender.com';
@@ -21,42 +20,46 @@ export function AuthProvider({ children }: any) {
 	});
 
 	instance.interceptors.response.use(
-		(response) => response, // Aquí puedes realizar acciones antes de que la respuesta sea devuelta
+		(response) => response,
 		(error) => {
 			//Cuando el error cuando la peticion es erronea
-			if (error.response?.status === 400 || error.status === 500) {
+			if (error?.response?.status === 400 || error?.response?.status === 404 || error?.response?.status === 500) {
 				Swal.fire({
 					icon: 'error',
 					title: error.response.data.message,
-					timer: 6000,
+					timer: 10000,
+				}).then(() => {
+					logout();
 				});
 			}
-			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autroizado) cerrara la sesión
-			if (error.response?.status === (401)) {
+			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autorizado) cerrara la sesión
+			if (error.response?.status === 401) {
 				logout(); // Ejecución de logout() para limpieza de variables de sesión
 			}
 			return Promise.reject(error);
 		},
 	);
 
-	const login = async (token: string) => {
-		try {
-			const respuesta = await instance.get(`${urlApi}/api/auth/verify`, {
-				headers: {
-					//Inicializa el header de la paetición
-					Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization" para el envio del token por Bearer
-				},
-			});
-			const decodedToken = respuesta.data;
-			sessionStorage.setItem('token', token);
-			sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
-			setAuthToken(sessionStorage.getItem('token'));
-			setUser(JSON.parse(sessionStorage.getItem('user') as string));
-			setIsAuth(true);
-		} catch (error) {
-			console.error('Error verificando el token', error);
-		}
-	};
+	const login = useCallback(
+		async (token: string) => {
+			try {
+				const respuesta = await instance.get(`${urlApi}/api/auth/verify`, {
+					headers: {
+						//Inicializa el header de la paetición
+						Authorization: `Bearer ${token}`, // Agrega el token al encabezado "Authorization" para el envio del token por Bearer
+					},
+				});
+				const decodedToken = respuesta.data;
+				sessionStorage.setItem('token', token);
+				setAuthToken(sessionStorage.getItem('token'));
+				setUser(decodedToken.payload);
+				setIsAuth(true);
+			} catch (error) {
+				console.error('Error verificando el token', error);
+			}
+		},
+		[instance],
+	);
 
 	const logout = () => {
 		sessionStorage.clear();
@@ -142,7 +145,7 @@ export function AuthProvider({ children }: any) {
 			verifyToken(authToken);
 		}
 		authToken && user ? setIsAuth(true) : logout();
-	}, [authToken, state.cart.cartItems, dispatch, user, instance]);
+	}, [authToken, user, instance]);
 
 	return (
 		<AuthContext.Provider
@@ -169,7 +172,8 @@ export function AuthProvider({ children }: any) {
 }
 
 export function useAuth() {
-	if (!AuthContext) throw new Error('Esta fuera del contexto de autenticacion');
+	if (!AuthContext) {
+		throw new Error('Esta fuera del contexto de autenticacion');
+	}
 	return useContext(AuthContext);
 }
-

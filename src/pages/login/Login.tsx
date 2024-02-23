@@ -49,7 +49,7 @@ function Login() {
 		});
 	}
 
-	if (isAuth) return <Navigate to={`/${user.paginaRuta}`} />;
+	if (isAuth) return <Navigate to={`/${user?.paginaRuta}`} />;
 	return (
 		<ContEntrada>
 			<div className='flex flex-col items-end justify-end h-44'>

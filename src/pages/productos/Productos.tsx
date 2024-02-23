@@ -195,13 +195,29 @@ const Productos = () => {
 						<label htmlFor='prodNom' className='form-label'>
 							Nombre de el producto
 						</label>
-						<input type='text' name='prodNom' id='prodNom' className='input' onInput={inputHandler} value={prodData.prodNom} required />
+						<input
+							type='text'
+							name='prodNom'
+							id='prodNom'
+							className='input'
+							onInput={inputHandler}
+							value={prodData.prodNom}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='prodDescr' className='form-label'>
 							Descripción
 						</label>
-						<input type='text' name='prodDescr' id='prodDescr' className='input' value={prodData.prodDescr} onInput={inputHandler} required />
+						<input
+							type='text'
+							name='prodDescr'
+							id='prodDescr'
+							className='input'
+							value={prodData.prodDescr}
+							onInput={inputHandler}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='prodValCom' className='form-label'>
@@ -267,7 +283,12 @@ const Productos = () => {
 				</div>
 				<div className='row'>
 					<Button>
-						<input className='cursor-pointer' id='prodSubBtn' type='submit' value={prodData.prodId ? 'Actualizar' : 'Crear'} />
+						<input
+							className='cursor-pointer'
+							id='prodSubBtn'
+							type='submit'
+							value={prodData.prodId ? 'Actualizar' : 'Crear'}
+						/>
 					</Button>
 				</div>
 			</form>
@@ -283,32 +304,35 @@ const Productos = () => {
 					columns={[
 						{
 							name: 'Producto',
-							cell: (row: any) => row.prodId,
-							sortable: true,
-						},
-						{
-							name: 'Precio de compra',
-							cell: (row: any) => row.prodValCom,
-							sortable: true,
-						},
-						{
-							name: 'Precio de venta',
-							cell: (row: any) => row.prodValVen,
+							cell: (row: any) => (
+								<div>
+									<div>
+										<span>Producto{row.prodNom}</span>
+									</div>
+									<div>
+										<div>
+											<span className='font-bold'>Valor de compra:</span> {row.prodValCom}
+										</div>
+										<span>
+											<strong>Valor de venta: </strong>
+											{row.prodValVen}
+										</span>
+									</div>
+								</div>
+							),
 							sortable: true,
 						},
 						{
 							cell: (row) => (
-								<div className='flex flex-row gap-5 ml-16 text-center'>
-									<p>{row.prodNom}</p>
-									<p>{row.prodDescr}</p>
-									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
-										<i className='fa-solid fa-pen'></i>
-									</Button>
+								<div className='flex justify-end w-full'>
 									{valEli.indexOf(row.prodId) !== -1 ? null : (
 										<Button key={`eliminar-${row.prodId}`} onClick={() => eliminarProd(row.prodId)}>
 											<i className='fa-solid fa-trash'></i>
 										</Button>
 									)}
+									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
+										<i className='fa-solid fa-pen'></i>
+									</Button>
 								</div>
 							),
 						},
@@ -320,4 +344,3 @@ const Productos = () => {
 };
 
 export default Productos;
-

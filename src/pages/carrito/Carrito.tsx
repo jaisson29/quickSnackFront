@@ -72,8 +72,8 @@ const Carrito = () => {
 							<div>
 								<p>$ {item.prodValVen.toLocaleString('es-CO')}</p>
 							</div>
-							<button onClick={() => dispatch({ type: 'CART_DEL_ITEM', payload: item })}>
-								<i className='fa fa-minus'></i>
+							<button title='Quitar' onClick={() => dispatch({ type: 'CART_DEL_ITEM', payload: item })}>
+								<i className='fa fa-x'></i>
 							</button>
 						</div>
 					);

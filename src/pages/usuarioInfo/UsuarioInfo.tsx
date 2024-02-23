@@ -6,7 +6,6 @@ import female from '../../assets/icon-female-100.png';
 
 const UsuarioInfo = () => {
 	const { user, urlApi }: any = useAuth();
-	console.log(user)
 
 	const usuImg = user.usuImg ? `${urlApi}/uploads/${user.usuImg}` : user.usuGen === 1 ? male : female;
 

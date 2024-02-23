@@ -20,7 +20,6 @@ const Historial = () => {
 				const response = await instance.get(`${urlApi}/api/transac/getByUser/${user.usuId}`, {
 					headers: { Authorization: `Bearer ${authToken}` },
 				});
-				console.log(response)
 				if (response.status === 204 && response.data.length === 0) {
 					setError('No se encontraron resultados');
 				} else {

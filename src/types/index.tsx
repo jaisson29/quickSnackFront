@@ -1,27 +1,103 @@
-export interface Usuario {
-	usuNom: string;
-	usuGen: number;
+// export interface SendError {
+// 	message: string;
+// 	error: string;
+// }
+
+// export interface MysqlError extends Error {
+// 	errno: number;
+// 	code: string;
+// 	fatal: boolean;
+// }
+
+export interface Proveedor {
+	provId: number;
+	provNom: string;
+	provNit: number;
 }
 
-export interface Producto {}
+export interface Producto {
+	prodId: number;
+	catId: number;
+	prodNom: string;
+	prodDescr: string;
+	prodImg: string;
+	prodValCom: number;
+	prodValVen: number;
+	prodEst: number;
+}
 
-export interface Cateogoria {}
+export interface Categoria {
+	catId: number;
+	catNom: string;
+}
 
-export interface Pagina {}
+export interface Compra {
+	compraId: number;
+	provId: number;
+	fechaCompra: Date;
+}
 
-export interface Transaccion {}
+export interface DetCompra {
+	detCompraId: number;
+	prodId: number;
+	compraId: number;
+	deCompraCant: number;
+}
 
-export interface Compra {}
+export interface Transaccion {
+	transacId: number;
+	transacFecha: Date;
+	usuId: number;
+	transacTipo: number;
+	transacEst: number;
+}
 
-export interface DetalleCompra {}
+export interface DetVenta {
+	detVentaId: number;
+	prodId: number;
+	transacId: number;
+	detVentaCant: number;
+}
+export interface Dominio {
+	domId: number;
+	domNom: string;
+}
 
-export interface DetalleVenta {}
+export interface Valor {
+	valorId: number;
+	param: string;
+	domId: number;
+}
 
-export interface Dominio {}
+export interface Pagina {
+	paginaId: number;
+	paginaNom: string;
+	paginaIcon: string;
+	paginaRuta: string;
+}
 
-export interface Valor {}
+export interface Perfil {
+	perfilId: number;
+	perfilNom: string;
+	paginaRuta: string;
+}
 
-export interface Proveedor {}
-
-export interface PerXPag {}
-
+export interface PerXPag {
+	paginaId: number;
+	perfilId: number;
+}
+export interface Usuario {
+	usuId: number;
+	usuTipoDoc: number;
+	usuNoDoc: string;
+	usuGen: number;
+	usuNom: string;
+	usuEmail: string;
+	usuContra: string;
+	usuIngreso: Date;
+	usuImg: string;
+	perfilId: number;
+	usuKey: string;
+	usuOlvid: Date;
+	usuEst: number;
+}
