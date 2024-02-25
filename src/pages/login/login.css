@@ -1,36 +1,97 @@
+/** @format */
+
 @tailwind components;
 @layer components {
-  .form-label {
-    display: inline-block;
-    /* width: 100%; */
-    padding-left: 20px;
-    font-weight: bold;
-  }
+	.inputFile {
+		width: 100%;
+		text-overflow: ellipsis;
+	}
 
-  .input {
-    @apply block w-full px-2 border border-black rounded-md bg-clRos;
-    box-shadow: 6px 6px 10px 0px rgba(0, 0, 0, 0.25) inset,
-      -6px -6px 10px 0px rgba(133, 133, 133, 0.13) inset;
-    border: none;
-    padding-block: 5px;
-    margin-top: 5px;
-    text-indent: 20px;
-  }
+	.row {
+		width: 100%;
+		display: flex;
+		margin: 5px;
+		flex-wrap: wrap;
+		font-weight: bold;
+		margin: 0;
+	}
 
-  .inputFile {
-    width: 100%;
-    text-overflow: ellipsis;
-  }
+	.row > * {
+		@apply px-3;
+		width: 100%;
+		max-width: 100%;
+		padding: 10px;
+	}
 
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    font-weight: bold;
-  }
+	.form-group {
+		position: relative;
+		margin-block: 10px;
+		padding-inline: 5px;
+	}
 
-  .row > * {
-    @apply px-3;
-    width: 100%;
-    max-width: 100%;
-  }
+	.form-group .input:focus + .form-label,
+	.form-group .input:valid + .form-label {
+		@apply bg-transparent;
+		animation: floatLabel 0.3s ease-in-out forwards;
+	}
+
+	.form-group .form-label {
+		position: absolute;
+		bottom: 6px;
+		left: 20px;
+		pointer-events: none;
+	}
+
+	.input {
+		@apply block w-full h-12 px-2 border-b-2 text-clNeg border-clNeg bg-clBlan;
+		padding-block: 5px;
+		margin-top: 5px;
+		text-indent: 12px;
+		outline: none;
+	}
+
+	@keyframes floatLabel {
+		0% {
+			font-size: 16px;
+			opacity: 0.5;
+			transform: translateY(0px);
+		}
+
+		100% {
+			font-size: 14px;
+			opacity: 1;
+			transform: translateY(-30px);
+		}
+	}
+
+	#entradaSec {
+		& .link {
+			@apply dark:text-clBlan;
+		}
+
+		& .form-label {
+			@apply dark:text-clBlan bg-clBlan dark:bg-clNeg;
+		}
+
+		& .input {
+			@apply dark:text-clBlan dark:border-clBlan dark:bg-clNeg;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			input:-webkit-autofill,
+			input:-webkit-autofill:hover,
+			input:-webkit-autofill:focus,
+			textarea:-webkit-autofill,
+			textarea:-webkit-autofill:hover,
+			textarea:-webkit-autofill:focus,
+			select:-webkit-autofill,
+			select:-webkit-autofill:hover,
+			select:-webkit-autofill:focus {
+				-webkit-text-fill-color: theme(colors.clBlan);
+				-webkit-box-shadow: 0 0 0px 1000px theme(colors.clNeg) inset;
+				transition: background-color 5000s ease-in-out 0s;
+			}
+		}
+	}
 }
+

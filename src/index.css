@@ -1,26 +1,63 @@
+/** @format */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
 
 @layer base {
-  html,
-  body,
-  #root {
-    width: 100%;
-    min-height: 100%;
-    display: flex;
-  }
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		min-height: 100vh;
+	}
 
-  ::-webkit-scrollbar {
-    @apply w-1;
-  }
+	#root {
+		@apply flex flex-grow w-full min-h-screen bg-clBlan;
+	}
+	::-webkit-scrollbar {
+		width: 4px;
+		height: 4px;
+	}
 
-  ::-webkit-scrollbar-track {
-    @apply p-3 m-5;
-  }
+	::-webkit-scrollbar-track {
+		@apply p-0 m-0 bg-clBlan dark:bg-clNeg;
+	}
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-opacity-30 rounded-lg bg-slate-800;
-  }
+	::-webkit-scrollbar-thumb {
+		@apply p-0 m-0 rounded-lg bg-opacity-30 bg-clNeg dark:bg-clBlan;
+	}
+
+
+	@media (prefers-color-scheme: light) {
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover,
+		input:-webkit-autofill:focus,
+		textarea:-webkit-autofill,
+		textarea:-webkit-autofill:hover,
+		textarea:-webkit-autofill:focus,
+		select:-webkit-autofill,
+		select:-webkit-autofill:hover,
+		select:-webkit-autofill:focus {
+			-webkit-text-fill-color: theme(colors.clNeg);
+			-webkit-box-shadow: 0 0 0px 1000px theme(colors.clBlan) inset;
+			transition: background-color 5000s ease-in-out 0s;
+		}
+	}
+
+	/* .rdt_Table,
+	.rdt_TableRow,
+	.rdt_TableCol,
+	.rdt_TableCol_Sortable,
+	.rdt_TableCell,
+	.rdt_TableHeader,
+	.rdt_TableFooter,
+	.rdt_TableHead,
+	.rdt_TableHeadRow,
+	.rdt_TableBody,
+	.rdt_ExpanderRow {
+		@apply bg-clBlan dark:bg-clNeg text-clNeg dark:text-clBlan;
+	} */
 }

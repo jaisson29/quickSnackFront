@@ -1,69 +1,90 @@
+/** @format */
+
 @tailwind components;
 
 @layer components {
-  .menuItem {
-    @apply w-23/24;
-    position: relative;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    right: 0;
-    justify-content: center;
-    text-transform: uppercase;
-    height: 50px;
-    text-align: center;
-    color: #fff;
-    float: right;
-    border-radius: 10px 0 0 10px;
-    transition: color 0.5s;
-  }
-  .menuItem a {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+	.aside {
+		@apply z-10 w-full h-24 p-2 transition-all bg-gradient-to-t from-clBlan to-transparent md:bg-transparent md:pl-3 md:py-5 md:h-full md:w-3/24 lg:w-2/24 md:hover:w-6/24 lg:hover:w-3/24;
+		background: theme(colors.clBlan);
+		position: fixed;
+		bottom: 0;
 
-  @media (min-width: 640px) {
-    aside:hover span {
-      display: block;
-    }
+		& nav {
+			@apply flex flex-col content-center w-full h-full grid-cols-1 grid-rows-6 px-5 pb-2 bg-opacity-100 md:px-0 rounded-3xl md:rounded-lg md:rtl bg-clRoj;
 
-    aside:hover .menuItem a {
-      justify-content: left;
-      padding-left: 10px;
-    }
-  }
+			& .menuItem {
+				@apply w-20 p-2 rounded-2xl md:w-full text-clBlan;
 
-  .acti {
-    color: theme('colors.clRoj');
-    background: #fff;
-  }
+				& span {
+					position: relative;
+					top: 5px;
+				}
+			}
+		}
 
-  .acti::after,
-  .acti::before {
-    content: '';
-    position: absolute;
-    top: -30px;
-    width: 15px;
-    pointer-events: none;
-    right: 0;
-    height: 30px;
-    border-radius: 0 0 25px 0;
-    background: transparent;
-  }
+		#logoNav {
+			@apply hidden md:block;
+		}
+		.acti {
+			@apply bg-clBlan text-clNeg !important;
+		}
 
-  .acti::after {
-    box-shadow: 0 15px 0 0 #fff;
-  }
+		.listNav {
+			@apply flex h-full py-2 overflow-x-auto overflow-y-auto text-sm list-none md:overflow-x-hidden md:py-4 justify-evenly md:justify-start md:flex-col rtl:mr-2;
+		}
+	}
 
-  .acti::before {
-    top: auto;
-    bottom: -30px;
-    border-radius: 0 25px 0 0;
-    box-shadow: 0 -15px 0 0 #fff;
-  }
+	.rtl {
+		direction: rtl;
+	}
 
-  .rtl {
-    direction: rtl;
-  }
+	@media (min-width: 640px) {
+		aside:hover span {
+			display: block;
+		}
+
+		aside:hover .menuItem a {
+			justify-content: left;
+			padding-left: 10px;
+		}
+	}
+
+	@media (min-width: 768px) {
+		.menuItem {
+			@apply relative right-0 flex items-center justify-center float-right gap-2 text-center uppercase text-clBlan w-23/24 h-14;
+			border-radius: 15px 0 0 15px !important;
+			transition: color 0.5s;
+		}
+
+		.menuItem a {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.acti::after,
+		.acti::before {
+			content: '';
+			position: absolute;
+			top: -30px;
+			width: 15px;
+			pointer-events: none;
+			right: 0;
+			height: 30px;
+			border-radius: 0 0 25px 0;
+			background: transparent;
+		}
+
+		.acti::after {
+			box-shadow: 0 15px 0 0 theme(colors.clBlan);
+		}
+
+		.acti::before {
+			top: auto;
+			bottom: -30px;
+			border-radius: 0 25px 0 0;
+			box-shadow: 0 -15px 0 0 theme(colors.clBlan);
+		}
+	}
 }
+
