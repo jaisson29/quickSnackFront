@@ -33,7 +33,7 @@ function NavBar() {
 				<div className='p-2' id='logoNav'>
 					<img className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24' src={Logo} alt='' />
 				</div>
-				<ul className='md:mb-2 md:ml-1 listNav'>
+				<ul className='min-w-full md:mb-2 md:ml-1 listNav'>
 					{paginas.length !== 0 ? (
 						paginas.map((pg: any) => {
 							const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg;
@@ -48,7 +48,6 @@ function NavBar() {
 									</li>
 								);
 							}
-							return <></>;
 						})
 					) : (
 						<Cargando />

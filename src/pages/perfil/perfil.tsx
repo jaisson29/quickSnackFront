@@ -75,7 +75,7 @@ const Perfil = () => {
 
 		if (pefData.perfilId) {
 			instance
-				.put(`${urlApi}/api/perfil/update`, pefData, {
+				.put(`${urlApi}/api/perfil/actualizar`, pefData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -95,7 +95,7 @@ const Perfil = () => {
 				});
 		} else {
 			instance
-				.post(`${urlApi}/api/perfil/create`, pefData, {
+				.post(`${urlApi}/api/perfil/crear`, pefData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -128,7 +128,7 @@ const Perfil = () => {
 
 	// function eliminar(id: any) {
 	// 	instance
-	// 		.delete(`${urlApi}/api/perfil/delete/${id}`, {
+	// 		.delete(`${urlApi}/api/perfil/eliminar/${id}`, {
 	// 			headers: {
 	// 				Authorization: `Bearer ${authToken}`,
 	// 			},

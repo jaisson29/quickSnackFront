@@ -63,7 +63,7 @@ const Pagina = () => {
 
 		if (pagData.paginaId) {
 			instance
-				.put(`${urlApi}/api/pagina/update`, pagData, {
+				.put(`${urlApi}/api/pagina/actualizar`, pagData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -84,7 +84,7 @@ const Pagina = () => {
 				});
 		} else {
 			instance
-				.post(`${urlApi}/api/pagina/create`, pagData, {
+				.post(`${urlApi}/api/pagina/crear`, pagData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -115,7 +115,7 @@ const Pagina = () => {
 
 	function eliminar(id: number) {
 		instance
-			.delete(`${urlApi}/api/pagina/delete/${id}`, {
+			.delete(`${urlApi}/api/pagina/eliminar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},

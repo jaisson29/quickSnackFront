@@ -173,7 +173,7 @@ const Usuarios = () => {
 
 	function eliminarUsu(id: number) {
 		instance
-			.delete(`${urlApi}/api/usuario/borrar/${id}`, {
+			.delete(`${urlApi}/api/usuario/eliminar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},

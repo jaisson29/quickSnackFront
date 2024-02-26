@@ -16,7 +16,7 @@ const Dominio = () => {
 	useEffect(() => {
 		const obtenerDominio = async () => {
 			try {
-				const dominios = instance.get(`${urlApi}/api/dominio`);
+				const dominios = instance.get(`${urlApi}/api/dominio/getAll`);
 			} catch (_error) {}
 		};
 

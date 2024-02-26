@@ -62,6 +62,7 @@ export function AuthProvider({ children }: any) {
 	);
 
 	const logout = () => {
+		console.log("cerro")
 		sessionStorage.clear();
 		setAuthToken(null);
 		setUser(null);
@@ -133,7 +134,7 @@ export function AuthProvider({ children }: any) {
 				});
 				const decodedToken = response.data;
 				sessionStorage.setItem('token', token);
-				sessionStorage.setItem('user', JSON.stringify(decodedToken.payload[0]));
+				setUser(decodedToken.payload);
 				// setIsAuth(true);
 			} catch (error) {
 				logout();
@@ -141,11 +142,12 @@ export function AuthProvider({ children }: any) {
 			}
 		};
 
-		if (authToken) {
+		if (authToken && !user) {
 			verifyToken(authToken);
 		}
-		authToken && user ? setIsAuth(true) : logout();
-	}, [authToken, user, instance]);
+
+		!authToken && !user && logout();
+	}, [authToken, instance, user]);
 
 	return (
 		<AuthContext.Provider
