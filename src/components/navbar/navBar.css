@@ -10,10 +10,10 @@
 		bottom: 0;
 
 		& nav {
-			@apply flex md:flex-col rounded-t-3xl w-full overflow-x-auto md:overflow-x-hidden h-full md:pb-0 px-5 md:pb-2 md:px-0 md:rounded-3xl md:rounded-lg md:rtl bg-clRoj;
+			@apply flex w-full h-full px-5 overflow-x-auto md:flex-col rounded-t-3xl md:overflow-x-hidden md:pb-0 md:pb-2 md:px-0 md:rounded-3xl md:rounded-lg md:rtl bg-clRoj;
 
 			& .menuItem {
-				@apply w-20 p-2 rounded-2xl md:w-full text-clBlan;
+				@apply w-20 p-2 rounded-2xl md:w-[90%] text-clBlan;
 
 				& span {
 					position: relative;
@@ -30,7 +30,7 @@
 		}
 
 		.listNav {
-			@apply flex h-full py-2 text-sm list-none md:overflow-x-hidden md:py-4 justify-evenly md:justify-start md:flex-col rtl:mr-2;
+			@apply flex h-full py-2 text-sm list-none md:overflow-x-hidden md:py-4 justify-evenly md:justify-start md:flex-col rtl;
 		}
 	}
 
@@ -87,4 +87,3 @@
 		}
 	}
 }
-

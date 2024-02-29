@@ -17,7 +17,7 @@ const Header = () => {
 	const usuImg = user.usuImg ? `${urlApi}/uploads/${user.usuImg}` : user.usuGen === 1 ? male : female;
 
 	return (
-		<header className='flex items-center justify-end float-right h-16 gap-3 pl-3 my-2 mr-4 text-right rounded-l-full shadow-md w-fit'>
+		<header className='flex items-center justify-end float-right h-16 gap-3 pl-3 pr-3 my-2 text-right rounded-l-full shadow-md w-fit'>
 			<Dropdown className='w-10 '>
 				<Dropdown.Toggle size='lg' className='p-0 text-black bg-transparent border-0 after:m-0 after:hidden' id='dropdown-basic'>
 					<img src={usuImg} alt={usuNom} className='object-contain rounded-full w-14 h-14' />
@@ -38,7 +38,7 @@ const Header = () => {
 					</Dropdown.Item>
 				</Dropdown.Menu>
 			</Dropdown>
-			<section className='mx-2'>
+			<section className=''>
 				<Monto />
 			</section>
 			{user.perfilId === 2 && (
@@ -51,7 +51,7 @@ const Header = () => {
 					)}
 				</Link>
 			)}
-			<section className='flex items-center gap-2'>
+			<section className='flex items-center hidden gap-2 md:block'>
 				<div>
 					<p>Hola.</p>
 					<p className='w-20 font-bold truncate'>{usuNom}</p>

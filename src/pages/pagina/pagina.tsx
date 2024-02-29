@@ -139,23 +139,52 @@ const Pagina = () => {
 						<label htmlFor='paginaNom' className='form-label'>
 							Nombre de la pagina
 						</label>
-						<input type='text' name='paginaNom' id='paginaNom' className='input' onInput={inputHandler} value={pagData.paginaNom} required />
+						<input
+							type='text'
+							name='paginaNom'
+							id='paginaNom'
+							className='input'
+							onInput={inputHandler}
+							value={pagData.paginaNom}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='paginaIcon' className='form-label'>
 							Icono
 						</label>
-						<input type='text' name='paginaIcon' id='paginaIcon' className='input' onInput={inputHandler} value={pagData.paginaIcon} required />
+						<input
+							type='text'
+							name='paginaIcon'
+							id='paginaIcon'
+							className='input'
+							onInput={inputHandler}
+							value={pagData.paginaIcon}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='paginaRuta' className='form-label'>
 							Ruta de la pagina
 						</label>
-						<input type='text' name='paginaRuta' id='paginaRuta' className='input' onInput={inputHandler} value={pagData.paginaRuta} required />
+						<input
+							type='text'
+							name='paginaRuta'
+							id='paginaRuta'
+							className='input'
+							onInput={inputHandler}
+							value={pagData.paginaRuta}
+							required
+						/>
 					</div>
 					<div className='row'>
 						<Button>
-							<input className='cursor-pointer' id='catSubBtn' type='submit' value={pagData.paginaId ? 'Actualizar' : 'Crear'} />
+							<input
+								className='cursor-pointer'
+								id='catSubBtn'
+								type='submit'
+								value={pagData.paginaId ? 'Actualizar' : 'Crear'}
+							/>
 						</Button>
 					</div>
 				</div>
@@ -169,15 +198,12 @@ const Pagina = () => {
 					data={pagina}
 					columns={[
 						{
-							name: 'Icono',
-							selector: (row: any) => row.paginaId,
-							sortable: true,
-						},
-						{
 							name: 'Paginas',
-							selector: (row) => (
+							cell: (row: any) => (
 								<>
-									<i className={`fa ${row.paginaIcon} fa-xl `}></i>
+									<p>
+										<i className={`fa ${row.paginaIcon} fa-xl `}></i>
+									</p>
 									<p>
 										<strong>Nombre pagina:</strong>
 										{row.paginaNom}
@@ -193,14 +219,16 @@ const Pagina = () => {
 						{
 							cell: (row) => (
 								<>
-									<Button onClick={() => editar(row.paginaId)}>
-										<i className='fa-solid fa-pen'></i>
-									</Button>
-									{valEli.indexOf(row.paginaId) !== -1 ? null : (
-										<Button onClick={() => eliminar(row.paginaId)}>
-											<i className='fa-solid fa-trash'></i>
+									<div className='flex justify-end w-full'>
+										{valEli.indexOf(row.paginaId) !== -1 ? null : (
+											<Button onClick={() => eliminar(row.paginaId)}>
+												<i className='fa-solid fa-trash'></i>
+											</Button>
+										)}
+										<Button onClick={() => editar(row.paginaId)}>
+											<i className='fa-solid fa-pen'></i>
 										</Button>
-									)}
+									</div>
 								</>
 							),
 						},

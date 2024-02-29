@@ -23,14 +23,12 @@ export function AuthProvider({ children }: any) {
 		(response) => response,
 		(error) => {
 			//Cuando el error cuando la peticion es erronea
-			if (error?.response?.status === 400 || error?.response?.status === 404 || error?.response?.status === 500) {
+			if (error?.response?.status === 400 || error?.response?.status === 500) {
 				Swal.fire({
 					icon: 'error',
 					title: error.response.data.message,
 					timer: 10000,
-				}).then(() => {
-					logout();
-				});
+				})
 			}
 			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autorizado) cerrara la sesión
 			if (error.response?.status === 401) {

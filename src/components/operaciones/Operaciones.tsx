@@ -9,6 +9,7 @@ const Operaciones = () => {
 	const { urlApi, instance, authToken, state, dispatch }: any = useAuth();
 	const [productos, setProductos] = useState([]);
 	const [tipoTrs, setTipoTrs] = useState(7);
+
 	const transacData = {
 		usuId: 1,
 		transacTipo: tipoTrs,
@@ -40,7 +41,7 @@ const Operaciones = () => {
 			return;
 		}
 
-		const usuDoc = { usuNoDoc: usuNoDocRef.current?.value ?? '0000000000' };
+		const usuDoc = { usuNoDoc: usuNoDocRef?.current?.value ?? '0000000000' };
 		instance
 			.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
 				headers: {
@@ -51,8 +52,9 @@ const Operaciones = () => {
 				console.log(res.usuId);
 				transacData.usuId = res.data.usuId;
 				console.log(transacData);
+				console.log(res);
 				instance
-					.post(`${urlApi}/api/transac/`, transacData, {
+					.post(`${urlApi}/api/transac/crear`, transacData, {
 						headers: {
 							authorization: `Bearer ${authToken}`,
 						},
@@ -65,6 +67,7 @@ const Operaciones = () => {
 					});
 			})
 			.catch((err: any) => {
+				console.log(transacData);
 				console.log(err);
 			});
 
@@ -123,7 +126,16 @@ const Operaciones = () => {
 								<label htmlFor='cantidad' className='form-label'>
 									Cantidad
 								</label>
-								<input type='number' className='input' inputMode='numeric' name='cantidad' ref={cantidadRef} id='cantidad' min={1} defaultValue={1} />
+								<input
+									type='number'
+									className='input'
+									inputMode='numeric'
+									name='cantidad'
+									ref={cantidadRef}
+									id='cantidad'
+									min={1}
+									defaultValue={1}
+								/>
 							</div>
 						</div>
 						<div className='flex items-end w-full row md:w-1/2'>

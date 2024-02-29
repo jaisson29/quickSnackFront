@@ -15,7 +15,7 @@ const Carrito = () => {
 		if (balance >= total) {
 			instance
 				.post(
-					`${urlApi}/api/transac`,
+					`${urlApi}/api/transac/crear`,
 					{
 						usuId: user.usuId,
 						transacTipo: 7,

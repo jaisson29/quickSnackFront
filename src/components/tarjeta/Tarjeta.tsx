@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
 
 const Tarjeta = ({ prod }: any) => {
-	const { urlApi, dispatch, state }: any = useAuth();
+	const { urlApi, dispatch, state, instance }: any = useAuth();
 
 	const [registered, setRegistered] = useState<boolean>(false);
+	const [prodImg, setProdImg] = useState<string>('default-img.webp');
 
 	const addItemHandler = () => {
 		dispatch({ type: 'CART_ADD_ITEM', payload: { cantidad: 1, ...prod } });
@@ -15,14 +16,28 @@ const Tarjeta = ({ prod }: any) => {
 	useEffect(() => {
 		const cartItemsIds = state?.cart?.cartItems?.map((item: any) => item.prodId);
 		setRegistered(cartItemsIds.includes(prod.prodId));
-	}, [prod.prodId, registered, state?.cart?.cartItems]);
 
-	const { prodId, prodNom, prodDescr, catNom, prodImg, prodValVen } = prod;
-	
+		const verifyImg = async () => {
+			try {
+				const response = await instance.get(`${urlApi}/uploads/${prod.prodImg}`);
+				response.data && setProdImg(prod.prodImg);
+			} catch (error) {
+				setProdImg('default-img.webp');
+			}
+		};
+		verifyImg();
+	}, [instance, prod.prodId, prod.prodImg, registered, state?.cart?.cartItems, urlApi]);
+
+	const { prodId, prodNom, prodDescr, catNom, prodValVen } = prod;
+
 	return (
 		<li className='w-full rounded-b-lg shadow-md shadow-black/40 border-slate-300 border-1' key={prodId}>
 			<div className='relative flex items-center justify-center w-full rounded-lg'>
-				<img className='object-cover w-full h-60' src={`${urlApi}/uploads/${prodImg}`} alt={prodNom} />
+				<img
+					className='object-cover w-full h-60'
+					src={`${urlApi}/uploads/${prodImg}`}
+					alt={`${urlApi}/uploads/default-img.webp`}
+				/>
 				{registered ? (
 					<span className='absolute grid text-green-600 border-green-600 rounded-full w-7 h-7 border-3 place-content-center top-3 right-3'>
 						<i className='fa fa-check fill-green-500'></i>

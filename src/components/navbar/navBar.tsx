@@ -13,7 +13,7 @@ function NavBar() {
 
 	useEffect(() => {
 		instance
-			.get(`${urlApi}/api/pagina/getAll/${user.perfilId}`)
+			.get(`${urlApi}/api/pagina/getPefPag/${user.perfilId}`)
 			.then((respuesta: any) => {
 				if (respuesta.data.length !== 0) {
 					setPaginas(respuesta.data);
@@ -42,7 +42,7 @@ function NavBar() {
 								return (
 									<li id={paginaId} key={paginaId} className={`font-bold menuItem ${location.pathname === paginaRuta ? 'acti' : ''}`}>
 										<Link className='flex flex-col-reverse items-center justify-center w-full h-full gap-2 md:flex-row' to={paginaRuta}>
-											<span className='md:hidden text-ellipsis'>{paginaNom}</span>
+											<span className='md:hidden'>{paginaNom}</span>
 											<i className={`fa ${paginaIcon} fa-xl `}></i>
 										</Link>
 									</li>

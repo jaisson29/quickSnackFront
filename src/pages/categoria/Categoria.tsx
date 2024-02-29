@@ -36,7 +36,7 @@ const Categoria = () => {
 				const fnList: any = [];
 				respuesta.data.map((element: any) => {
 					fnList.push(element.catId);
-					return element.catId
+					return element.catId;
 				});
 				setvalEli(fnList);
 			})
@@ -61,7 +61,7 @@ const Categoria = () => {
 
 		if (catData.catId) {
 			instance
-				.put(`${urlApi}/api/catego/update`, catData, {
+				.put(`${urlApi}/api/catego/actualizar`, catData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -79,7 +79,7 @@ const Categoria = () => {
 				});
 		} else {
 			instance
-				.post(`${urlApi}/api/catego/create`, catData, {
+				.post(`${urlApi}/api/catego/crear`, catData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -108,7 +108,7 @@ const Categoria = () => {
 
 	function eliminar(id: number) {
 		instance
-			.delete(`${urlApi}/api/catego/delete/${id}`, {
+			.delete(`${urlApi}/api/catego/eliminar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
@@ -125,18 +125,31 @@ const Categoria = () => {
 	}
 	return (
 		<>
-			{error && <Error mensaje={error}/>}
+			{error && <Error mensaje={error} />}
 			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='catNom' className='form-label'>
 							Nombre de la categoria
 						</label>
-						<input type='text' name='catNom' id='catNom' className='input' onInput={inputHandler} value={catData.catNom} required />
+						<input
+							type='text'
+							name='catNom'
+							id='catNom'
+							className='input'
+							onInput={inputHandler}
+							value={catData.catNom}
+							required
+						/>
 					</div>
 					<div className='row'>
 						<Button>
-							<input className='cursor-pointer' id='catSubBtn' type='submit' value={catData.catId ? 'Actualizar' : 'Crear'} />
+							<input
+								className='cursor-pointer'
+								id='catSubBtn'
+								type='submit'
+								value={catData.catId ? 'Actualizar' : 'Crear'}
+							/>
 						</Button>
 					</div>
 				</div>
@@ -157,15 +170,16 @@ const Categoria = () => {
 						{
 							cell: (row: any) => (
 								<>
-									<p>{row.catNom}</p>
-									<Button onClick={() => editar(row.catId)}>
-										<i className='fa-solid fa-pen'></i>
-									</Button>
-									{valEli.indexOf(row?.catId) !== -1 ? null : (
-										<Button onClick={() => eliminar(row.catId)}>
-											<i className='fa-solid fa-trash'></i>
+									<div className='flex justify-end w-full'>
+										{valEli.indexOf(row?.catId) !== -1 ? null : (
+											<Button onClick={() => eliminar(row.catId)}>
+												<i className='fa-solid fa-trash'></i>
+											</Button>
+										)}
+										<Button onClick={() => editar(row.catId)}>
+											<i className='fa-solid fa-pen'></i>
 										</Button>
-									)}
+									</div>
 								</>
 							),
 						},
@@ -178,4 +192,3 @@ const Categoria = () => {
 };
 
 export default Categoria;
-

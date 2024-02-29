@@ -63,7 +63,7 @@ const Compra = () => {
 
 		if (comData.compraId) {
 			instance
-				.put(`${urlApi}/api/compra/update`, formData, {
+				.put(`${urlApi}/api/compra/actualizar`, formData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -83,7 +83,7 @@ const Compra = () => {
 				});
 		} else {
 			instance
-				.post(`${urlApi}/api/compra/create`, {
+				.post(`${urlApi}/api/compra/crear`, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -113,7 +113,7 @@ const Compra = () => {
 	}
 	function eliminar(id: any) {
 		instance
-			.delte(`${urlApi}/api/compra/delete/${id}`, {
+			.delte(`${urlApi}/api/compra/eliminar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},

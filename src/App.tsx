@@ -13,12 +13,14 @@ import Productos from './pages/productos/Productos';
 import Categoria from './pages/categoria/Categoria';
 import Compra from './pages/compra/Compra';
 import Pagina from './pages/pagina/pagina';
-import Perfil from './pages/perfil/perfil';
+import Perfil from './pages/perfil/Perfil';
 import Usuario from './pages/usuario/Usuario';
 import Olvid from './pages/olvido/Olvid';
 import Reset from './pages/restablecer/Restablecer';
 import Carrito from './pages/carrito/Carrito';
 import { UsuarioInfo } from './pages/usuarioInfo/UsuarioInfo'
+import { Valor } from './pages/valor/valor';
+import { Dominio } from './pages/dominio/dominio';
 
 function App() {
 
@@ -38,6 +40,8 @@ function App() {
 				<Route path='/compra' element={<ProtectedRoute><Compra /></ProtectedRoute>} />
 				<Route path='/usuarios' element={<ProtectedRoute><Usuario /></ProtectedRoute>} />
 				<Route path='/carrito' element={<ProtectedRoute><Carrito /></ProtectedRoute>} />
+				<Route path='/valor' element={<ProtectedRoute><Valor /></ProtectedRoute>} />
+				<Route path='/dominio' element={<ProtectedRoute><Dominio /></ProtectedRoute>} />
 				<Route path='/personal' element={<ProtectedRoute><UsuarioInfo /></ProtectedRoute>} />
 				<Route path='/olvid' element={<Olvid />} />
 				<Route path='/reset/:token' element={<Reset />} />
