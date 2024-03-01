@@ -1,24 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
 import Button from '../../components/boton/Button';
-import Modales from '../../components/modal/Modales';
+import Modales from '../../components/modal/ModalesPxp';
 import './perfil.css';
 import $ from 'jquery';
-import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
 
 const Perfil = () => {
 	const { urlApi, authToken, instance }: any = useAuth();
 	const [perfil, setPerfil] = useState([]);
 	const [pagina, setPagina] = useState([]);
-	// const [valEli, setvalEli] = useState([]);
+	const [pxp, setPxp] = useState<any[]>([]);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
 	const [error, setError] = useState('');
 	const [cargando, setCargando] = useState(true);
 
+	const formPxpModalRef: any = useRef();
+
 	useEffect(() => {
 		setCargando(true);
+		instance
+			.get(`${urlApi}/api/perfil/selPxp`, {
+				headers: { Authorization: `Bearer ${authToken}` },
+			})
+			.then((respuesta: any) => {
+				setPxp(respuesta.data);
+			})
+			.catch((err: any) => {});
 		instance
 			.get(`${urlApi}/api/perfil/getAll`, {
 				headers: { Authorization: `Bearer ${authToken}` },
@@ -43,20 +52,7 @@ const Perfil = () => {
 				setCargando(false);
 				setError(err.message);
 			});
-		//   instance.get(`${urlApi}/api/perfil/getpagxpef`, {
-		//     headers: {Authorization: `Bearer ${authToken}` },
-		//   })
-		//   .then((respuesta) =>{
-		//     const fnList = []
-		//     respuesta.data.map((element) =>{
-		//       fnList.push(element.paginaId)
-		//     })
-		//     setvalEli(fnList);
-		//   })
-		//   .catch((err) => {
-		//     setError(err.message);
-		//   });
-	}, [urlApi, authToken, tablaActualizada, instance]);
+	}, [urlApi, authToken, tablaActualizada]);
 
 	const [pefData, setPefData] = useState({
 		perfilId: '',
@@ -70,12 +66,13 @@ const Perfil = () => {
 			[event.target.name]: event.target.value,
 		});
 	}
+
 	function formHandler(e: any) {
 		e.preventDefault();
 
 		if (pefData.perfilId) {
 			instance
-				.put(`${urlApi}/api/perfil/update`, pefData, {
+				.put(`${urlApi}/api/perfil/actualizar`, pefData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -95,7 +92,7 @@ const Perfil = () => {
 				});
 		} else {
 			instance
-				.post(`${urlApi}/api/perfil/create`, pefData, {
+				.post(`${urlApi}/api/perfil/crear`, pefData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -116,7 +113,9 @@ const Perfil = () => {
 		}
 	}
 
-	function editar(id: number) {
+	
+
+	function editar(id: any) {
 		const pef: any = perfil.find((p: any) => p.perfilId === id);
 		setPefData({
 			...pef,
@@ -126,60 +125,88 @@ const Perfil = () => {
 		$('#paginaRuta').val(pef.paginaRuta);
 	}
 
-	// function eliminar(id: any) {
-	// 	instance
-	// 		.delete(`${urlApi}/api/perfil/delete/${id}`, {
-	// 			headers: {
-	// 				Authorization: `Bearer ${authToken}`,
-	// 			},
-	// 		})
-	// 		.then((respuesta: any) => {
-	// 			console.log(respuesta);
-	// 			setTablaActualizada(!tablaActualizada);
-	// 			setCargando(true);
-	// 		})
-	// 		.catch((err: any) => {
-	// 			console.log(err);
-	// 		});
-	// 	return id;
-	// }
+	function eliminar(id: any) {
+		instance
+			.delete(`${urlApi}/api/perfil/eliminar/${id}`, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			})
+			.then((respuesta: any) => {
+				console.log(respuesta);
+				setTablaActualizada(!tablaActualizada);
+				setCargando(true);
+			})
+			.catch((err: any) => {
+				console.log(err);
+			});
+		return id;
+	}
 
 	return (
 		<>
-			{error && <Error mensaje={error} />}
+			{/* {error ? <Error /> : null} */}
 			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='perfilNom' className='form-label'>
 							Nombre del perfil
 						</label>
-						<input type='text' name='perfilNom' id='perfilNom' className='input' onInput={inputHandler} value={pefData.perfilNom} required />
+						<input
+							type='text'
+							name='perfilNom'
+							id='perfilNom'
+							className='input'
+							onInput={inputHandler}
+							value={pefData.perfilNom}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='paginaRuta' className='form-label'>
 							Pagina ruta
 						</label>
-						<input type='text' name='paginaRuta' id='paginaRuta' className='input' onInput={inputHandler} value={pefData.paginaRuta} readOnly />
+						<input
+							type='text'
+							name='paginaRuta'
+							id='paginaRuta'
+							className='input'
+							onInput={inputHandler}
+							value={pefData.paginaRuta}
+							readOnly
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
-						<label htmlFor='paginaInicial' className='form-label'>
+						<label htmlFor='paginaRuta' className='form-label'>
 							Pagina inicial
 						</label>
-						<select name='paginaInicial' id='paginaInicial' className='input' onChange={inputHandler} required>
+						<select
+							name='paginaRuta'
+							id='paginaIni'
+							className='input'
+							title='pagina inicial'
+							onChange={inputHandler}
+							required>
 							<option value=''>Seleccione una pagina</option>
-							{pagina.length !== 0 &&
-								pagina.map((pag: any) => {
-									return (
-										<option key={pag.paginaRuta} value={pag.paginaRuta}>
-											{pag.paginaNom}
-										</option>
-									);
-								})}
+							{pagina.length !== 0
+								? pagina.map((pag: any) => {
+										return (
+											<option key={pag.paginaRuta} value={pag.paginaRuta}>
+												{pag.paginaNom}
+											</option>
+										);
+								  })
+								: null}
 						</select>
 					</div>
 					<div className='row'>
 						<Button>
-							<input className='cursor-pointer' id='catSubBtn' type='submit' value={pefData.perfilId ? 'Actualizar' : 'Crear'} />
+							<input
+								className='cursor-pointer'
+								id='catSubBtn'
+								type='submit'
+								value={pefData.perfilId ? 'Actualizar' : 'Crear'}
+							/>
 						</Button>
 					</div>
 				</div>
@@ -194,10 +221,6 @@ const Perfil = () => {
 					columns={[
 						{
 							name: 'Perfiles',
-							selector: (row: any) => row.perfilId,
-							sortable: true,
-						},
-						{
 							cell: (row: any) => (
 								<>
 									<p>
@@ -208,15 +231,32 @@ const Perfil = () => {
 										<strong>Ruta: </strong>
 										{row.paginaRuta}
 									</p>
-									<Button onClick={() => editar(row.perfilId)}>
-										<i className='fa-solid fa-pen'></i>
-									</Button>
-									<Modales wuye='hola mundo' />
-									<Button>
-										<i className='fa-solid fa-list-check'></i>
-									</Button>
 								</>
 							),
+							sortable: true,
+						},
+						{
+							cell: (row: any) => {
+								const data = pxp
+									.filter((item: any) => item.perfilId === row.perfilId)
+									.map((pagpef: any) => pagpef.paginaId);
+
+								return (
+									<>
+										<div className='flex justify-end w-full'>
+											<Button onClick={() => editar(row.perfilId)}>
+												<i className='fa-solid fa-pen'></i>
+											</Button>
+											<div
+												onClick={() => {
+													setPxp(data);
+												}}>
+												<Modales titu={`Paginas - ${row.perfilNom}`} perfilId={row.perfilId} paginas={pagina}></Modales>
+											</div>
+										</div>
+									</>
+								);
+							},
 						},
 					]}
 					pagination

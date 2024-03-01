@@ -173,7 +173,7 @@ const Usuarios = () => {
 
 	function eliminarUsu(id: number) {
 		instance
-			.delete(`${urlApi}/api/usuario/borrar/${id}`, {
+			.delete(`${urlApi}/api/usuario/eliminar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
@@ -209,26 +209,58 @@ const Usuarios = () => {
 						<label htmlFor='usuNom' className='form-label'>
 							Nombre completo{' '}
 						</label>
-						<input type='text' name='usuNom' id='usuNom' className='input' onInput={inputHandler} value={usuData.usuNom} required />
+						<input
+							type='text'
+							name='usuNom'
+							id='usuNom'
+							className='input'
+							onInput={inputHandler}
+							value={usuData.usuNom}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='usuEmail' className='form-label'>
 							Correo electrónico
 						</label>
-						<input type='text' name='usuEmail' id='usuEmail' className='input' value={usuData.usuEmail} onInput={inputHandler} required />
+						<input
+							type='text'
+							name='usuEmail'
+							id='usuEmail'
+							className='input'
+							value={usuData.usuEmail}
+							onInput={inputHandler}
+							required
+						/>
 					</div>
 					<div className='w-full md:w-1/2'>
 						<label htmlFor='usuNoDoc' className='form-label'>
 							No. Documento
 						</label>
-						<input type='number' name='usuNoDoc' id='usuNoDoc' className='input' value={usuData.usuNoDoc} onInput={inputHandler} required />
+						<input
+							type='number'
+							name='usuNoDoc'
+							id='usuNoDoc'
+							className='input'
+							value={usuData.usuNoDoc}
+							onInput={inputHandler}
+							required
+						/>
 					</div>
 					<div className='group md:w-1/2'>
 						<label htmlFor='usuContra' className='form-label'>
 							{' '}
 							Contraseña{' '}
 						</label>
-						<input id='usuContra' name='usuContra' type='password' className='input' value={usuData.usuContra} onInput={inputHandler} required />
+						<input
+							id='usuContra'
+							name='usuContra'
+							type='password'
+							className='input'
+							value={usuData.usuContra}
+							onInput={inputHandler}
+							required
+						/>
 					</div>
 					<div className='group md:w-1/2'>
 						<label htmlFor='perfilId' className='form-label'>
@@ -255,10 +287,25 @@ const Usuarios = () => {
 							Genéro
 						</label>
 						<div>
-							<input type='radio' name='usuGen' id='masculino' className='input-radio ' value='1' onChange={inputHandler} checked />
+							<input
+								type='radio'
+								name='usuGen'
+								id='masculino'
+								className='input-radio '
+								value='1'
+								onChange={inputHandler}
+								checked
+							/>
 							<label htmlFor='masculino'>Masculino</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type='radio' name='usuGen' id='femenino' className='input-radio' value='2' onChange={inputHandler} />
+							<input
+								type='radio'
+								name='usuGen'
+								id='femenino'
+								className='input-radio'
+								value='2'
+								onChange={inputHandler}
+							/>
 							<label htmlFor='femenino'>Femenino</label>
 						</div>
 					</div>
@@ -279,7 +326,12 @@ const Usuarios = () => {
 				</div>
 				<div className='row'>
 					<Button>
-						<input className='cursor-pointer' id='prodSubBtn' type='submit' value={usuData.usuId ? 'Actualizar' : 'Crear'} />
+						<input
+							className='cursor-pointer'
+							id='prodSubBtn'
+							type='submit'
+							value={usuData.usuId ? 'Actualizar' : 'Crear'}
+						/>
 					</Button>
 				</div>
 			</form>
@@ -296,30 +348,29 @@ const Usuarios = () => {
 					columns={[
 						{
 							name: 'usuario',
-							selector: (row: any) => row.usuId,
-							sortable: true,
-						},
-						{
-							name: 'Precio de compra',
-							selector: (row) => row.prodValCom,
-							sortable: true,
-						},
-						{
-							name: 'Precio de venta',
-							selector: (row) => row.prodValVen,
+							cell: (row: any) => (
+								<>
+									<p> 
+										{row.usuNom} <br />
+										</p>
+									<p> 
+										{row.usuEmail} 
+									</p>
+								</>
+							),
 							sortable: true,
 						},
 						{
 							cell: (row: any) => (
 								<>
-									<p>{row.usuNom}</p>
-									<p>{row.usuEmail}</p>
-									<Button key={`editar-${row.usuId}`} onClick={() => editarProd(row.usuId)}>
-										<i className='fa-solid fa-pen'></i>
-									</Button>
-									<Button key={`eliminar-${row.usuId}`} onClick={() => eliminarUsu(row.usuId)}>
-										<i className='fa-solid fa-trash'></i>
-									</Button>
+									<div className='flex justify-end w-full'>
+										<Button key={`eliminar-${row.usuId}`} onClick={() => eliminarUsu(row.usuId)}>
+											<i className='fa-solid fa-trash'></i>
+										</Button>
+										<Button key={`editar-${row.usuId}`} onClick={() => editarProd(row.usuId)}>
+											<i className='fa-solid fa-pen'></i>
+										</Button>
+									</div>
 								</>
 							),
 						},

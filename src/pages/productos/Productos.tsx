@@ -100,7 +100,7 @@ const Productos = () => {
 
 		if (prodData.prodId) {
 			instance
-				.put(`${urlApi}/api/producto/update`, formData, {
+				.put(`${urlApi}/api/producto/actualizar`, formData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 					},
@@ -128,7 +128,7 @@ const Productos = () => {
 				});
 		} else {
 			instance
-				.post(`${urlApi}/api/producto/create`, formData, {
+				.post(`${urlApi}/api/producto/crear`, formData, {
 					headers: {
 						Authorization: `Bearer ${authToken}`,
 						'Content-Type': 'multipart/form-data',
@@ -170,7 +170,7 @@ const Productos = () => {
 
 	function eliminarProd(id: any) {
 		instance
-			.delete(`${urlApi}/api/producto/delete/${id}`, {
+			.delete(`${urlApi}/api/producto/eliminar/${id}`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},

@@ -1,59 +1,141 @@
-import { useEffect, useState } from 'react';
-import { Dominio as domType } from '../../types';
+import { Dominio as DominioType } from '../../types';
 import Button from '../../components/boton/Button';
+import { FormEvent, useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
+import Error from '../../components/error/Error';
+import DataTable from 'react-data-table-component';
+import Cargando from '../../components/cargando/Cargando';
 
 const Dominio = () => {
-	const { instance, urlApi }: any = useAuth();
+	const { urlApi, authToken, instance }: any = useAuth();
 
-	const [domData, setDomData] = useState<domType>({ domId: 0, domNom: '' });
-	const [dominios, setDominios] = useState<domType[]>([]);
+	const [dominios, setDominios] = useState<DominioType[]>([]);
+	const [tablaActualizada, setTablaActualizada] = useState(true);
+	const [dominioData, setDominioData] = useState<DominioType>({});
+	const [error, setError] = useState('');
+	const [cargando, setCargando] = useState(true);
 
-	const formHandler = () => {};
+	function inputHandler(event: any) {
+		setDominioData({
+			...dominioData,
+			[event.target.name]: event.target.value,
+		});
+	}
+	
 
-	const inputHandler = () => {};
+	const formHandler = async (e: FormEvent) => {
+		e.preventDefault();
+
+		if (!dominioData?.domId) {
+			const response = await instance.post(`${urlApi}/api/dominio/crear`, dominioData, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			});
+			console.log(response);
+		} else {
+			const response = await instance.post(`${urlApi}/api/dominio/actualizar`, dominioData, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			});
+			setDominioData({});
+
+			setTablaActualizada(false);
+		}
+	};
+
+	const editar = async (domId: number) => {
+		const dominio: DominioType | undefined = dominios.find((dom: DominioType) => dom.domId === domId);
+		dominio && setDominioData(dominio);
+	};
 
 	useEffect(() => {
-		const obtenerDominio = async () => {
-			try {
-				const dominios = instance.get(`${urlApi}/api/dominio`);
-			} catch (_error) {}
+		const getValores = async () => {
+			setTablaActualizada(false);
+			const response = await instance.get(`${urlApi}/api/dominio/getAll`, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			});
+			setTablaActualizada(true);
+			setDominios(response.data);
+			setCargando(false);
 		};
 
-		obtenerDominio();
-	}, []);
+		const getDominios = async () => {
+			const response = await instance.get(`${urlApi}/api/dominio/getAll`, {
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			});
+			setDominios(response.data);
+			setCargando(false);
+		};
+
+		getValores();
+		getDominios();
+	}, [authToken, instance, urlApi, tablaActualizada]);
 
 	return (
 		<>
-			<form method='post' onSubmit={formHandler} encType='multipart/form-data'>
+			{error && <Error mensaje={error} />}
+			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>
-						<label htmlFor='prodNom' className='form-label'>
-							Nombre de el producto
+						<label htmlFor='domNom' className='form-label'>
+							dominio
 						</label>
 						<input
+							placeholder='Nombre del dominio'
 							type='text'
-							name='prodNom'
-							id='prodNom'
+							name='domNom'
+							id='domNom'
 							className='input'
 							onInput={inputHandler}
-							value={domData.domNom}
+							value={dominioData?.domNom}
 							required
 						/>
 					</div>
-				</div>
-				<div className='row'>
-					<Button>
-						<input
-							className='cursor-pointer'
-							id='prodSubBtn'
-							type='submit'
-							value={domData.domId ? 'Actualizar' : 'Crear'}
-						/>
-					</Button>
+					<div className='row'>
+						<Button>
+							<input className='cursor-pointer' type='submit' value={dominioData?.domId ? 'Actualizar' : 'Crear'} />
+						</Button>
+					</div>
 				</div>
 			</form>
-			<div></div>
+			{cargando ? (
+				<Cargando />
+			) : (
+				<DataTable
+					key={tablaActualizada ? 'actualizada' : 'no actualizada'}
+					title={'Dominio'}
+					data={dominios}
+					columns={[
+						{
+							name: 'Dominio',
+							cell: (row: any) => (
+								<div className='flex flex-col'>
+									<span className='text-sm font-bold'>{row.param}</span>
+									<span className='text-xs text-black/70'>{row.domNom}</span>
+								</div>
+							),
+						},
+						{
+							cell: (row: DominioType) => (
+								<>
+									<div className='flex justify-end w-full'>
+										<Button onClick={() => editar(row?.domId!)}>
+											<i className='fa-solid fa-pen'></i>
+										</Button>
+									</div>
+								</>
+							),
+						},
+					]}
+					pagination
+				/>
+			)}
 		</>
 	);
 };
