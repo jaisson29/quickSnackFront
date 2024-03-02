@@ -40,14 +40,22 @@ function NavBar() {
 							const { perfilId } = user;
 							if (perfilId === pg.perfilId) {
 								return (
-									<li id={paginaId} key={paginaId} className={`font-bold menuItem ${location.pathname === paginaRuta ? 'acti' : ''}`}>
-										<Link className='flex flex-col-reverse items-center justify-center w-full h-full gap-2 md:flex-row' to={paginaRuta}>
-											<span className='md:hidden'>{paginaNom}</span>
-											<i className={`fa ${paginaIcon} fa-xl `}></i>
+									<li
+										id={paginaId}
+										key={paginaId}
+										className={`font-bold menuItem ${location.pathname === paginaRuta ? 'acti' : ''}`}>
+										<Link
+											className='flex flex-col items-center content-center justify-center w-full h-full gap-2 md:flex-row'
+											to={paginaRuta}>
+											<span className='flex items-center h-[90%] md:hidden'>{paginaNom}</span>
+											<div className='w-[30px]'>
+												<i className={`fa ${paginaIcon} fa-xl`}></i>
+											</div>
 										</Link>
 									</li>
 								);
 							}
+							return <></>;
 						})
 					) : (
 						<Cargando />

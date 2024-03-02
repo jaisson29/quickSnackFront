@@ -12,7 +12,7 @@
 export interface Proveedor {
 	provId?: number;
 	provNom?: string;
-	provNit?: number;
+	provNit?: string;
 }
 
 export interface Producto {

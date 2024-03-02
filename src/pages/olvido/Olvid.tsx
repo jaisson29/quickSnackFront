@@ -10,13 +10,15 @@ import Swal from 'sweetalert2';
 
 function Olvid() {
 	const { isAuth, urlApi, instance }: any = useAuth();
+	const [isDisabled, setIsDisabled] = useState(true);
 	const [emailData, setEmailData] = useState({
 		usuEmail: '',
-		cUsuEmail: '',
+		// cUsuEmail: '',
 	});
 
 	const handleForm = (e: any) => {
 		e.preventDefault();
+		setIsDisabled(false);
 		instance
 			.post(`${urlApi}/api/auth/forgotPass`, emailData)
 			.then((respuesta: any) => {
@@ -51,25 +53,44 @@ function Olvid() {
 			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={handleForm}>
 				<div className='row'>
 					<div className='form-group'>
-						<input id='usuEmail' name='usuEmail' autoComplete='usuEmail' type='mail' className='input' onInput={handleInput} required />
-						<label htmlFor='usuEmail' className='form-label'>
-							Correo eléctronico
-						</label>
+						<input
+							id='usuEmail'
+							name='usuEmail'
+							autoComplete='usuEmail'
+							type='mail'
+							className='input'
+							onInput={handleInput}
+							required
+							readOnly={!isDisabled}
+						/>
+						{isDisabled && (
+							<label htmlFor='usuEmail' className='form-label'>
+								Correo eléctronico
+							</label>
+						)}
 					</div>
-					<div className='form-group'>
+					{/* <div className='form-group'>
 						<input id='cUsuEmail' name='cUsuEmail' autoComplete='usuEmail' type='mail' className='input' onInput={handleInput} required />
 						<label htmlFor='cUsuEmail' className='form-label'>
 							Confirmar Correo eléctronico
 						</label>
-					</div>
+					</div> */}
 					<Link className='underline link' to='/'>
 						Iniciar sesión
 					</Link>
 				</div>
-				<div className='text-center row'>
-					<Button>
-						<input type='submit' className='cursor-pointer' value='Solicitar' />
-					</Button>
+				<div className='flex justify-center text-center row'>
+					{isDisabled && (
+						<Button disabled={isDisabled}>
+							<input type='submit' className='cursor-pointer' value='Solicitar' />
+						</Button>
+					)}
+
+					{!isDisabled && (
+						<span className='bg-green-200 rounded-2xl ring-2 ring-offset-2 ring-green-400'>
+							El mensaje de recuperación esta siendo enviado a el correo proporcionado anteriormente
+						</span>
+					)}
 				</div>
 			</form>
 		</ContEntrada>

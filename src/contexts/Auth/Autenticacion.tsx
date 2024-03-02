@@ -60,7 +60,6 @@ export function AuthProvider({ children }: any) {
 	);
 
 	const logout = () => {
-		console.log("cerro")
 		sessionStorage.clear();
 		setAuthToken(null);
 		setUser(null);
