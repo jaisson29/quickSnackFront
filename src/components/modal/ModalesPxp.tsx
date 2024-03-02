@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from '../boton/Button';
-import Modal from 'react-bootstrap/modal';
+import { Modal } from 'react-bootstrap';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
 
 function Modales({ titu, perfilId, paginas }: any) {
