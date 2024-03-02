@@ -13,7 +13,7 @@ import Productos from './pages/productos/Productos';
 import Categoria from './pages/categoria/Categoria';
 import Compra from './pages/compra/Compra';
 import Pagina from './pages/pagina/pagina';
-import Perfil from './pages/perfil/Perfil';
+import Perfil from './pages/perfil/perfil';
 import Usuario from './pages/usuario/Usuario';
 import Olvid from './pages/olvido/Olvid';
 import Reset from './pages/restablecer/Restablecer';
