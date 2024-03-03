@@ -1,4 +1,4 @@
-import { Valor as ValorType, Dominio as DominioType } from '../../types';
+import { Proveedor as ProveedorType } from '../../types';
 import Button from '../../components/boton/Button';
 import { FormEvent, useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
@@ -6,20 +6,20 @@ import Error from '../../components/error/Error';
 import DataTable from 'react-data-table-component';
 import Cargando from '../../components/cargando/Cargando';
 
-const Valor = () => {
+const Proveedor = () => {
 	const { urlApi, authToken, instance }: any = useAuth();
 
-	const [valores, setValores] = useState<ValorType[]>([]);
-	const [dominio, setDominio] = useState<DominioType[]>([]);
+	const [proveedores, setProveedores] = useState<ProveedorType[]>([]);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
-	const initialValorData = { param: '', domId: 0, valorId: 0 };
-	const [valorData, setValorData] = useState<any>(initialValorData);
+
+	const initiaProveedorData = { provId: 0, provNom: '', provNit: '' };
+	const [proveedorData, setDominioData] = useState<ProveedorType>(initiaProveedorData);
 	const [error, setError] = useState('');
 	const [cargando, setCargando] = useState(true);
 
 	function inputHandler(event: any) {
-		setValorData({
-			...valorData,
+		setDominioData({
+			...proveedorData,
 			[event.target.name]: event.target.value,
 		});
 	}
@@ -27,48 +27,50 @@ const Valor = () => {
 	const formHandler = async (e: FormEvent) => {
 		e.preventDefault();
 
-		if (valorData?.valorId) {
-			await instance.put(`${urlApi}/api/valor/actualizar`, valorData, {
+		if (!proveedorData?.provId) {
+			await instance.post(`${urlApi}/api/proveedor/crear`, proveedorData, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			});
-			setValorData(initialValorData);
+			setDominioData(initiaProveedorData);
 			setTablaActualizada(!tablaActualizada);
 		} else {
-			await instance.post(`${urlApi}/api/valor/crear`, valorData, {
+			await instance.put(`${urlApi}/api/proveedor/actualizar`, proveedorData, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			});
-			setValorData(initialValorData);
+			setDominioData(initiaProveedorData);
 			setTablaActualizada(!tablaActualizada);
 		}
 	};
 
-	const editar = async (valorId: number) => {
-		const valor: ValorType | undefined = valores.find((val: ValorType) => val.valorId === valorId);
-		valor && setValorData({ param: valor.param, domId: valor.domId, valorId: valor.valorId });
+	const editar = async (provId: number) => {
+		const proveedor: ProveedorType | undefined = proveedores.find((prov: ProveedorType) => prov.provId === provId);
+		proveedor && setDominioData(proveedor);
 	};
 
 	useEffect(() => {
 		const getValores = async () => {
-			const response = await instance.get(`${urlApi}/api/valor/getAll`, {
+			setTablaActualizada(false);
+			const response = await instance.get(`${urlApi}/api/proveedor/getAll`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			});
-			setValores(response.data);
+			setTablaActualizada(true);
+			setProveedores(response.data);
 			setCargando(false);
 		};
 
 		const getDominios = async () => {
-			const response = await instance.get(`${urlApi}/api/dominio/getAll`, {
+			const response = await instance.get(`${urlApi}/api/proveedor/getAll`, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			});
-			setDominio(response.data);
+			setProveedores(response.data);
 			setCargando(false);
 		};
 
@@ -76,45 +78,44 @@ const Valor = () => {
 		getDominios();
 	}, [authToken, instance, urlApi, tablaActualizada]);
 
-	console.log(valorData);
 	return (
 		<>
 			{error && <Error mensaje={error} />}
 			<form method='post' onSubmit={formHandler}>
 				<div className='row'>
 					<div className='w-full md:w-1/2'>
-						<label htmlFor='param' className='form-label'>
-							valor
+						<label htmlFor='provNom' className='form-label'>
+							proveedor
 						</label>
 						<input
-							placeholder='Nombre del valor'
+							placeholder='Nombre del proveedor'
 							type='text'
-							name='param'
-							id='param'
+							name='provNom'
+							id='provNom'
 							className='input'
 							onInput={inputHandler}
-							value={valorData.param}
+							value={proveedorData?.provNom}
 							required
 						/>
 					</div>
 					<div className='w-full md:w-1/2'>
-						<label htmlFor='domId' className='form-label'>
-							Dominio
+						<label htmlFor='provNom' className='form-label'>
+							proveedor
 						</label>
-						<select name='domId' className='input' id='domId' value={valorData.domId} required onChange={inputHandler}>
-							<option value=''>Seleccione un dominio</option>
-							{dominio.map((dom) => {
-								return (
-									<option key={dom.domId} value={dom.domId}>
-										{dom.domNom}
-									</option>
-								);
-							})}
-						</select>
+						<input
+							placeholder='Nit del proveedor'
+							type='text'
+							name='provNit'
+							id='provNit'
+							className='input'
+							onInput={inputHandler}
+							value={proveedorData?.provNit}
+							required
+						/>
 					</div>
 					<div className='row'>
 						<Button>
-							<input className='cursor-pointer' type='submit' value={valorData?.valorId ? 'Actualizar' : 'Crear'} />
+							<input className='cursor-pointer' type='submit' value={proveedorData?.provId ? 'Actualizar' : 'Crear'} />
 						</Button>
 					</div>
 				</div>
@@ -124,23 +125,23 @@ const Valor = () => {
 			) : (
 				<DataTable
 					key={tablaActualizada ? 'actualizada' : 'no actualizada'}
-					title={'Valor'}
-					data={valores}
+					title={'Dominio'}
+					data={proveedores}
 					columns={[
 						{
-							name: 'Valor',
+							name: 'Dominio',
 							cell: (row: any) => (
 								<div className='flex flex-col'>
-									<span className='text-sm font-bold'>{row.param}</span>
-									<span className='text-xs text-black/70'>{row.domNom}</span>
+									<span className='text-sm font-bold'>{row.provNom}</span>
+									<span className='text-xs text-black/70'>{row.provNit}</span>
 								</div>
 							),
 						},
 						{
-							cell: (row: ValorType) => (
+							cell: (row: ProveedorType) => (
 								<>
 									<div className='flex justify-end w-full'>
-										<Button onClick={() => editar(row?.valorId!)}>
+										<Button onClick={() => editar(row?.provId!)}>
 											<i className='fa-solid fa-pen'></i>
 										</Button>
 									</div>
@@ -155,4 +156,4 @@ const Valor = () => {
 	);
 };
 
-export { Valor };
+export { Proveedor };

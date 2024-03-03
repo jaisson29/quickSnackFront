@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 const Carrito = () => {
 	const { state, urlApi, instance, authToken, user, dispatch, balance }: any = useAuth();
 	const [total, setTotal] = useState(0);
+	const [numeroPago, setNumeroPago] = useState(0);
 
 	const pay = (e: any) => {
 		e.preventDefault();
@@ -29,6 +30,7 @@ const Carrito = () => {
 				)
 				.then((res: any) => {
 					console.log('pagado', res);
+					setNumeroPago(res.data.transacId);
 					dispatch({ type: 'CART_CLEAR' });
 					console.log(state);
 				})
@@ -47,10 +49,21 @@ const Carrito = () => {
 
 	useEffect(() => {
 		const suma = state.cart.cartItems.length
-			? state.cart.cartItems.map((item: any) => item.cantidad * item.prodValVen).reduce((total: any, subtotal: any) => total + subtotal, 0)
+			? state.cart.cartItems
+					.map((item: any) => item.cantidad * item.prodValVen)
+					.reduce((total: any, subtotal: any) => total + subtotal, 0)
 			: 0;
 		setTotal(suma);
 	}, [state.cart.cartItems, setTotal, authToken, dispatch]);
+
+	if (numeroPago !== 0) {
+		return (
+			<div className='border-2 border-black/20 flex flex-col m-auto justify-center rounded-lg shadow-md items-center w-[350px] min-h-[300px]'>
+				<p className='text-3xl font-semibold text-black/60'>Numero de pago</p>
+				<span className='text-[60px] font-bold' >{numeroPago}</span>
+			</div>
+		);
+	}
 
 	if (state.cart.cartItems.length === 0) {
 		return <Error mensaje={'No hay items en tu carrito'} twStyles={'bg-green-200 ring-green-400'} />;
@@ -62,7 +75,11 @@ const Carrito = () => {
 				state.cart.cartItems.map((item: any) => {
 					return (
 						<div key={item.prodNom} className='flex mx-5'>
-							<img src={`${urlApi}/uploads/${item.prodImg}`} className='object-contain w-20 rounded-2xl' alt={`${urlApi}/uploads/defautl.webp`} />
+							<img
+								src={`${urlApi}/uploads/${item.prodImg}`}
+								className='object-contain w-20 rounded-2xl'
+								alt={`${urlApi}/uploads/defautl.webp`}
+							/>
 							<div className='flex-grow'>
 								<p>{item.prodNom}</p>
 								<p>{item.prodDescr}</p>
@@ -89,4 +106,3 @@ const Carrito = () => {
 };
 
 export default Carrito;
-

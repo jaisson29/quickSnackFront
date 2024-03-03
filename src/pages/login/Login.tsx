@@ -95,7 +95,7 @@ function Login() {
 							Olvido su Contraseña
 						</Link>
 					</div>
-					<div className='text-center group'>
+					<div className='flex justify-center text-center group'>
 						<Button twStyles='px-0 py-0'>
 							<input type='submit' className='h-full px-4 cursor-pointer' value='Iniciar sesión' />
 						</Button>

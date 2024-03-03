@@ -11,7 +11,9 @@ const Dominio = () => {
 
 	const [dominios, setDominios] = useState<DominioType[]>([]);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
-	const [dominioData, setDominioData] = useState<DominioType>({});
+
+	const initialDominioData = { domId: 0, domNom: '' };
+	const [dominioData, setDominioData] = useState<DominioType>(initialDominioData);
 	const [error, setError] = useState('');
 	const [cargando, setCargando] = useState(true);
 
@@ -21,27 +23,26 @@ const Dominio = () => {
 			[event.target.name]: event.target.value,
 		});
 	}
-	
 
 	const formHandler = async (e: FormEvent) => {
 		e.preventDefault();
 
 		if (!dominioData?.domId) {
-			const response = await instance.post(`${urlApi}/api/dominio/crear`, dominioData, {
+			await instance.post(`${urlApi}/api/dominio/crear`, dominioData, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			});
-			console.log(response);
+			setDominioData(initialDominioData);
+			setTablaActualizada(!tablaActualizada);
 		} else {
-			const response = await instance.post(`${urlApi}/api/dominio/actualizar`, dominioData, {
+			await instance.put(`${urlApi}/api/dominio/actualizar`, dominioData, {
 				headers: {
 					Authorization: `Bearer ${authToken}`,
 				},
 			});
-			setDominioData({});
-
-			setTablaActualizada(false);
+			setDominioData(initialDominioData);
+			setTablaActualizada(!tablaActualizada);
 		}
 	};
 

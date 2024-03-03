@@ -168,7 +168,7 @@ const Productos = () => {
 		$('#catId').val(prod.catId);
 	}
 
-	function eliminarProd(id: any) {
+	function eliminarProd(id: number | string) {
 		instance
 			.delete(`${urlApi}/api/producto/eliminar/${id}`, {
 				headers: {
@@ -176,7 +176,6 @@ const Productos = () => {
 				},
 			})
 			.then((respuesta: any) => {
-				console.log(respuesta);
 				setTablaActualizada(!tablaActualizada);
 				setCargando(true);
 			})
