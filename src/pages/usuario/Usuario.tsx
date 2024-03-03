@@ -30,6 +30,7 @@ const Usuarios = () => {
 				setUsuarios(respuesta.data);
 			})
 			.catch((err: any) => {
+				console.error(err)
 				setCargando(false);
 				setError(err.message);
 			});

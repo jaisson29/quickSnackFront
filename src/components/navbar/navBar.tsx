@@ -33,7 +33,7 @@ function NavBar() {
 				<div className='p-2' id='logoNav'>
 					<img className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24' src={Logo} alt='' />
 				</div>
-				<ul className='min-w-full md:mb-2 md:ml-1 listNav'>
+				<ul className=' md:mb-2 md:ml-1 listNav'>
 					{paginas.length !== 0 ? (
 						paginas.map((pg: any) => {
 							const { paginaId, paginaNom, paginaRuta, paginaIcon } = pg;
@@ -45,10 +45,10 @@ function NavBar() {
 										key={paginaId}
 										className={`font-bold menuItem ${location.pathname === paginaRuta ? 'acti' : ''}`}>
 										<Link
-											className='flex flex-col items-center content-center justify-center w-full h-full gap-2 md:flex-row'
+											className='flex flex-col-reverse items-center content-center justify-center w-full h-full gap-2 md:flex-row'
 											to={paginaRuta}>
 											<span className='flex items-center h-[90%] md:hidden'>{paginaNom}</span>
-											<div className='w-[30px]'>
+											<div className='w-[30px] mt-2 flex justify-center'>
 												<i className={`fa ${paginaIcon} fa-xl`}></i>
 											</div>
 										</Link>

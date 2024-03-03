@@ -4,13 +4,13 @@
 
 @layer components {
 	.aside {
-		@apply z-10 w-full h-20 px-2 transition-all md:bg-transparent md:pl-3 md:py-5 md:h-full md:w-3/24 lg:w-2/24 md:hover:w-6/24 lg:hover:w-3/24;
+		@apply z-10 w-full h-20 px-2 md:transition-all md:bg-transparent md:pl-3 md:py-5 md:h-full md:w-3/24 lg:w-2/24 md:hover:w-6/24 lg:hover:w-3/24;
 		background: theme(colors.clBlan);
 		position: fixed;
 		bottom: 0;
 
 		& nav {
-			@apply flex w-full h-full px-5 overflow-x-auto md:flex-col rounded-t-3xl md:overflow-x-hidden md:pb-0 md:pb-2 md:px-0 md:rounded-3xl md:rounded-lg md:rtl bg-clRoj;
+			@apply flex w-full h-full px-5 md:flex-col rounded-t-3xl md:overflow-x-hidden md:pb-0 md:pb-2 md:px-0 md:rounded-3xl md:rounded-lg md:rtl bg-clRoj;
 
 			& .menuItem {
 				@apply w-20 p-2 rounded-2xl md:w-[90%] text-clBlan;
@@ -30,7 +30,7 @@
 		}
 
 		.listNav {
-			@apply flex h-full py-2 text-sm list-none md:overflow-x-hidden md:py-4 justify-evenly md:justify-start md:flex-col rtl;
+			@apply flex flex-row-reverse justify-between w-full h-full px-5 py-2 overflow-x-auto text-sm list-none md:px-0 md:overflow-x-hidden md:py-4 md:justify-start md:flex-col rtl;
 		}
 	}
 
