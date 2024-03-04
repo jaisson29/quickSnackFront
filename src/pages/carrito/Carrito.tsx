@@ -76,25 +76,33 @@ const Carrito = () => {
 		getActiveOrders();
 	}, [state.cart.cartItems, setTotal, authToken, dispatch, instance, urlApi, user.usuId]);
 
-	if (state.cart.cartItems.length === 0) {
-		return <Error mensaje={'No hay items en tu carrito'} twStyles={'bg-green-200 ring-green-400'} />;
-	}
-
 	return (
-		<section className='w-full p-2 mx-auto divide-y-2 shadow-md min-h-24 divide-clNegL bg-clBlan md:p-5 md:w-4/5 rounded-xl'>
-			{state.cart.cartItems.length > 0 &&
-				state.cart.cartItems.map((item: any) => {
-					return <CarritoItem item={item} />;
-				})}
+		<>
+			<h3 className='w-full my-2 text-3xl font-bold text-center'>Carrito de compras</h3>
+			{state.cart.cartItems.length === 0 && (
+				<Error mensaje={'No hay items en tu carrito'} twStyles={'bg-green-200 ring-green-400'} />
+			)}
+			{state.cart.cartItems.length !== 0 && (
+				<section className='w-full p-2 mx-auto divide-y-2 max-w-[800px] shadow-md min-h-24 divide-clNegL bg-clBlan md:p-5 md:w-4/5 rounded-xl'>
+					{state.cart.cartItems.length > 0 &&
+						state.cart.cartItems.map((item: any) => {
+							return <CarritoItem key={item.prodId} item={item} />;
+						})}
 
-			<h3 className={'py-3 font-bold text-end'}>Total a pagar: $ {total.toLocaleString('es-CO')}</h3>
+					<h3 className={'py-3 font-bold text-end'}>Total a pagar: $ {total.toLocaleString('es-CO')}</h3>
 
-			<Button disabled={cargando} onClick={pay}>
-				Pagar
-			</Button>
-
-			{activeOrders && activeOrders?.map((orden: any) => <CarritoOrden numeroPago={orden.transacId} />)}
-		</section>
+					<Button disabled={cargando} twStyles={`m-auto`} onClick={pay}>
+						Pagar
+					</Button>
+				</section>
+			)}
+			<div className='flex flex-wrap gap-4 mt-5'>
+				<h3 className='w-full text-2xl font-bold text-center text-black/70'>Pedidos pendientes</h3>
+				{activeOrders?.map((orden: any) => (
+					<CarritoOrden key={orden.transacId} numeroPago={orden.transacId} />
+				))}
+			</div>
+		</>
 	);
 };
 

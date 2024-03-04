@@ -43,7 +43,7 @@ const CarritoOrden = ({ numeroPago }: any) => {
 			<p className='text-3xl font-semibold text-black/60'>Numero de pago</p>
 			<span className='text-[60px] font-bold'>{numeroPago}</span>
 			<div className='flex flex-col justify-start w-full gap-2 px-5'>
-				<span className='font-semibold'>Fecha: {ordenData.transacFecha?.toLocaleDateString('es-CO')}</span>
+				<span className='font-semibold'>Fecha: {ordenData.transacFecha?.toLocaleDateString('es-CO')} {ordenData.transacFecha?.toLocaleTimeString()}</span>
 				<span className='font-semibold'>Nombre: {ordenData.usuNom}</span>
 			</div>
 		</div>
