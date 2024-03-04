@@ -11,8 +11,8 @@ export function AuthProvider({ children }: any) {
 	const [user, setUser] = useState<Usuario | null>();
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
-	const urlApi = 'https://quick-anack-back.onrender.com';
-	// const urlApi = 'http://localhost:5000';
+	// const urlApi = 'https://quick-anack-back.onrender.com';
+	const urlApi = 'http://localhost:5000';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 	const instance = axios.create({

@@ -15,10 +15,13 @@ function Login() {
 		usuContra: '',
 	});
 
+	const [loading, setLoading] = useState<boolean>(false);
+
 	async function iniciarSesion(event: any) {
 		event.preventDefault();
 
 		try {
+			setLoading(true);
 			const respuesta = await instance.post(`${urlApi}/api/auth/loguear`, {
 				...usuData,
 			});
@@ -38,6 +41,7 @@ function Login() {
 					usuEmail: '',
 					usuContra: '',
 				});
+				setLoading(false);
 			});
 		}
 	}
@@ -96,8 +100,8 @@ function Login() {
 						</Link>
 					</div>
 					<div className='flex justify-center text-center group'>
-						<Button twStyles='px-0 py-0'>
-							<input type='submit' className='h-full px-4 cursor-pointer' value='Iniciar sesión' />
+						<Button disabled={loading} twStyles='px-0 py-0'>
+							<input disabled={loading} type='submit' className='h-full px-4 cursor-pointer' value='Iniciar sesión' />
 						</Button>
 					</div>
 					<div className='w-full text-center'>
