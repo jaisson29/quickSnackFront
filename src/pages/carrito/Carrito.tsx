@@ -99,7 +99,8 @@ const Carrito = () => {
 			<div className='flex flex-wrap gap-4 mt-5'>
 				<h3 className='w-full text-2xl font-bold text-center text-black/70'>Pedidos pendientes</h3>
 				{activeOrders?.map((orden: any) => (
-					<CarritoOrden key={orden.transacId} numeroPago={orden.transacId} />
+
+					orden.transacTipo === 7 && <CarritoOrden key={orden.transacId} numeroPago={orden.transacId} />
 				))}
 			</div>
 		</>
