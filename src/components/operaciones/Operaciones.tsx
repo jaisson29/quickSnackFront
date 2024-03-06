@@ -36,46 +36,39 @@ const Operaciones = () => {
 			});
 	}, [tipoTrs, authToken, urlApi, dispatch]);
 
-	function transactionHandler() {
+	const transactionHandler = async () => {
 		if (state.cart.cartItems.length === 0) {
 			return;
 		}
 
-		const usuDoc = { usuNoDoc: usuNoDocRef?.current?.value ?? '0000000000' };
-		instance
-			.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
+		try {
+			const usuDoc = { usuNoDoc: usuNoDocRef?.current?.value ?? '0000000000' };
+			const usuario = await instance.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
 				headers: {
 					authorization: `Bearer ${authToken}`,
 				},
-			})
-			.then((res: any) => {
-				console.log(res.usuId);
-				transacData.usuId = res.data.usuId;
-				console.log(transacData);
-				console.log(res);
-				instance
-					.post(`${urlApi}/api/transac/crear`, transacData, {
-						headers: {
-							authorization: `Bearer ${authToken}`,
-						},
-					})
-					.then((res: any) => {
-						console.log(res);
-					})
-					.catch((err: any) => {
-						console.log(err);
-					});
-			})
-			.catch((err: any) => {
-				console.log(transacData);
-				console.log(err);
 			});
+			transacData.usuId = usuario.data.usuId;
+			const creado = await instance.post(`${urlApi}/api/transac/crear`, transacData, {
+				headers: {
+					authorization: `Bearer ${authToken}`,
+				},
+			});
+			const completado = await instance.get(`${urlApi}/api/transac/complete/${creado?.data?.transacId}`, {
+				headers: {
+					authorization: `Bearer ${authToken}`,
+				},
+			});
+			console.log(completado);
+		} catch (error) {
+			console.error(error);
+		}
 
 		if (usuNoDocRef.current) {
 			usuNoDocRef.current.value = '';
 		}
 		dispatch({ type: 'CART_CLEAR' });
-	}
+	};
 
 	function formHandler(event: any) {
 		event.preventDefault();

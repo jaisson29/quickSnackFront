@@ -36,7 +36,7 @@ const CarritoOrden = ({ numeroPago }: any) => {
 		if (numeroPago) {
 			getTransacData();
 		}
-	}, [initialTransacData, instance, numeroPago, urlApi]);
+	}, [authToken, initialTransacData, instance, numeroPago, urlApi]);
 
 	return (
 		<div className='border-2 border-black/20 flex flex-col m-auto justify-center rounded-lg shadow-md items-center w-[350px] min-h-[300px]'>

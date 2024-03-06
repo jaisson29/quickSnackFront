@@ -29,7 +29,7 @@ const Productos = () => {
 			})
 			.then((respuesta: any) => {
 				setCargando(false);
-				setProductos(respuesta.data);
+				setProductos(respuesta.data.filter((item: any) => item.prodEst === 1 || item.prodEst === 2));
 			})
 			.catch((err: any) => {
 				setCargando(false);
@@ -54,7 +54,7 @@ const Productos = () => {
 			.then((result: any) => {
 				if (result.status === 200) {
 					const fnList: any = [];
-					result.data.map((element: any) => {
+					result?.data?.map((element: any) => {
 						fnList.push(element.prodId);
 						return element.prodId;
 					});
@@ -166,6 +166,15 @@ const Productos = () => {
 			catId: prod.catId,
 		});
 		$('#catId').val(prod.catId);
+	}
+
+	const toggleEst = async (prodEst: number, prodId: number) => {
+		await instance.put(`${urlApi}/api/producto/estado`, {prodEst, prodId}, {
+			headers: {
+				Authorization: `Bearer ${authToken}`
+			}
+		})
+		setTablaActualizada(!tablaActualizada)
 	}
 
 	function eliminarProd(id: number | string) {
@@ -306,7 +315,7 @@ const Productos = () => {
 							cell: (row: any) => (
 								<div>
 									<div>
-										<span>Producto{row.prodNom}</span>
+										<span className='font-bold'>Producto: </span>{row.prodNom}
 									</div>
 									<div>
 										<div>
@@ -323,7 +332,7 @@ const Productos = () => {
 						},
 						{
 							cell: (row) => (
-								<div className='flex justify-end w-full'>
+								<div className='flex justify-end w-full gap-2'>
 									{valEli.indexOf(row.prodId) !== -1 ? null : (
 										<Button key={`eliminar-${row.prodId}`} onClick={() => eliminarProd(row.prodId)}>
 											<i className='fa-solid fa-trash'></i>
@@ -331,6 +340,9 @@ const Productos = () => {
 									)}
 									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
 										<i className='fa-solid fa-pen'></i>
+									</Button>
+									<Button key={`${row.prodId}`} twStyles={`${row.prodEst === 1 ? 'bg-green-600/70' : 'bg-red-600/70'}`} onClick={() => toggleEst(row.prodEst === 1 ? 2 : 1, row.prodId)}>
+										<i className='text-xl fa-solid fa-check'></i>
 									</Button>
 								</div>
 							),

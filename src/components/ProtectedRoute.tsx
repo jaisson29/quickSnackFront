@@ -11,19 +11,23 @@ type ProtectedRouteProps = {
 	header?: boolean;
 };
 
-export const ProtectedRoute  = ({ children, nav = true, header = true }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children, nav = true, header = true }: ProtectedRouteProps) => {
 	const { authToken, user }: any = useAuth();
-	return authToken && user ? (
-		<>
-			<section className='right-0 z-0 flex-grow float-right w-full h-5/6 md:h-full md:absolute bg-clBlan text-clNeg md:w-21/24'>
-				{header && <Header />}
-				<main className='flex flex-col w-full px-3 pt-4 mb-24'>{children}</main>
-			</section>
-			{nav && <NavBar />}
-		</>
-	) : (
-		<Navigate to='/' />
-	);
+
+	if (authToken && user) {
+		return (
+			<>
+				<section className='right-0 z-0 flex-grow float-right w-full h-5/6 md:h-full md:absolute bg-clBlan text-clNeg md:w-21/24'>
+					{header && <Header />}
+					<main className='flex flex-col w-full px-3 pt-4 mb-24'>{children}</main>
+				</section>
+				{nav && <NavBar />}
+			</>
+		);
+	} else if (authToken) {
+		return <></>;
+	} else {
+		return <Navigate to='/' />;
+	}
+	// 
 };
-
-

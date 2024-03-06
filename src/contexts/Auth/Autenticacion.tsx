@@ -11,8 +11,9 @@ export function AuthProvider({ children }: any) {
 	const [user, setUser] = useState<Usuario | null>();
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
-	const urlApi = 'https://quick-anack-back.onrender.com';
-	// const urlApi = 'http://localhost:5000';
+	const [cargando, setCargando] = useState<boolean>(false);
+	// const urlApi = 'https://quick-anack-back.onrender.com';
+	const urlApi = 'http://localhost:5000';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 	const instance = axios.create({
@@ -26,9 +27,9 @@ export function AuthProvider({ children }: any) {
 			if (error?.response?.status === 400 || error?.response?.status === 500) {
 				Swal.fire({
 					icon: 'error',
-					title: error.response.data.message,
+					title: error.response.data.message ?? 'Surgio un error al realizar la operación',
 					timer: 10000,
-				})
+				});
 			}
 			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autorizado) cerrara la sesión
 			if (error.response?.status === 401) {
@@ -132,7 +133,7 @@ export function AuthProvider({ children }: any) {
 				const decodedToken = response.data;
 				sessionStorage.setItem('token', token);
 				setUser(decodedToken.payload);
-				// setIsAuth(true);
+				redirect(`/${decodedToken.paginaRuta}`)
 			} catch (error) {
 				logout();
 				console.error('Error verificando el token', error);
@@ -162,8 +163,10 @@ export function AuthProvider({ children }: any) {
 					state,
 					tableTheme,
 					dispatch,
+					cargando,
+					setCargando,
 				}),
-				[authToken, balance, instance, isAuth, login, state, tableTheme, user],
+				[authToken, balance, cargando, instance, isAuth, login, state, tableTheme, user],
 			)}>
 			{children}
 		</AuthContext.Provider>

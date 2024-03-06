@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.04634650.css",
+    "main.js": "/static/js/main.41f69fb9.js",
+    "static/media/QSName.svg": "/static/media/QSName.71440f4b08019049506d.svg",
+    "static/media/QSNameW.svg": "/static/media/QSNameW.d9b91824903c16578f4f.svg",
+    "static/media/logoQS.svg": "/static/media/logoQS.78572cc463373d342745.svg",
+    "static/media/logoQSW.svg": "/static/media/logoQSW.e32ab75f91768895f7844b81fd82d3d2.svg",
+    "index.html": "/index.html",
+    "main.04634650.css.map": "/static/css/main.04634650.css.map",
+    "main.41f69fb9.js.map": "/static/js/main.41f69fb9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.04634650.css",
+    "static/js/main.41f69fb9.js"
+  ]
+}
