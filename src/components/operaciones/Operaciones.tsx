@@ -22,18 +22,19 @@ const Operaciones = () => {
 	useEffect(() => {
 		dispatch({ type: 'CART_CLEAR' });
 
-		instance
-			.get(`${urlApi}/api/producto/getAll/${tipoTrs === 6 ? '1' : ''}`, {
-				headers: {
-					authorization: `Bearer ${authToken}`,
-				},
-			})
-			.then((result: any) => {
+		const getTransacs = async () => {
+			try {
+				const result = await instance.get(`api/producto/getAll/${tipoTrs === 6 ? '1' : ''}`, {
+					headers: {
+						authorization: `Bearer ${authToken}`,
+					},
+				});
 				setProductos(result.data);
-			})
-			.catch((err: any) => {
-				console.log(err);
-			});
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		getTransacs();
 	}, [tipoTrs, authToken, urlApi, dispatch]);
 
 	const transactionHandler = async () => {
@@ -74,13 +75,13 @@ const Operaciones = () => {
 		event.preventDefault();
 		const produc = Number(event.target.prodId.value);
 		const item: any = productos.find((prod: any) => prod.prodId === produc);
-		dispatch({ type: 'CART_ADD_ITEM', payload: { ...item, cantidad: Number(event.target.cantidad.value) } });
+		dispatch({ type: 'CART_INCREASE_ITEM', payload: { ...item, cantidad: Number(event.target.cantidad.value) } });
 		cantidadRef.current.value = 1;
 	}
 
 	return (
-		<section className={'w-full md:w-10/12 m-auto'}>
-			<div className={`card-head ${tipoTrs === 7 ? 'pr-3' : 'pl-3'}`}>
+		<section className={'w-full md:w-7/12 md:mx-auto'}>
+			<div className={`card-head w-full ${tipoTrs === 7 ? 'pr-3' : 'pl-3'}`}>
 				<button
 					className={`cardTab btn-ven ${tipoTrs === 7 && 'activeTab'}`}
 					onClick={() => {
@@ -103,13 +104,15 @@ const Operaciones = () => {
 						<div className='row'>
 							<div className='w-full md:w-6/12'>
 								<label htmlFor='prodValVen' className='form-label'>
-									Precio de Venta
+									Producto
 								</label>
 								<select name='prodId' id='prodValVen' className='input' required>
 									{productos.map((prod: any) => {
 										return (
 											<option key={prod.prodId} value={prod.prodId}>
-												{tipoTrs === 6 ? `$ ${Number(prod.prodNom).toLocaleString('es-CO')}` : prod.prodNom}
+												{tipoTrs === 6
+													? `$ ${Number(prod.prodNom).toLocaleString('es-CO')}`
+													: `${prod.prodNom} - $ ${prod.prodValVen.toLocaleString('es-CO')}`}
 											</option>
 										);
 									})}
@@ -138,43 +141,53 @@ const Operaciones = () => {
 						</div>
 					</form>
 				</div>
-				<div className='h-full p-5'>
-					<table className='w-full h-full tbl'>
-						<thead>
-							<tr>
+				<div className='mt-3 min-h-[300px] flex flex-col justify-between border-2 border-collapse rounded-xl p-3 w-full'>
+					<table className='w-full h-full rounded-lg '>
+						<thead className='border-b-2 border-clNeg/30'>
+							<tr className='text-center'>
 								<th>Producto</th>
 								<th>Cantidad</th>
+								<th>Acumulado</th>
 							</tr>
 						</thead>
-						<tbody>
-							{state.cart.cartItems.map((item: any) => {
+						<tbody className='overflow-y-auto divide-y-2'>
+							{state?.cart?.cartItems?.map((item: any) => {
 								return (
-									<tr key={item.prodId} className=' h-fit'>
+									<tr key={item.prodId} className='text-center divide-x-2'>
 										<td>{tipoTrs === 6 ? `$ ${Number(item.prodNom).toLocaleString('es-CO')}` : item.prodNom}</td>
-										<td>{item.cantidad}</td>
+										<td>{item.cantidad} Und</td>
+										<td>$ {(item.prodValVen * item.cantidad).toLocaleString('es-CO')}</td>
 									</tr>
 								);
 							})}
 						</tbody>
+					</table>
+					<table className='border-t-2 border-clNeg/30'>
 						<tfoot>
-							<tr>
-								<th></th>
-								<th></th>
+							<tr className='flex justify-around'>
+								<td className='font-bold text-end'></td>
+								<td className='font-bold text-center'>Total</td>
+								<td className='font-bold text-center'>
+									${' '}
+									{state?.cart?.cartItems
+										?.reduce((acum: any, item: any) => acum + item.prodValVen * item.cantidad, 0)
+										.toLocaleString('es-CO')}
+								</td>
 							</tr>
 						</tfoot>
 					</table>
 				</div>
-				<div>
+				<div className='flex flex-col justify-center'>
 					{tipoTrs === 6 && (
 						<>
-							<label htmlFor='usuNoDoc' className='form-label'>
+							<label htmlFor='usuNoDoc' className='font-bold form-label'>
 								Numero de documento
 							</label>
 							<input type='text' id='usuNoDoc' ref={usuNoDocRef} className='input' />
 						</>
 					)}
 
-					<Button onClick={() => transactionHandler()} twStyles={'my-2 self-end'}>
+					<Button onClick={() => transactionHandler()} twStyles={'my-2 m-auto self-end'}>
 						Completar
 					</Button>
 				</div>

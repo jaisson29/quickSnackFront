@@ -3,17 +3,17 @@
 
 @layer components {
 	.cardTab {
-		@apply z-0 w-full h-8 transition-transform border-b-2 rounded-t-2xl bg-slate-300 border-clNar;
+		@apply  z-0 w-[50%] h-8 transition-transform top-[2px] rounded-t-2xl ;
 		position: relative;
 	}
 
 	.activeTab {
-		@apply z-10 h-12 border-t-2 border-b-0 border-l-2 border-r-2 bg-stone-200 border-clNar;
+		@apply z-10 border-t-2 border-b-0 border-l-2 border-r-2 h-11 bg-clBlan border-clNar/30;
 		direction: ltr;
 	}
 
 	.activeTab::after {
-		@apply z-20 w-10 h-6 border-b-2 border-clNar;
+		@apply z-20 w-10 h-6 border-b-2 border-clNar/20;
 		content: '';
 		position: absolute;
 		bottom: 0px;
@@ -23,20 +23,20 @@
 
 	.btn-ven::after {
 		@apply border-l-2 rounded-bl-full -right-10;
-		box-shadow: -20px 0 0 0 theme(stone.200);
+		box-shadow: -20px 0 0 0 theme(colors.clBlan);
 	}
 
 	.btn-rec::after {
 		@apply border-r-2 rounded-br-full -left-10;
-		box-shadow: 20px 0 0 0 theme(stone.200);
+		box-shadow: 20px 0 0 0 theme(colors.clBlan);
 	}
 
 	.card-head {
-		@apply flex items-end w-full gap-2;
+		@apply flex items-end gap-2;
 	}
 
 	.card-body {
-		@apply w-full p-5 border-b-2 border-l-2 border-r-2 shadow-md bg-stone-200 border-clNar h-150 rounded-b-2xl;
+		@apply w-full p-5 border-2 shadow-md bg-clBlan border-clNar/30 rounded-b-2xl;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;

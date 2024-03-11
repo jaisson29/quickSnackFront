@@ -3,6 +3,7 @@
 @tailwind components;
 @layer components {
 	.inputFile {
+		@apply h-12 bg-clBlan file:bg-clNeg/20 file:text-clNeg file:rounded-full file:px-5 file:h-12 file:border;
 		width: 100%;
 		text-overflow: ellipsis;
 	}
@@ -26,7 +27,6 @@
 	.form-group {
 		position: relative;
 		margin-block: 10px;
-		padding-inline: 5px;
 	}
 
 	.form-group .input:focus + .form-label,
@@ -37,13 +37,18 @@
 
 	.form-group .form-label {
 		position: absolute;
-		bottom: 6px;
+		bottom: 15px;
 		left: 20px;
+		padding-inline: 5px;
 		pointer-events: none;
+	}
+	.form-group .input[required] + .form-label::before {
+		content: '*';
+		color: red;
 	}
 
 	.input {
-		@apply block w-full h-12 px-2 border-b-2 text-clNeg border-clNeg bg-clBlan;
+		@apply block w-full h-12 border-2 rounded-lg text-clNeg bg-clBlan;
 		padding-block: 5px;
 		margin-top: 5px;
 		text-indent: 12px;
@@ -58,9 +63,10 @@
 		}
 
 		100% {
+			@apply text-clNeg/60;
 			font-size: 14px;
 			opacity: 1;
-			transform: translateY(-30px);
+			transform: translateY(-25px);
 		}
 	}
 
@@ -94,4 +100,3 @@
 		}
 	}
 }
-

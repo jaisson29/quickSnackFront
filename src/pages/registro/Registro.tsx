@@ -56,39 +56,54 @@ function Registro() {
 			<form className='flex flex-col gap-4 my-4' method='POST' onSubmit={crearUsu}>
 				<div className='row'>
 					<div className='w-full form-group'>
-						<input id='usuNom' name='usuNom' autoComplete='username' type='text' className='input' onInput={handleInputs} required />
+						<input
+							id='usuNom'
+							name='usuNom'
+							autoComplete='username'
+							type='text'
+							className='input'
+							onInput={handleInputs}
+							required
+						/>
 						<label htmlFor='usuNom' className='form-label'>
 							Nombre completo
 						</label>
 					</div>
-					<div className='radio md:w-1/2'>
-						<div className='form-check form-check-inline'>
-							<input id='masculino' name='usuGen' type='radio' className='input-radio form-check-input' value={1} onChange={handleInputs} required />
-							<label htmlFor='femenino' className='form-label'>
-								Masculino
-							</label>
-						</div>
-						<div className='form-check form-check-inline'>
-							<input id='femenino' name='usuGen' type='radio' className='input-radio form-check-input' value={2} onChange={handleInputs} required />
-							<label htmlFor='masculino' className='form-label'>
-								Femenino
-							</label>
-						</div>
+
+					<div className='md:w-1/2 form-group'>
+						<select
+							id='usuGen'
+							name='usugen'
+							title='Seleccione su genero'
+							className='input'
+							onChange={handleInputs}
+							defaultValue=''
+							required>
+							<option value=''></option>
+							<option value='1'>Masculino</option>
+							<option value='2'>Femenino</option>
+						</select>
+						<label htmlFor='usuGen' className='form-label'>
+							Genero
+						</label>
 					</div>
-					<div className='md:w-1/2'>
+					<div className='md:w-1/2 form-group'>
 						<select
 							id='usuTipoDoc'
 							name='usuTipoDoc'
 							title='Seleccione su tipo de documento'
-							autoComplete='current-password'
-							className='input inputSelect'
+							className='input'
 							onChange={handleInputs}
 							defaultValue=''
 							required>
+							<option value=''></option>
 							<option value='3'>Tarjeta de identidad</option>
 							<option value='4'>Cedula de ciudadania</option>
 							<option value='5'>Cedula de extranjeria</option>
 						</select>
+						<label htmlFor='usuTipoDoc' className='form-label'>
+							Tipo de documento 
+						</label>
 					</div>
 					<div className='w-full form-group'>
 						<input type='text' id='usuNoDoc' name='usuNoDoc' className='input' onInput={handleInputs} required />
@@ -97,13 +112,29 @@ function Registro() {
 						</label>
 					</div>
 					<div className='w-full form-group'>
-						<input id='usuEmail' name='usuEmail' autoComplete='email' type='email' className='input' onInput={handleInputs} required />
+						<input
+							id='usuEmail'
+							name='usuEmail'
+							autoComplete='email'
+							type='email'
+							className='input'
+							onInput={handleInputs}
+							required
+						/>
 						<label htmlFor='usuEmail' className='form-label'>
 							Correo eléctronico
 						</label>
 					</div>
 					<div className='w-full form-group'>
-						<input id='usuContra' name='usuContra' autoComplete='off' type='password' className='input' onInput={handleInputs} required />
+						<input
+							id='usuContra'
+							name='usuContra'
+							autoComplete='off'
+							type='password'
+							className='input'
+							onInput={handleInputs}
+							required
+						/>
 						<label htmlFor='usuContra' className='form-label'>
 							Contraseña
 						</label>

@@ -8,6 +8,7 @@ import './productos.css';
 import $ from 'jquery';
 import Error from '../../components/error/Error';
 import Cargando from '../../components/cargando/Cargando';
+import { CheckButton } from '../../components/boton/CheckButton';
 
 const Productos = () => {
 	const { urlApi, authToken, instance }: any = useAuth();
@@ -16,7 +17,7 @@ const Productos = () => {
 	const [productos, setProductos] = useState([]);
 	const [categorias, setCategorias] = useState([]);
 	const [valEli, setValEli]: any = useState([]);
-	const [file, setFile] = useState(null);
+	const [file, setFile] = useState<any>(null);
 	const [tablaActualizada, setTablaActualizada] = useState(true);
 	const [cargando, setCargando] = useState(true);
 	const [error, setError] = useState('');
@@ -83,7 +84,7 @@ const Productos = () => {
 	formData.append('prodValCom', prodData.prodValCom);
 	formData.append('prodValVen', prodData.prodValVen);
 	formData.append('catId', prodData.catId);
-	formData.append('prodImg', file ? file : prodData.prodImg);
+	formData.append('prodImg', file ?? prodData.prodImg);
 
 	function inputHandler(event: any) {
 		setProdData({
@@ -155,6 +156,7 @@ const Productos = () => {
 				.catch((err: any) => {
 					console.log('Error al crear el producto', err);
 				});
+			console.log(formData.getAll('prodImg'));
 		}
 	}
 
@@ -169,13 +171,17 @@ const Productos = () => {
 	}
 
 	const toggleEst = async (prodEst: number, prodId: number) => {
-		await instance.put(`${urlApi}/api/producto/estado`, {prodEst, prodId}, {
-			headers: {
-				Authorization: `Bearer ${authToken}`
-			}
-		})
-		setTablaActualizada(!tablaActualizada)
-	}
+		await instance.put(
+			`${urlApi}/api/producto/estado`,
+			{ prodEst, prodId },
+			{
+				headers: {
+					Authorization: `Bearer ${authToken}`,
+				},
+			},
+		);
+		// setTablaActualizada(!tablaActualizada);
+	};
 
 	function eliminarProd(id: number | string) {
 		instance
@@ -313,25 +319,31 @@ const Productos = () => {
 						{
 							name: 'Producto',
 							cell: (row: any) => (
-								<div>
-									<div>
-										<span className='font-bold'>Producto: </span>{row.prodNom}
+								<div className='flex content-center'>
+									<div className='object-contain w-16 h-16'>
+										<img src={`${urlApi}/uploads/${row.prodImg}`} className='h-full' alt='' />
 									</div>
-									<div>
+									<div className='pl-5'>
 										<div>
-											<span className='font-bold'>Valor de compra:</span> {row.prodValCom}
+											<span className='font-bold'>Producto: </span>
+											{row.prodNom}
 										</div>
-										<span>
-											<strong>Valor de venta: </strong>
-											{row.prodValVen}
-										</span>
+										<div>
+											<div>
+												<span className='font-bold'>Valor de compra:</span> {row.prodValCom}
+											</div>
+											<span>
+												<strong>Valor de venta: </strong>
+												{row.prodValVen}
+											</span>
+										</div>
 									</div>
 								</div>
 							),
 							sortable: true,
 						},
 						{
-							cell: (row) => (
+							cell: (row: any) => (
 								<div className='flex justify-end w-full gap-2'>
 									{valEli.indexOf(row.prodId) !== -1 ? null : (
 										<Button key={`eliminar-${row.prodId}`} onClick={() => eliminarProd(row.prodId)}>
@@ -341,9 +353,17 @@ const Productos = () => {
 									<Button key={`editar-${row.prodId}`} onClick={() => editarProd(row.prodId)}>
 										<i className='fa-solid fa-pen'></i>
 									</Button>
-									<Button key={`${row.prodId}`} twStyles={`${row.prodEst === 1 ? 'bg-green-600/70' : 'bg-red-600/70'}`} onClick={() => toggleEst(row.prodEst === 1 ? 2 : 1, row.prodId)}>
+									{/* <Button
+										key={`${row.prodId}`}
+										twStyles={`${row.prodEst === 1 ? 'bg-green-600/70' : 'bg-red-600/70'}`}
+										onClick={() => toggleEst(row.prodEst === 1 ? 2 : 1, row.prodId)}>
 										<i className='text-xl fa-solid fa-check'></i>
-									</Button>
+									</Button> */}
+									<CheckButton
+										title='Cambiar estado'
+										action={() => toggleEst(row.prodEst === 1 ? 2 : 1, row.prodId)}
+										active={row.prodEst === 1}
+									/>
 								</div>
 							),
 						},

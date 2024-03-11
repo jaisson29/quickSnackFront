@@ -2,7 +2,7 @@ import axios from 'axios';
 import { createContext, useContext, useEffect, useState, useReducer, useMemo, useCallback } from 'react';
 import { redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { Usuario } from '../../types';
+import { AuthContextProvider, Usuario } from '../../types';
 
 const AuthContext = createContext({});
 
@@ -12,8 +12,8 @@ export function AuthProvider({ children }: any) {
 	const [isAuth, setIsAuth] = useState(false);
 	const [balance, setBalance] = useState(0);
 	const [cargando, setCargando] = useState<boolean>(false);
-	const urlApi = 'https://quick-anack-back.onrender.com';
-	// const urlApi = 'http://localhost:5000';
+	// const urlApi = 'https://quick-anack-back.onrender.com';
+	const urlApi = 'http://localhost:5000';
 	const tableTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 	const instance = axios.create({
@@ -23,19 +23,23 @@ export function AuthProvider({ children }: any) {
 	instance.interceptors.response.use(
 		(response) => response,
 		(error) => {
-			//Cuando el error cuando la peticion es erronea
-			if (error?.response?.status === 400 || error?.response?.status === 500) {
-				Swal.fire({
-					icon: 'error',
-					title: error.response.data.message ?? 'Surgio un error al realizar la operación',
-					timer: 10000,
-				});
+			try {
+				//Cuando el error cuando la peticion es erronea
+				if (error?.response?.status === 400 || error?.response?.status === 500) {
+					Swal.fire({
+						icon: 'error',
+						title: error.response.data.message ?? 'Surgio un error al realizar la operación',
+						timer: 10000,
+					});
+				}
+				// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autorizado) cerrara la sesión
+				if (error.response?.status === 401) {
+					logout(); // Ejecución de logout() para limpieza de variables de sesión
+				}
+				return Promise.reject(error);
+			} catch (error) {
+				return Promise.reject(error);
 			}
-			// Cuando el servidor devuelva una peticion fallida con el codigo 401(No autorizado) cerrara la sesión
-			if (error.response?.status === 401) {
-				logout(); // Ejecución de logout() para limpieza de variables de sesión
-			}
-			return Promise.reject(error);
 		},
 	);
 
@@ -88,6 +92,18 @@ export function AuthProvider({ children }: any) {
 				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
 				return { ...state, cart: { cartItems } }; // Update cartItems directly
 			}
+			
+			case 'CART_INCREASE_ITEM': {
+				const newItem = action.payload;
+				const existItem = state.cart.cartItems.find((item: any) => item.prodId === newItem.prodId);
+				const cartItems = existItem
+					? state.cart.cartItems.map((item: any) =>
+							item.prodId === existItem.prodId ? { ...item, cantidad: item.cantidad + newItem.cantidad } : item,
+					  )
+					: [...state.cart.cartItems, newItem];
+				sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+				return { ...state, cart: { cartItems } }; // Update cartItems directly
+			}
 
 			case 'CART_DECREASE': {
 				const newItem = action.payload;
@@ -133,7 +149,7 @@ export function AuthProvider({ children }: any) {
 				const decodedToken = response.data;
 				sessionStorage.setItem('token', token);
 				setUser(decodedToken.payload);
-				redirect(`/${decodedToken.paginaRuta}`)
+				redirect(`/${decodedToken.paginaRuta}`);
 			} catch (error) {
 				logout();
 				console.error('Error verificando el token', error);
@@ -149,7 +165,7 @@ export function AuthProvider({ children }: any) {
 
 	return (
 		<AuthContext.Provider
-			value={useMemo(
+			value={useMemo<AuthContextProvider>(
 				() => ({
 					instance,
 					authToken,

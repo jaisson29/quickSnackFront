@@ -33,6 +33,7 @@ const CarritoItem = ({ item }: any) => {
 					<input
 						type='number'
 						defaultValue={1}
+						value={item.cantidad}
 						min={1}
 						minLength={1}
 						required

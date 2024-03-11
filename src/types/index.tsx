@@ -3,11 +3,37 @@
 // 	error?: string;
 // }
 
+import { AxiosInstance } from 'axios';
+import { Dispatch, SetStateAction } from 'react';
+
 // export interface MysqlError extends Error {
 // 	errno?: number;
 // 	code?: string;
 // 	fatal?: boolean;
 // }
+
+export interface AuthContextProvider {
+	instance: AxiosInstance;
+	authToken: string | null;
+	user: Usuario | null | undefined;
+	balance: number;
+	setBalance: Dispatch<SetStateAction<number>>;
+	isAuth: boolean;
+	login: (token:string) => Promise<void>;
+	logout: () => void;
+	urlApi: string;
+	tableTheme: boolean;
+	state: CarritoState;
+	dispatch: Dispatch<CarritoState>;
+	cargando: boolean;
+	setCargando: Dispatch<SetStateAction<boolean>>;
+}
+
+export interface CarritoState {
+	cart: {
+		cartiItems: Producto & Categoria & { cantidad: number }[];
+	};
+}
 
 export interface Proveedor {
 	provId?: number;
