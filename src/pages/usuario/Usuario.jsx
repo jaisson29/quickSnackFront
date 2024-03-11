@@ -150,14 +150,10 @@ const Usuarios = () => {
           });
           $('#perfilId').val('');
           setFile(null);
-          // document.getElementById('usuImg').value = '';
           if (inputFileRef.current) {
               inputFileRef.current.value = '';
           }
         })
-        // .catch((err) => {
-        //   console.log('Error al crear el usuario', err);
-        // });
     }
   }
   function editarProd(id) {
@@ -165,9 +161,7 @@ const Usuarios = () => {
     setUsuData({
       ...usu,
       usuId: id,
-    //   catId: prod.catId,
     });
-    // $('#catId').val(prod.catId);
   }
 
   function eliminarUsu(id) {

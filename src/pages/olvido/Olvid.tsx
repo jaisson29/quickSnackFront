@@ -69,12 +69,6 @@ function Olvid() {
 							</label>
 						)}
 					</div>
-					{/* <div className='form-group'>
-						<input id='cUsuEmail' name='cUsuEmail' autoComplete='usuEmail' type='mail' className='input' onInput={handleInput} required />
-						<label htmlFor='cUsuEmail' className='form-label'>
-							Confirmar Correo eléctronico
-						</label>
-					</div> */}
 					<Link className='underline link' to='/'>
 						Iniciar sesión
 					</Link>
