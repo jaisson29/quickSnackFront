@@ -20,8 +20,8 @@ const UsuarioInfo = () => {
 		<div
 			className={`bg-clBlan w-96  min-h-[500px] flex flex-col justify-evenly rounded-b-lg shadow-md shadow-black/40 border-slate-300 items-center`}>
 			<div
-				className={`border flex h-full items-center rounded-full h-40 w-40 overflow-hidden justify-center items-center`}>
-				<img className={`object-cover h-full `} src={usuImg} alt={user.usuNom} />
+				className={`border flex items-center rounded-full h-40 w-40 overflow-hidden justify-center items-center`}>
+				<img className={`object-cover h-full w-full `} src={usuImg} alt={user.usuNom} />
 			</div>
 			<div>
 				<div>

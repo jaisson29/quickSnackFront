@@ -26,7 +26,6 @@ const HistorialItem = ({ trs }: any) => {
 
 	return (
 		<div
-			key={trs.transacId}
 			onClick={toggleDetail}
 			className={`flex flex-col items-center w-64 px-3 shadow-md border-2 rounded-lg ${
 				trs.transacTipo === 6 ? 'self-start' : 'self-end'
@@ -63,7 +62,7 @@ const HistorialItem = ({ trs }: any) => {
 				{showDetail &&
 					detailData.map((det: any) => {
 						return (
-							<div key={det.detVentaId} className='flex justify-between'>
+							<div key={det.detventaId} className='flex justify-between'>
 								<span className='w-24'>
 									{det.catId === 1 ? '$' : ''}
 									{det.prodNom}

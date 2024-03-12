@@ -10,13 +10,4 @@
 	.qsNom {
 		content: url('../../assets/QSName.svg');
 	}
-
-	@media (prefers-color-scheme: dark) {
-		.qsLogo {
-      content: url('../../assets/logoQSW.svg');
-    }
-		.qsNom {
-			content: url('../../assets/QSNameW.svg');
-		}
-	}
 }

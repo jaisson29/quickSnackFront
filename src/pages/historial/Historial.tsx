@@ -24,7 +24,6 @@ const Historial = () => {
 				if (response.status === 204 && response.data.length === 0) {
 					setError('No se encontraron resultados');
 				} else {
-					console.log(response.data);
 					setUsuTransacs(response?.data);
 				}
 			} catch (error: any) {
@@ -54,7 +53,7 @@ const Historial = () => {
 					usuTransacs
 						.sort((a: any, b: any) => -((new Date(a.transacFecha) as any) - new Date(b.transacFecha).getTime()))
 						.map(function (trs: any) {
-							return <HistorialItem trs={trs} />;
+							return <HistorialItem key={trs.transacId} trs={trs} />;
 						})
 				)}
 			</section>

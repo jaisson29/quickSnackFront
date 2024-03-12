@@ -70,33 +70,17 @@
 		}
 	}
 
-	#entradaSec {
-		& .link {
-			@apply dark:text-clBlan;
-		}
-
-		& .form-label {
-			@apply dark:text-clBlan bg-clBlan dark:bg-clNeg;
-		}
-
-		& .input {
-			@apply dark:text-clBlan dark:border-clBlan dark:bg-clNeg;
-		}
-
-		@media (prefers-color-scheme: dark) {
-			input:-webkit-autofill,
-			input:-webkit-autofill:hover,
-			input:-webkit-autofill:focus,
-			textarea:-webkit-autofill,
-			textarea:-webkit-autofill:hover,
-			textarea:-webkit-autofill:focus,
-			select:-webkit-autofill,
-			select:-webkit-autofill:hover,
-			select:-webkit-autofill:focus {
-				-webkit-text-fill-color: theme(colors.clBlan);
-				-webkit-box-shadow: 0 0 0px 1000px theme(colors.clNeg) inset;
-				transition: background-color 5000s ease-in-out 0s;
-			}
-		}
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	textarea:-webkit-autofill,
+	textarea:-webkit-autofill:hover,
+	textarea:-webkit-autofill:focus,
+	select:-webkit-autofill,
+	select:-webkit-autofill:hover,
+	select:-webkit-autofill:focus {
+		-webkit-text-fill-color: theme(colors.clNeg);
+		-webkit-box-shadow: 0 0 0px 1000px theme(colors.clBlan) inset;
+		transition: background-color 5000s ease-in-out 0s;
 	}
 }

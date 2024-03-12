@@ -25,11 +25,11 @@
 	}
 
 	::-webkit-scrollbar-track {
-		@apply p-0 m-0 bg-clBlan dark:bg-clNeg;
+		@apply p-0 m-0 bg-clBlan;
 	}
 
 	::-webkit-scrollbar-thumb {
-		@apply p-0 m-0 rounded-lg bg-opacity-30 bg-clNeg dark:bg-clBlan;
+		@apply p-0 m-0 rounded-lg bg-opacity-30 bg-clNeg;
 	}
 
 
@@ -49,17 +49,4 @@
 		}
 	}
 
-	/* .rdt_Table,
-	.rdt_TableRow,
-	.rdt_TableCol,
-	.rdt_TableCol_Sortable,
-	.rdt_TableCell,
-	.rdt_TableHeader,
-	.rdt_TableFooter,
-	.rdt_TableHead,
-	.rdt_TableHeadRow,
-	.rdt_TableBody,
-	.rdt_ExpanderRow {
-		@apply bg-clBlan dark:bg-clNeg text-clNeg dark:text-clBlan;
-	} */
 }

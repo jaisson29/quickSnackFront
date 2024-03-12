@@ -137,7 +137,7 @@ export function AuthProvider({ children }: any) {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	useEffect(() => {
-		console.log('render');
+		// console.log('render');
 
 		const verifyToken = async (token: string) => {
 			try {

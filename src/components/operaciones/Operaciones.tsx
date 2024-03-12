@@ -9,6 +9,7 @@ const Operaciones = () => {
 	const { urlApi, instance, authToken, state, dispatch }: any = useAuth();
 	const [productos, setProductos] = useState([]);
 	const [tipoTrs, setTipoTrs] = useState(7);
+	const [cargando, setCargando] = useState<boolean>(false);
 
 	const transacData = {
 		usuId: 1,
@@ -43,6 +44,7 @@ const Operaciones = () => {
 		}
 
 		try {
+			setCargando(true);
 			const usuDoc = { usuNoDoc: usuNoDocRef?.current?.value ?? '0000000000' };
 			const usuario = await instance.post(`${urlApi}/api/usuario/getOne`, usuDoc, {
 				headers: {
@@ -60,9 +62,10 @@ const Operaciones = () => {
 					authorization: `Bearer ${authToken}`,
 				},
 			});
-			console.log(completado);
 		} catch (error) {
 			console.error(error);
+		} finally {
+			setCargando(false);
 		}
 
 		if (usuNoDocRef.current) {
@@ -154,7 +157,10 @@ const Operaciones = () => {
 							{state?.cart?.cartItems?.map((item: any) => {
 								return (
 									<tr key={item.prodId} className='text-center divide-x-2'>
-										<td>{tipoTrs === 6 ? `$ ${Number(item.prodNom).toLocaleString('es-CO')}` : item.prodNom}</td>
+										<td>
+											{tipoTrs === 6 ? `$ ${Number(item.prodNom).toLocaleString('es-CO')}` : item.prodNom}
+											{item.catId !== 1 ? `$ ${item.prodValVen.toLocaleString('es-CO')}` : ''}
+										</td>
 										<td>{item.cantidad} Und</td>
 										<td>$ {(item.prodValVen * item.cantidad).toLocaleString('es-CO')}</td>
 									</tr>
@@ -187,7 +193,10 @@ const Operaciones = () => {
 						</>
 					)}
 
-					<Button onClick={() => transactionHandler()} twStyles={'my-2 m-auto self-end'}>
+					<Button
+						disabled={cargando || state.cart.cartItems.length === 0}
+						onClick={() => transactionHandler()}
+						twStyles={'my-2 m-auto self-end'}>
 						Completar
 					</Button>
 				</div>

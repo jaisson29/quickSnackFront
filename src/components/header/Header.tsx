@@ -20,7 +20,7 @@ const Header = () => {
 		<header className='flex items-center justify-end float-right h-16 gap-3 pl-3 pr-3 my-2 text-right rounded-l-full shadow-md w-fit'>
 			<Dropdown className='w-10 '>
 				<Dropdown.Toggle size='lg' className='p-0 text-black bg-transparent border-0 after:m-0 after:hidden' id='dropdown-basic'>
-					<img src={usuImg} alt={usuNom} className='object-contain rounded-full w-14 h-14' />
+					<img src={usuImg} alt={usuNom} className='object-cover rounded-full w-14 h-14' />
 				</Dropdown.Toggle>
 
 				<Dropdown.Menu className='w-52'>
