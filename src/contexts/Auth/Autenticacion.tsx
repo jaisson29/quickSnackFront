@@ -162,8 +162,9 @@ export function AuthProvider({ children }: any) {
 					state,
 					tableTheme,
 					dispatch,
+					setUser,
 				}),
-				[authToken, balance, instance, isAuth, login, state, tableTheme, user],
+				[authToken, balance, instance, isAuth, login, state, tableTheme, user,],
 			)}>
 			{children}
 		</AuthContext.Provider>

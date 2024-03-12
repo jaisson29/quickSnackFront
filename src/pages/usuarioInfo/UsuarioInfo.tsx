@@ -4,7 +4,7 @@ import male from '../../assets/icon-male-100.png';
 import female from '../../assets/icon-female-100.png';
 
 const UsuarioInfo = () => {
-    const { user, authToken, urlApi, instance }: any = useAuth();
+    const { user, setUser, authToken, urlApi, instance }: any = useAuth();
 	const inputFileRef: any = useRef(null);
 
     const [editable, setEditable] = useState<boolean>(false);
@@ -13,7 +13,8 @@ const UsuarioInfo = () => {
         usuId: user.usuId,
         usuNom: user.usuNom,
         usuEmail: user.usuEmail,
-        usuNoDoc: user.usuNoDoc
+        usuNoDoc: user.usuNoDoc,
+        usuImg: user.usuImg
     });
 
     const usuImg = user.usuImg ? `${urlApi}/uploads/${user.usuImg}` : user.usuGen === 1 ? male : female;
@@ -23,7 +24,7 @@ const UsuarioInfo = () => {
     };
     function handleFiles(event: any) {
 		setFile(event.target.files[0]);
-	}
+	};
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -32,20 +33,30 @@ const UsuarioInfo = () => {
             [name]: value
         });
     };
+    // const formData = new FormData();
+    // formData.append('usuId', edituse.usuId);
+    // formData.append('usuNom', edituse.usuNom);
+    // formData.append('usuEmail', edituse.usuEmail);
+    // formData.append('usuNoDoc', edituse.usuNoDoc);
 
     const handleSave = async (e: any) => {
-        e.preventDefault();
-        
+        e.preventDefault();    
         try {
+    // formData.append('usuNoDoc', edituse.usuNoDoc);
+
             const response = await instance.put(`${urlApi}/api/usuario/actualizar`, edituse, {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                 },
             });
-
+    
             console.log(response.data);
-
             setEditable(false);
+            setUser(edituse);
+            setFile(null);
+            if (inputFileRef.current) {
+                inputFileRef.current.value = '';
+            }
         } catch (error) {
             console.error('error', error);
         }

@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
@@ -30,6 +28,7 @@ const Usuarios = () => {
 				setUsuarios(respuesta.data);
 			})
 			.catch((err: any) => {
+				console.error(err);
 				setCargando(false);
 				setError(err.message);
 			});
@@ -46,11 +45,11 @@ const Usuarios = () => {
 			});
 	}, [urlApi, authToken, tablaActualizada, instance]);
 
-	const [usuData, setUsuData] = useState({
+	const initialUsuData = {
 		usuId: '',
 		usuTipoDoc: '',
 		usuNoDoc: '',
-		usuGen: '',
+		usuGen: '1',
 		usuNom: '',
 		usuEmail: '',
 		usuContra: '',
@@ -59,7 +58,9 @@ const Usuarios = () => {
 		perfilId: '',
 		usuFecha: '',
 		usuPassCode: '',
-	});
+	};
+
+	const [usuData, setUsuData] = useState(initialUsuData);
 
 	const formData = new FormData();
 	formData.append('usuId', usuData.usuId);
@@ -82,9 +83,9 @@ const Usuarios = () => {
 		});
 	}
 
-	// function handleFiles(event: any) {
-	// 	setFile(event.target.files[0]);
-	// }
+	function handleFiles(event: any) {
+		setFile(event.target.files[0]);
+	}
 
 	function formHandler(e: any) {
 		e.preventDefault();
@@ -100,20 +101,7 @@ const Usuarios = () => {
 					console.log(res);
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
-					setUsuData({
-						usuId: '',
-						usuTipoDoc: '',
-						usuNoDoc: '',
-						usuGen: '',
-						usuNom: '',
-						usuEmail: '',
-						usuContra: '',
-						usuIngreso: '',
-						usuImg: '',
-						perfilId: '',
-						usuFecha: '',
-						usuPassCode: '',
-					});
+					setUsuData(initialUsuData);
 					$('#perfilId').val('');
 					setFile(null);
 					if (inputFileRef.current) {
@@ -135,20 +123,7 @@ const Usuarios = () => {
 					console.log('nuevo producto', respuesta);
 					setTablaActualizada(!tablaActualizada);
 					setCargando(true);
-					setUsuData({
-						usuId: '',
-						usuTipoDoc: '',
-						usuNoDoc: '',
-						usuGen: '',
-						usuNom: '',
-						usuEmail: '',
-						usuContra: '',
-						usuIngreso: '',
-						usuImg: '',
-						perfilId: '',
-						usuFecha: '',
-						usuPassCode: '',
-					});
+					setUsuData(initialUsuData);
 					$('#perfilId').val('');
 					setFile(null);
 					// document.getElementById('usuImg').value = '';
@@ -165,6 +140,7 @@ const Usuarios = () => {
 		const usu: any = usuarios.find((u: any) => u.usuId === id);
 		setUsuData({
 			...usu,
+			usuContra: '',
 			usuId: id,
 			//   catId: prod.catId,
 		});
@@ -293,8 +269,8 @@ const Usuarios = () => {
 								id='masculino'
 								className='input-radio '
 								value='1'
-								onChange={inputHandler}
-								checked
+								defaultChecked={usuData.usuGen === '1'}
+								onClick={inputHandler}
 							/>
 							<label htmlFor='masculino'>Masculino</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -304,12 +280,13 @@ const Usuarios = () => {
 								id='femenino'
 								className='input-radio'
 								value='2'
-								onChange={inputHandler}
+								defaultChecked={usuData.usuGen === '2'}
+								onClick={inputHandler}
 							/>
 							<label htmlFor='femenino'>Femenino</label>
 						</div>
 					</div>
-					{/* <div className='w-full md:w-1/2'>
+					<div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
             Subir una imagen
             </label>  
@@ -322,7 +299,7 @@ const Usuarios = () => {
               onChange={handleFiles}
               ref={inputFileRef} // Referencia al campo de entrada de archivo
             />
-          </div> */}
+          </div>
 				</div>
 				<div className='row'>
 					<Button>
@@ -349,14 +326,15 @@ const Usuarios = () => {
 						{
 							name: 'usuario',
 							cell: (row: any) => (
-								<>
-									<p> 
-										{row.usuNom} <br />
-										</p>
-									<p> 
-										{row.usuEmail} 
+								<div>
+									<p>
+										<span className='font-bold'>Nombre: </span>
+										{row.usuNom}
 									</p>
-								</>
+									<p>
+										Email: <p>{row.usuEmail}</p>
+									</p>
+								</div>
 							),
 							sortable: true,
 						},
