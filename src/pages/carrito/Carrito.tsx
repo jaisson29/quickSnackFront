@@ -60,7 +60,7 @@ const Carrito = () => {
 						Authorization: `Bearer ${authToken}`,
 					},
 				});
-				resultado?.data && setActiveOrders(resultado.data);
+				resultado?.data && setActiveOrders(resultado.data.filter((item: any) => item.transacEst === 1));
 			} catch (error) {
 				console.error(error);
 				setActiveOrders([]);
