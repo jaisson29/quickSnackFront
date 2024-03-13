@@ -23,7 +23,7 @@ function NavBar() {
 				console.log(error);
 				setPaginas([]);
 			});
-	}, [urlApi, instance, user.perfilId]);
+	}, [urlApi, instance, user]);
 
 	const location = useLocation();
 
@@ -31,7 +31,7 @@ function NavBar() {
 		<aside className='aside'>
 			<nav>
 				<div className='p-2' id='logoNav'>
-					<img className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24' src={Logo} alt='' />
+					<img key={user.usuId} className='w-auto h-auto row-span-1 mx-auto mt-2 max-h-24' src={Logo} alt='' />
 				</div>
 				<ul className=' md:mb-2 md:ml-1 listNav'>
 					{paginas.length !== 0 ? (

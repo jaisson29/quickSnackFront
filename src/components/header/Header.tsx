@@ -30,8 +30,8 @@ const Header = () => {
 							<p>{perfilNom}</p>
 						</strong>
 					</Dropdown.Item>
-					<Dropdown.Item>
-						<Link to={'/personal'}>Datos personales</Link>
+					<Dropdown.Item as={Link} to={'/personal'}>
+						Datos personales
 					</Dropdown.Item>
 					<Dropdown.Item onClick={() => logout()}>
 						<i className='pr-2 fa fa-power-off fa-lg'></i>Cerrar sesión

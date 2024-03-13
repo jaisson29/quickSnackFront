@@ -73,7 +73,7 @@ function Registro() {
 					<div className='md:w-1/2 form-group'>
 						<select
 							id='usuGen'
-							name='usugen'
+							name='usuGen'
 							title='Seleccione su genero'
 							className='input'
 							onChange={handleInputs}
