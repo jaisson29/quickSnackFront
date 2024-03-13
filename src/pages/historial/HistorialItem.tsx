@@ -53,7 +53,7 @@ const HistorialItem = ({ trs }: any) => {
 				</div>
 				{trs.transacTipo === 7 && (
 					<div className={`rounded-full bg-red-600 w-6 h-6 text-center ring-2 ring-red-600 ring-offset-2`}>
-						<i className={`fa fa-plus text-white`}></i>
+						<i className={`fa fa-minus text-white`}></i>
 					</div>
 				)}
 			</div>
