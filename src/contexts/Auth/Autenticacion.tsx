@@ -179,6 +179,7 @@ export function AuthProvider({ children }: any) {
 					state,
 					tableTheme,
 					dispatch,
+					setUser,
 					cargando,
 					setCargando,
 				}),

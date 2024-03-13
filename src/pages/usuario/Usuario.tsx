@@ -1,5 +1,3 @@
-/** @format */
-
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/Auth/Autenticacion';
 import DataTable from 'react-data-table-component';
@@ -85,9 +83,9 @@ const Usuarios = () => {
 		});
 	}
 
-	// function handleFiles(event: any) {
-	// 	setFile(event.target.files[0]);
-	// }
+	function handleFiles(event: any) {
+		setFile(event.target.files[0]);
+	}
 
 	function formHandler(e: any) {
 		e.preventDefault();
@@ -288,7 +286,7 @@ const Usuarios = () => {
 							<label htmlFor='femenino'>Femenino</label>
 						</div>
 					</div>
-					{/* <div className='w-full md:w-1/2'>
+					<div className='w-full md:w-1/2'>
             <label htmlFor='usuImg' className='form-label'>
             Subir una imagen
             </label>  
@@ -301,7 +299,7 @@ const Usuarios = () => {
               onChange={handleFiles}
               ref={inputFileRef} // Referencia al campo de entrada de archivo
             />
-          </div> */}
+          </div>
 				</div>
 				<div className='row'>
 					<Button>
